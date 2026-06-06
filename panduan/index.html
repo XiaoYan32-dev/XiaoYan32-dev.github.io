@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan UMKM Dapat BPUM/BLT - ModalReceh Tools</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f11;color:#e4e4e7;min-height:100vh}
+        .header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:1px solid #27272a;display:flex;justify-content:space-between;align-items:center}
+        .header h1{font-size:1.1rem;background:linear-gradient(135deg,#6366f1,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header a{color:#818cf8;text-decoration:none;font-size:0.85rem}
+        .container{max-width:900px;margin:0 auto;padding:24px}
+        .hero-card{background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(34,197,94,0.1));border:1px solid rgba(99,102,241,0.2);border-radius:20px;padding:32px;margin-bottom:24px;text-align:center}
+        .hero-card h2{font-size:1.5rem;margin-bottom:8px}
+        .hero-card p{color:#a1a1aa;font-size:1rem;line-height:1.6}
+        .hero-amount{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#22c55e,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:margin:16px 0}
+        .step-card{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+        .step-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#6366f1,#22c55e)}
+        .step-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-weight:700;font-size:0.9rem;margin-bottom:12px}
+        .step-card h3{font-size:1.1rem;margin-bottom:8px}
+        .step-card p{color:#a1a1aa;font-size:0.95rem;line-height:1.7}
+        .step-card ul{margin:8px 0 0 20px;color:#a1a1aa;font-size:0.95rem;line-height:1.8}
+        .step-card a{color:#818cf8;text-decoration:none}
+        .step-card a:hover{text-decoration:underline}
+        .checklist{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:24px}
+        .checklist h3{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #27272a}
+        .check-item:last-child{border-bottom:none}
+        .check-box{width:22px;height:22px;border:2px solid #27272a;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s;flex-shrink:0}
+        .check-box.checked{background:#22c55e;border-color:#22c55e}
+        .check-box.checked::after{content:'✓';color:#fff;font-size:0.8rem;font-weight:700}
+        .check-label{font-size:0.95rem;cursor:pointer}
+        .check-label.done{text-decoration:line-through;color:#a1a1aa}
+        .progress-bar{height:8px;background:#27272a;border-radius:4px;margin:16px 0;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,#22c55e,#6366f1);border-radius:4px;transition:width 0.3s}
+        .progress-text{text-align:center;font-size:0.85rem;color:#a1a1aa;margin-bottom:16px}
+        .faq-card{background:#18181b;border:1px solid #27272a;border-radius:16px;margin-bottom:12px;overflow:hidden}
+        .faq-q{padding:16px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;transition:0.2s}
+        .faq-q:hover{background:rgba(99,102,241,0.05)}
+        .faq-q .arrow{transition:transform 0.3s;color:#a1a1aa}
+        .faq-q.open .arrow{transform:rotate(180deg)}
+        .faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all 0.3s;color:#a1a1aa;line-height:1.7;font-size:0.95rem}
+        .faq-a.open{padding:0 24px 16px;max-height:500px}
+        .link-card{display:flex;align-items:center;gap:16px;background:#18181b;border:1px solid #27272a;border-radius:12px;padding:16px;margin-bottom:12px;text-decoration:none;transition:0.2s}
+        .link-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+        .link-icon{width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+        .link-info h4{font-size:0.95rem;color:#e4e4e7;margin-bottom:2px}
+        .link-info p{font-size:0.8rem;color:#a1a1aa}
+        .warn-card{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:20px;margin-bottom:24px}
+        .warn-card h4{color:#f59e0b;margin-bottom:8px;font-size:0.95rem}
+        .warn-card p{color:#a1a1aa;font-size:0.9rem;line-height:1.6}
+        .watermark{text-align:center;padding:16px;font-size:0.75rem;color:#6366f1;margin-top:12px}
+        @media(max-width:600px){.hero-amount{font-size:2rem}}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Panduan UMKM Dapat Bantuan</h1>
+        <a href="../">← Kembali ke Store</a>
+    </div>
+    <div class="container">
+        <div class="hero-card">
+            <h2>🎉 Panduan Lengkap UMKM Dapat Bantuan</h2>
+            <div class="hero-amount">Rp 2.4 Juta - Rp 12 Juta</div>
+            <p>Step-by-step cara daftar BPUM, BLT, dan bantuan UMKM lainnya. Dari siapin dokumen sampai cair.</p>
+        </div>
+
+        <!-- CHECKLIST -->
+        <div class="checklist">
+            <h3>✅ Checklist Persiapan Dokumen</h3>
+            <div id="checklistItems">
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">KTP asli dan fotokopi</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">KK (Kartu Keluarga) asli dan fotokopi</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">NIB (Nomor Induk Berusaha) dari OSS</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">SKU (Surat Keterangan Usaha) dari Kelurahan</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">Foto usaha (tampak depan, dalam, produk)</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">Rekening bank aktif (BCA/BRI/BNI/Mandiri)</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">NPWP (jika ada)</span></div>
+                <div class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><span class="check-label">Email aktif dan no HP aktif</span></div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <div class="progress-text" id="progressText">0/8 dokumen siap</div>
+        </div>
+
+        <!-- STEPS -->
+        <h2 style="font-size:1.3rem;margin-bottom:20px">📋 Langkah-Langkah Daftar</h2>
+
+        <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Siapkan NIB (Nomor Induk Berusaha)</h3>
+            <p>NIB wajib untuk daftar bantuan UMKM. Gratis, online, selesai dalam 1 hari.</p>
+            <ul>
+                <li>Buka <a href="https://oss.go.id" target="_blank">oss.go.id</a></li>
+                <li>Daftar akun baru (pakai KTP + email)</li>
+                <li>Pilih "Perseorangan" → "Usaha Mikro"</li>
+                <li>Isi data usaha (nama, alamat, jenis usaha)</li>
+                <li>Submit → Download NIB (PDF)</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Buat SKU dari Kelurahan</h3>
+            <p>Surat Keterangan Usaha dari kelurahan/setempat. Bawa KTP + KK ke kantor kelurahan.</p>
+            <ul>
+                <li>Datang ke RT/RW setempat, minta surat pengantar</li>
+                <li>Bawa ke Kelurahan/Desa, minta SKU</li>
+                <li>Biasanya selesai hari yang sama (gratis)</li>
+                <li>Kalau diminta bayar, itu resmi (biaya administrasi kecil)</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Daftar BPUM di eform.bri.co.id</h3>
+            <p>BPUM (Bantuan Pelaku Usaha Mikro) adalah bantuan paling populer untuk UMKM.</p>
+            <ul>
+                <li>Buka <a href="https://eform.bri.co.id/bpum" target="_blank">eform.bri.co.id/bpum</a></li>
+                <li>Masukkan NIK KTP</li>
+                <li>Klik "Proses Inquiry"</li>
+                <li>Kalau terdaftar → ikuti instruksi pencairan</li>
+                <li>Kalau belum → daftar lewat Dinas Koperasi setempat</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">4</div>
+            <h3>Daftar via Dinas Koperasi (Offline)</h3>
+            <p>Kalau belum terdaftar online, daftar langsung ke Dinas Koperasi UMKM kab/kota.</p>
+            <ul>
+                <li>Siapkan semua dokumen (checklist di atas)</li>
+                <li>Datang ke Dinas Koperasi UMKM kab/kota</li>
+                <li>Isi formulir pendaftaran</li>
+                <li>Serahkan dokumen + foto usaha</li>
+                <li>Tunggu verifikasi (biasanya 1-2 minggu)</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-num">5</div>
+            <h3>Cek Status & Cairkan</h3>
+            <p>Setelah daftar, cek status secara berkala. Kalau cair, segera ambil.</p>
+            <ul>
+                <li>Cek berkala di <a href="https://eform.bri.co.id/bpum" target="_blank">eform.bri.co.id/bpum</a></li>
+                <li>Kalau lolos, datang ke BRI terdekat bawa KTP + NIB</li>
+                <li>Buka rekening BRI (kalau belum punya)</li>
+                <li>Dana cair ke rekening → ambil di teller</li>
+            </ul>
+        </div>
+
+        <!-- BANTUAN LAIN -->
+        <h2 style="font-size:1.3rem;margin:32px 0 20px">🎯 Bantuan UMKM Lainnya</h2>
+
+        <a href="https://banpresbpum.id" target="_blank" class="link-card">
+            <div class="link-icon">💰</div>
+            <div class="link-info"><h4>BPUM 2026</h4><p>Bantuan Pelaku Usaha Mikro — Rp 2.4 juta</p></div>
+        </a>
+        <a href="https://kur.ekon.go.id" target="_blank" class="link-card">
+            <div class="link-icon">🏦</div>
+            <div class="link-info"><h4>KUR (Kredit Usaha Rakyat)</h4><p>Pinjaman bunga rendah 3-6% per tahun untuk UMKM</p></div>
+        </a>
+        <a href="https://sman.kemenkopukm.go.id" target="_blank" class="link-card">
+            <div class="link-icon">📋</div>
+            <div class="link-info"><h4>SMAN (Sistem Informasi Koperasi)</h4><p>Daftar koperasi & akses bantuan pemerintah</p></div>
+        </a>
+        <a href="https://blu.lmkbri.id" target="_blank" class="link-card">
+            <div class="link-icon">🏪</div>
+            <div class="link-info"><h4>BL-UMKM</h4><p>Bantuan Langsung UMKM — hingga Rp 12 juta</p></div>
+        </a>
+
+        <!-- WARNING -->
+        <div class="warn-card">
+            <h4>⚠️ Hati-hati Penipuan!</h4>
+            <p>
+                • <strong>Tidak ada</strong> bantuan pemerintah yang minta transfer uang dulu<br>
+                • <strong>Tidak ada</strong> yang minta PIN/OTP rekening<br>
+                • Daftar <strong>HANYA</strong> di situs resmi (.go.id atau bank BUMN)<br>
+                • Kalau diminta bayar untuk "mempercepat proses" = <strong>PENIPUAN</strong><br>
+                • Laporkan penipuan ke <a href="https://lapor.go.id" target="_blank" style="color:#818cf8">lapor.go.id</a>
+            </p>
+        </div>
+
+        <!-- FAQ -->
+        <h2 style="font-size:1.3rem;margin:32px 0 20px">❓ FAQ</h2>
+
+        <div class="faq-card">
+            <div class="faq-q" onclick="toggleFaq(this)">Siapa yang berhak dapat BPUM? <span class="arrow">▼</span></div>
+            <div class="faq-a">UMKM yang punya usaha aktif, belum pernah dapat BPUM sebelumnya (atau sudah >1 tahun sebelumnya), dan terdaftar di Dinas Koperasi. Wajib WNI dengan KTP aktif.</div>
+        </div>
+        <div class="faq-card">
+            <div class="faq-q" onclick="toggleFaq(this)">Berapa lama prosesnya? <span class="arrow">▼</span></div>
+            <div class="faq-a">Online: 1-2 minggu setelah daftar. Offline (Dinas Koperasi): 2-4 minggu. Pencairan: langsung hari yang sama setelah verifikasi di bank.</div>
+        </div>
+        <div class="faq-card">
+            <div class="faq-q" onclick="toggleFaq(this)">Saya punya usaha kecil, bisa daftar? <span class="arrow">▼</span></div>
+            <div class="faq-a">Bisa! Usaha mikro = omzet max Rp 300 juta/tahun. Jualan kue, warung, laundry, ojek online, freelance — semua masuk kategori mikro.</div>
+        </div>
+        <div class="faq-card">
+            <div class="faq-q" onclick="toggleFaq(this)">Gimana kalau ditolak? <span class="arrow">▼</span></div>
+            <div class="faq-a">Daftar lagi di periode berikutnya. Pastikan data lengkap dan usaha aktif. Bisa juga coba bantuan lain: KUR, BL-UMKM, atau bantuan daerah.</div>
+        </div>
+        <div class="faq-card">
+            <div class="faq-q" onclick="toggleFaq(this)">NIB bikin di mana? <span class="arrow">▼</span></div>
+            <div class="faq-a">Online di oss.go.id (OSS = Online Single Submission). Gratis. Siapkan KTP, email, dan data usaha. Proses 1-24 jam.</div>
+        </div>
+        <div class="watermark">Dibuat dengan ModalReceh Tools — oxmdlrch.me</div>
+    </div>
+
+    <script>
+        // Checklist
+        const checks=JSON.parse(localStorage.getItem('bpum_checks')||'[]');
+        function toggleCheck(el){
+            el.classList.toggle('checked');
+            const label=el.nextElementSibling;
+            label.classList.toggle('done');
+            const allChecks=document.querySelectorAll('.check-box');
+            const checked=[...allChecks].filter(c=>c.classList.contains('checked')).length;
+            const total=allChecks.length;
+            document.getElementById('progressFill').style.width=(checked/total*100)+'%';
+            document.getElementById('progressText').textContent=checked+'/'+total+' dokumen siap';
+            const states=[...allChecks].map(c=>c.classList.contains('checked'));
+            localStorage.setItem('bpum_checks',JSON.stringify(states));
+        }
+        // Restore
+        document.addEventListener('DOMContentLoaded',()=>{
+            const states=JSON.parse(localStorage.getItem('bpum_checks')||'[]');
+            const boxes=document.querySelectorAll('.check-box');
+            states.forEach((s,i)=>{if(s&&boxes[i]){boxes[i].classList.add('checked');boxes[i].nextElementSibling.classList.add('done')}});
+            const checked=states.filter(Boolean).length;
+            document.getElementById('progressFill').style.width=(checked/boxes.length*100)+'%';
+            document.getElementById('progressText').textContent=checked+'/'+boxes.length+' dokumen siap';
+        });
+
+        // FAQ
+        function toggleFaq(el){
+            el.classList.toggle('open');
+            el.nextElementSibling.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Keuangan Warung - ModalReceh Tools</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f11;color:#e4e4e7;min-height:100vh}
+        .header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:1px solid #27272a;display:flex;justify-content:space-between;align-items:center}
+        .header h1{font-size:1.1rem;background:linear-gradient(135deg,#f59e0b,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header a{color:#818cf8;text-decoration:none;font-size:0.85rem}
+        .container{max-width:1000px;margin:0 auto;padding:24px}
+        .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+        .tab{padding:10px 20px;border-radius:10px;background:#18181b;border:1px solid #27272a;color:#a1a1aa;cursor:pointer;font-size:0.9rem;transition:0.2s}
+        .tab.active{background:#f59e0b;color:#000;border-color:#f59e0b}
+        .card{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px}
+        .card h3{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+        .summary-card{background:#0f0f11;border:1px solid #27272a;border-radius:12px;padding:20px;text-align:center}
+        .summary-card .label{font-size:0.8rem;color:#a1a1aa;margin-bottom:4px}
+        .summary-card .value{font-size:1.4rem;font-weight:800}
+        .green{color:#22c55e}.red{color:#ef4444}.blue{color:#818cf8}.orange{color:#f59e0b}
+        .form-row{display:grid;grid-template-columns:1fr 2fr 1fr 1fr 40px;gap:8px;margin-bottom:8px;align-items:end}
+        .form-row input,.form-row select{padding:10px;border-radius:8px;border:1px solid #27272a;background:#0f0f11;color:#e4e4e7;font-size:0.85rem;outline:none}
+        .form-row input:focus{border-color:#f59e0b}
+        label{display:block;font-size:0.8rem;color:#a1a1aa;margin-bottom:4px}
+        .btn{padding:10px 20px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:0.85rem;transition:0.2s;font-family:inherit}
+        .btn-primary{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}
+        .btn-primary:hover{transform:translateY(-2px)}
+        .btn-outline{background:transparent;border:1px solid #27272a;color:#a1a1aa}
+        .btn-outline:hover{border-color:#f59e0b;color:#f59e0b}
+        .btn-red{background:#ef4444;color:#fff;padding:6px 10px;font-size:0.8rem}
+        .btn-green{background:#22c55e;color:#fff}
+        .tx-table{width:100%;border-collapse:collapse;margin-top:16px}
+        .tx-table th{background:#0f0f11;padding:10px;text-align:left;font-size:0.8rem;color:#a1a1aa;text-transform:uppercase;letter-spacing:1px}
+        .tx-table td{padding:10px;border-bottom:1px solid #27272a;font-size:0.9rem}
+        .tx-table tr:hover{background:rgba(245,158,11,0.03)}
+        .tx-type{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600}
+        .tx-in{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+        .tx-out{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+        .chart-bar{height:24px;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;padding:0 12px;font-size:0.75rem;font-weight:600;color:#fff;transition:width 0.5s}
+        .filter-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+        .filter-row select,.filter-row input{padding:8px 12px;border-radius:8px;border:1px solid #27272a;background:#0f0f11;color:#e4e4e7;font-size:0.85rem}
+        .actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+        .empty{text-align:center;padding:40px;color:#a1a1aa}
+        .watermark{text-align:center;padding:16px;font-size:0.75rem;color:#f59e0b;margin-top:12px}
+        @media(max-width:600px){.form-row{grid-template-columns:1fr 1fr}.summary-grid{grid-template-columns:1fr 1fr}}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Laporan Keuangan Warung</h1>
+        <a href="../">← Kembali ke Store</a>
+    </div>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('input',this)">📝 Input Transaksi</div>
+            <div class="tab" onclick="switchTab('laporan',this)">📊 Laporan</div>
+            <div class="tab" onclick="switchTab('chart',this)">📈 Grafik</div>
+        </div>
+
+        <!-- INPUT -->
+        <div id="tab-input">
+            <div class="card">
+                <h3>➕ Tambah Transaksi</h3>
+                <div class="form-row">
+                    <div><label>Tanggal</label><input type="date" id="txDate"></div>
+                    <div><label>Keterangan</label><input placeholder="Penjualan / Beli bahan / dll" id="txDesc"></div>
+                    <div><label>Jumlah</label><input type="number" placeholder="0" id="txAmount"></div>
+                    <div><label>Tipe</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
+                    <div><label>&nbsp;</label><button class="btn btn-primary" onclick="addTx()">+</button></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Transaksi Terbaru</h3>
+                <div class="filter-row">
+                    <select id="filterMonth" onchange="renderTx()">
+                        <option value="">Semua Bulan</option>
+                        <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option>
+                        <option value="3">April</option><option value="4">Mei</option><option value="5">Juni</option>
+                        <option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option>
+                        <option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option>
+                    </select>
+                    <select id="filterType" onchange="renderTx()">
+                        <option value="">Semua Tipe</option>
+                        <option value="in">Pemasukan</option>
+                        <option value="out">Pengeluaran</option>
+                    </select>
+                </div>
+                <div id="txList"></div>
+            </div>
+        </div>
+
+        <!-- LAPORAN -->
+        <div id="tab-laporan" style="display:none">
+            <div class="summary-grid" id="summaryGrid"></div>
+            <div class="card">
+                <h3>📊 Ringkasan per Kategori</h3>
+                <div id="categorySummary"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="exportCSV()">📥 Export CSV</button>
+                <button class="btn btn-outline" onclick="printLaporan()">🖨 Print Laporan</button>
+            </div>
+        </div>
+
+        <!-- GRAFIK -->
+        <div id="tab-chart" style="display:none">
+            <div class="card">
+                <h3>📈 Pemasukan vs Pengeluaran (Per Bulan)</h3>
+                <div id="barChart"></div>
+            </div>
+        </div>
+        <div class="watermark">Dibuat dengan ModalReceh Tools — oxmdlrch.me</div>
+    </div>
+
+    <script>
+        let transactions=JSON.parse(localStorage.getItem('warung_tx')||'[]');
+        document.getElementById('txDate').value=new Date().toISOString().split('T')[0];
+
+        function switchTab(tab,el){
+            document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+            el.classList.add('active');
+            ['input','laporan','chart'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+            if(tab==='laporan')renderSummary();
+            if(tab==='chart')renderChart();
+        }
+
+        function addTx(){
+            const desc=document.getElementById('txDesc').value;
+            const amount=parseFloat(document.getElementById('txAmount').value)||0;
+            const type=document.getElementById('txType').value;
+            const date=document.getElementById('txDate').value;
+            if(!desc||!amount)return alert('Isi keterangan dan jumlah!');
+            transactions.push({date,desc,amount,type,id:Date.now()});
+            localStorage.setItem('warung_tx',JSON.stringify(transactions));
+            document.getElementById('txDesc').value='';
+            document.getElementById('txAmount').value='';
+            renderTx();
+        }
+
+        function deleteTx(id){
+            transactions=transactions.filter(t=>t.id!==id);
+            localStorage.setItem('warung_tx',JSON.stringify(transactions));
+            renderTx();
+        }
+
+        function formatNum(n){return Math.round(Math.abs(n)).toLocaleString('id-ID')}
+
+        function renderTx(){
+            const month=document.getElementById('filterMonth').value;
+            const type=document.getElementById('filterType').value;
+            let filtered=[...transactions].reverse();
+            if(month)filtered=filtered.filter(t=>new Date(t.date).getMonth()==month);
+            if(type)filtered=filtered.filter(t=>t.type===type);
+
+            const el=document.getElementById('txList');
+            if(!filtered.length){el.innerHTML='<div class="empty">Belum ada transaksi</div>';return}
+            el.innerHTML='<table class="tx-table"><thead><tr><th>Tanggal</th><th>Keterangan</th><th style="text-align:right">Jumlah</th><th>Tipe</th><th></th></tr></thead><tbody>'+filtered.map(t=>'<tr><td>'+new Date(t.date).toLocaleDateString('id-ID')+'</td><td>'+t.desc+'</td><td style="text-align:right;font-weight:600" class="'+(t.type==='in'?'green':'red')+'">'+(t.type==='in'?'+':'-')+'Rp '+formatNum(t.amount)+'</td><td><span class="tx-type '+(t.type==='in'?'tx-in':'tx-out')+'">'+(t.type==='in'?'Masuk':'Keluar')+'</span></td><td><button class="btn btn-red" onclick="deleteTx('+t.id+')">✕</button></td></tr>').join('')+'</tbody></table>';
+        }
+
+        function renderSummary(){
+            let totalIn=0,totalOut=0;
+            transactions.forEach(t=>{if(t.type==='in')totalIn+=t.amount;else totalOut+=t.amount});
+            const profit=totalIn-totalOut;
+            document.getElementById('summaryGrid').innerHTML=
+                '<div class="summary-card"><div class="label">Total Pemasukan</div><div class="value green">Rp '+formatNum(totalIn)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Total Pengeluaran</div><div class="value red">Rp '+formatNum(totalOut)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Laba Bersih</div><div class="value '+(profit>=0?'green':'red')+'">Rp '+formatNum(profit)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Jumlah Transaksi</div><div class="value blue">'+transactions.length+'</div></div>';
+
+            // Category summary
+            const cats={};
+            transactions.forEach(t=>{
+                if(!cats[t.desc])cats[t.desc]={in:0,out:0};
+                cats[t.desc][t.type]+=t.amount;
+            });
+            let catHtml='<table class="tx-table"><thead><tr><th>Keterangan</th><th style="text-align:right">Masuk</th><th style="text-align:right">Keluar</th></tr></thead><tbody>';
+            Object.entries(cats).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)).forEach(([name,v])=>{
+                catHtml+='<tr><td>'+name+'</td><td style="text-align:right" class="green">'+(v.in?'Rp '+formatNum(v.in):'-')+'</td><td style="text-align:right" class="red">'+(v.out?'Rp '+formatNum(v.out):'-')+'</td></tr>';
+            });
+            catHtml+='</tbody></table>';
+            document.getElementById('categorySummary').innerHTML=catHtml;
+        }
+
+        function renderChart(){
+            const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+            const data=Array(12).fill(null).map(()=>({in:0,out:0}));
+            transactions.forEach(t=>{const m=new Date(t.date).getMonth();data[m][t.type]+=t.amount});
+            const max=Math.max(...data.map(d=>Math.max(d.in,d.out)),1);
+            let html='';
+            months.forEach((m,i)=>{
+                const inW=(data[i].in/max*100)||0;
+                const outW=(data[i].out/max*100)||0;
+                html+='<div style="margin-bottom:16px"><div style="font-size:0.85rem;color:#a1a1aa;margin-bottom:4px">'+m+'</div>';
+                if(data[i].in>0)html+='<div class="chart-bar" style="width:'+inW+'%;background:linear-gradient(90deg,#22c55e,#16a34a)">Masuk: Rp '+formatNum(data[i].in)+'</div>';
+                if(data[i].out>0)html+='<div class="chart-bar" style="width:'+outW+'%;background:linear-gradient(90deg,#ef4444,#dc2626)">Keluar: Rp '+formatNum(data[i].out)+'</div>';
+                if(!data[i].in&&!data[i].out)html+='<div style="height:8px;background:#27272a;border-radius:4px;width:100%"></div>';
+                html+='</div>';
+            });
+            document.getElementById('barChart').innerHTML=html;
+        }
+
+        function exportCSV(){
+            if(!transactions.length)return alert('Tidak ada data!');
+            let csv='Tanggal,Keterangan,Jumlah,Tipe\n';
+            transactions.forEach(t=>{csv+=t.date+',"'+t.desc+'",'+t.amount+','+(t.type==='in'?'Pemasukan':'Pengeluaran')+'\n'});
+            const blob=new Blob([csv],{type:'text/csv'});
+            const a=document.createElement('a');
+            a.href=URL.createObjectURL(blob);
+            a.download='laporan-keuangan-warung.csv';
+            a.click();
+        }
+
+        function printLaporan(){
+            renderSummary();
+            const content=document.getElementById('tab-laporan').innerHTML;
+            const win=window.open('','','width=800,height=600');
+            win.document.write('<html><head><title>Laporan</title><style>body{font-family:sans-serif;padding:20px;color:#000}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left}.green{color:#16a34a}.red{color:#dc2626}.summary-card{display:inline-block;width:22%;text-align:center;padding:16px;border:1px solid #ddd;border-radius:8px;margin:4px}.value{font-size:1.2rem;font-weight:700}.label{font-size:0.8rem;color:#666}</style></head><body><h1 style="text-align:center">Laporan Keuangan Warung</h1>'+content+'</body></html>');
+            win.document.close();
+            win.print();
+        }
+
+        renderTx();
+    </script>
+</body>
+</html>

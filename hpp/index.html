@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator HPP - ModalReceh Tools</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f11;color:#e4e4e7;min-height:100vh}
+        .header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:1px solid #27272a;display:flex;justify-content:space-between;align-items:center}
+        .header h1{font-size:1.1rem;background:linear-gradient(135deg,#22c55e,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header a{color:#818cf8;text-decoration:none;font-size:0.85rem}
+        .container{max-width:1000px;margin:0 auto;padding:24px}
+        .card{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px}
+        .card h3{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .form-group{margin-bottom:12px}
+        .form-group.full{grid-column:1/-1}
+        label{display:block;font-size:0.85rem;color:#a1a1aa;margin-bottom:6px;font-weight:500}
+        input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #27272a;background:#0f0f11;color:#e4e4e7;font-size:0.9rem;outline:none}
+        input:focus{border-color:#22c55e}
+        .bahan-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 40px;gap:8px;align-items:end;margin-bottom:8px}
+        .bahan-row input{padding:10px}
+        .btn{padding:12px 24px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:0.9rem;transition:0.2s;font-family:inherit}
+        .btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+        .btn-primary:hover{transform:translateY(-2px)}
+        .btn-outline{background:transparent;border:1px solid #27272a;color:#a1a1aa}
+        .btn-outline:hover{border-color:#22c55e;color:#22c55e}
+        .btn-red{background:#ef4444;color:#fff;padding:8px;font-size:0.8rem}
+        .btn-sm{padding:8px 16px;font-size:0.8rem}
+        .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px}
+        .result-card{background:#0f0f11;border:1px solid #27272a;border-radius:12px;padding:20px;text-align:center}
+        .result-card.green{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.05)}
+        .result-card.orange{border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.05)}
+        .result-card.blue{border-color:rgba(99,102,241,0.3);background:rgba(99,102,241,0.05)}
+        .result-card .label{font-size:0.8rem;color:#a1a1aa;margin-bottom:4px}
+        .result-card .value{font-size:1.5rem;font-weight:800}
+        .result-card.green .value{color:#22c55e}
+        .result-card.orange .value{color:#f59e0b}
+        .result-card.blue .value{color:#818cf8}
+        .margin-btns{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+        .margin-btn{padding:8px 16px;border-radius:8px;border:1px solid #27272a;background:#18181b;color:#a1a1aa;cursor:pointer;font-size:0.85rem;transition:0.2s}
+        .margin-btn.active{background:#22c55e;color:#fff;border-color:#22c55e}
+        .resep-table{width:100%;border-collapse:collapse;margin-top:12px}
+        .resep-table th{background:#0f0f11;padding:10px;text-align:left;font-size:0.8rem;color:#a1a1aa}
+        .resep-table td{padding:10px;border-bottom:1px solid #27272a;font-size:0.9rem}
+        .resep-table tr:hover{background:rgba(34,197,94,0.05)}
+        .tag{display:inline-block;padding:4px 10px;border-radius:100px;font-size:0.75rem;font-weight:600}
+        .tag-green{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+        .tag-orange{background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2)}
+        .tag-red{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+        .actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+        .saved-list{margin-top:16px}
+        .saved-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:#0f0f11;border:1px solid #27272a;border-radius:10px;margin-bottom:8px;cursor:pointer;transition:0.2s}
+        .saved-item:hover{border-color:#22c55e}
+        .saved-item .info{flex:1}
+        .saved-item .name{font-weight:600;font-size:0.95rem}
+        .saved-item .detail{font-size:0.8rem;color:#a1a1aa}
+        .watermark{text-align:center;padding:16px;font-size:0.75rem;color:#22c55e;margin-top:12px}
+        @media(max-width:600px){.form-grid{grid-template-columns:1fr}.bahan-row{grid-template-columns:1fr 1fr}.result-grid{grid-template-columns:1fr 1fr}}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Kalkulator HPP</h1>
+        <a href="../">← Kembali ke Store</a>
+    </div>
+    <div class="container">
+        <!-- INPUT PRODUK -->
+        <div class="card">
+            <h3>📦 Data Produk</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Nama Produk</label>
+                    <input type="text" id="productName" placeholder="Nasi Goreng Spesial">
+                </div>
+                <div class="form-group">
+                    <label>Jumlah Porsi per Resep</label>
+                    <input type="number" id="totalPorsi" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Biaya Tambahan (kemasan, gas, dll)</label>
+                    <input type="number" id="biayaTambahan" placeholder="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="kategori">
+                        <option>Makanan</option>
+                        <option>Minuman</option>
+                        <option>Snack/Camilan</option>
+                        <option>Lainnya</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- BAHAN BAKU -->
+        <div class="card">
+            <h3>🥘 Bahan Baku</h3>
+            <div id="bahanList">
+                <div class="bahan-row">
+                    <div><label>Nama Bahan</label><input placeholder="Beras"></div>
+                    <div><label>Qty</label><input type="number" value="1" min="0"></div>
+                    <div><label>Satuan</label><input placeholder="kg"></div>
+                    <div><label>Harga/Unit</label><input type="number" placeholder="0"></div>
+                    <div><label>&nbsp;</label><button class="btn btn-red" onclick="this.closest('.bahan-row').remove()">✕</button></div>
+                </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="addBahan()" style="margin-top:8px">+ Tambah Bahan</button>
+        </div>
+
+        <!-- MARGIN -->
+        <div class="card">
+            <h3>💰 Target Margin</h3>
+            <div class="margin-btns">
+                <button class="margin-btn" onclick="setMargin(30)">30%</button>
+                <button class="margin-btn active" onclick="setMargin(50)">50%</button>
+                <button class="margin-btn" onclick="setMargin(70)">70%</button>
+                <button class="margin-btn" onclick="setMargin(100)">100%</button>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <input type="number" id="customMargin" placeholder="Custom" style="width:80px;padding:8px" oninput="setMargin(this.value)">
+                    <span style="color:#a1a1aa;font-size:0.85rem">%</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculate()" style="width:100%;padding:16px;font-size:1rem">🔢 Hitung HPP</button>
+
+        <!-- HASIL -->
+        <div id="resultArea" style="display:none;margin-top:24px">
+            <div class="result-grid">
+                <div class="result-card blue">
+                    <div class="label">Total Biaya Bahan</div>
+                    <div class="value" id="resBiaya">Rp 0</div>
+                </div>
+                <div class="result-card orange">
+                    <div class="label">HPP per Porsi</div>
+                    <div class="value" id="resHPP">Rp 0</div>
+                </div>
+                <div class="result-card green">
+                    <div class="label">Harga Jual</div>
+                    <div class="value" id="resJual">Rp 0</div>
+                </div>
+                <div class="result-card green">
+                    <div class="label">Profit per Porsi</div>
+                    <div class="value" id="resProfit">Rp 0</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:20px">
+                <h3>📊 Rekomendasi Harga Jual</h3>
+                <table class="resep-table">
+                    <thead><tr><th>Margin</th><th>Harga Jual</th><th>Profit/Porsi</th><th>Profit/Bulan (30 hari)</th><th>Status</th></tr></thead>
+                    <tbody id="marginTable"></tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="saveProduct()">💾 Simpan Produk</button>
+                <button class="btn btn-outline" onclick="printReport()">🖨 Print Laporan</button>
+            </div>
+        </div>
+
+        <!-- PRODUK TERSIMPAN -->
+        <div class="card" style="margin-top:24px">
+            <h3>📋 Produk Tersimpan</h3>
+            <div class="saved-list" id="savedList">
+                <p style="color:#a1a1aa;font-size:0.9rem">Belum ada produk tersimpan.</p>
+            </div>
+        </div>
+        <div class="watermark">Dibuat dengan ModalReceh Tools — oxmdlrch.me</div>
+    </div>
+
+    <script>
+        let currentMargin=50;
+        let savedProducts=JSON.parse(localStorage.getItem('hpp_products')||'[]');
+
+        function addBahan(){
+            const div=document.createElement('div');
+            div.className='bahan-row';
+            div.innerHTML='<div><label>Nama Bahan</label><input placeholder="Bahan"></div><div><label>Qty</label><input type="number" value="1" min="0"></div><div><label>Satuan</label><input placeholder="pcs"></div><div><label>Harga/Unit</label><input type="number" placeholder="0"></div><div><label>&nbsp;</label><button class="btn btn-red" onclick="this.closest(\'.bahan-row\').remove()">✕</button></div>';
+            document.getElementById('bahanList').appendChild(div);
+        }
+
+        function setMargin(val){
+            currentMargin=parseFloat(val)||0;
+            document.querySelectorAll('.margin-btn').forEach(b=>{
+                b.classList.toggle('active',parseInt(b.textContent)==val);
+            });
+            calculate();
+        }
+
+        function calculate(){
+            let totalBahan=0;
+            document.querySelectorAll('#bahanList .bahan-row').forEach(row=>{
+                const inputs=row.querySelectorAll('input');
+                const qty=parseFloat(inputs[1].value)||0;
+                const price=parseFloat(inputs[3].value)||0;
+                totalBahan+=qty*price;
+            });
+            const biayaTambahan=parseFloat(document.getElementById('biayaTambahan').value)||0;
+            const porsi=parseFloat(document.getElementById('totalPorsi').value)||1;
+            const totalCost=totalBahan+biayaTambahan;
+            const hppPerPorsi=totalCost/porsi;
+            const hargaJual=hppPerPorsi*(1+currentMargin/100);
+            const profit=hargaJual-hppPerPorsi;
+
+            document.getElementById('resBiaya').textContent='Rp '+formatNum(totalCost);
+            document.getElementById('resHPP').textContent='Rp '+formatNum(hppPerPorsi);
+            document.getElementById('resJual').textContent='Rp '+formatNum(hargaJual);
+            document.getElementById('resProfit').textContent='Rp '+formatNum(profit);
+
+            // Margin table
+            const margins=[10,20,30,40,50,60,70,80,100,150];
+            let tableHtml='';
+            margins.forEach(m=>{
+                const hj=hppPerPorsi*(1+m/100);
+                const pr=hj-hppPerPorsi;
+                const monthly=pr*30;
+                let status='';
+                if(m<30)status='<span class="tag tag-red">Terlalu Rendah</span>';
+                else if(m<50)status='<span class="tag tag-orange">Cukup</span>';
+                else status='<span class="tag tag-green">Ideal</span>';
+                tableHtml+='<tr><td>'+m+'%</td><td>Rp '+formatNum(hj)+'</td><td>Rp '+formatNum(pr)+'</td><td>Rp '+formatNum(monthly)+'</td><td>'+status+'</td></tr>';
+            });
+            document.getElementById('marginTable').innerHTML=tableHtml;
+
+            document.getElementById('resultArea').style.display='block';
+            document.getElementById('resultArea').scrollIntoView({behavior:'smooth'});
+        }
+
+        function formatNum(n){return Math.round(n).toLocaleString('id-ID')}
+
+        function saveProduct(){
+            const name=document.getElementById('productName').value||'Produk Tanpa Nama';
+            let totalBahan=0;
+            document.querySelectorAll('#bahanList .bahan-row').forEach(row=>{
+                const inputs=row.querySelectorAll('input');
+                totalBahan+=(parseFloat(inputs[1].value)||0)*(parseFloat(inputs[3].value)||0);
+            });
+            const porsi=parseFloat(document.getElementById('totalPorsi').value)||1;
+            const hpp=Math.round((totalBahan+(parseFloat(document.getElementById('biayaTambahan').value)||0))/porsi);
+            const jual=Math.round(hpp*(1+currentMargin/100));
+            savedProducts.push({name,hpp,jual,margin:currentMargin,date:new Date().toLocaleDateString('id-ID')});
+            localStorage.setItem('hpp_products',JSON.stringify(savedProducts));
+            renderSaved();
+            alert('Produk "'+name+'" tersimpan!');
+        }
+
+        function renderSaved(){
+            const el=document.getElementById('savedList');
+            if(!savedProducts.length){el.innerHTML='<p style="color:#a1a1aa;font-size:0.9rem">Belum ada produk tersimpan.</p>';return}
+            el.innerHTML=savedProducts.map((p,i)=>'<div class="saved-item"><div class="info"><div class="name">'+p.name+'</div><div class="detail">HPP: Rp '+formatNum(p.hpp)+' | Jual: Rp '+formatNum(p.jual)+' | Margin: '+p.margin+'%</div></div><button class="btn btn-red" onclick="savedProducts.splice('+i+',1);localStorage.setItem(\'hpp_products\',JSON.stringify(savedProducts));renderSaved()">✕</button></div>').join('');
+        }
+
+        renderSaved();
+    </script>
+</body>
+</html>

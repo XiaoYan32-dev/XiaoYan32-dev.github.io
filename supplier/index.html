@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Supplier Sembako Murah - ModalReceh Tools</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f11;color:#e4e4e7;min-height:100vh}
+        .header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:1px solid #27272a;display:flex;justify-content:space-between;align-items:center}
+        .header h1{font-size:1.1rem;background:linear-gradient(135deg,#ec4899,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header a{color:#818cf8;text-decoration:none;font-size:0.85rem}
+        .container{max-width:1000px;margin:0 auto;padding:24px}
+        .search-bar{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+        .search-bar input{flex:1;padding:14px 20px;border-radius:12px;border:1px solid #27272a;background:#18181b;color:#e4e4e7;font-size:1rem;outline:none}
+        .search-bar input:focus{border-color:#ec4899}
+        .filter-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+        .chip{padding:8px 16px;border-radius:100px;background:#18181b;border:1px solid #27272a;color:#a1a1aa;cursor:pointer;font-size:0.85rem;transition:0.2s}
+        .chip.active{background:#ec4899;color:#fff;border-color:#ec4899}
+        .supplier-card{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:16px;transition:0.3s}
+        .supplier-card:hover{border-color:rgba(236,72,153,0.3);transform:translateY(-2px)}
+        .supplier-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:12px}
+        .supplier-name{font-size:1.1rem;font-weight:700}
+        .supplier-category{display:inline-block;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:600;background:rgba(236,72,153,0.1);color:#ec4899;border:1px solid rgba(236,72,153,0.2)}
+        .supplier-desc{color:#a1a1aa;font-size:0.9rem;line-height:1.6;margin-bottom:12px}
+        .supplier-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:0.85rem;color:#a1a1aa}
+        .supplier-meta span{display:flex;align-items:center;gap:4px}
+        .supplier-actions{display:flex;gap:8px;margin-top:12px}
+        .btn{padding:10px 20px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:0.85rem;transition:0.2s;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+        .btn-pink{background:linear-gradient(135deg,#ec4899,#db2777);color:#fff}
+        .btn-outline{background:transparent;border:1px solid #27272a;color:#a1a1aa}
+        .btn-outline:hover{border-color:#ec4899;color:#ec4899}
+        .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:0.7rem;font-weight:700;margin-left:8px}
+        .badge-hot{background:rgba(239,68,68,0.15);color:#ef4444}
+        .badge-new{background:rgba(34,197,94,0.15);color:#22c55e}
+        .badge-verified{background:rgba(99,102,241,0.15);color:#818cf8}
+        .stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+        .stat{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:16px;text-align:center}
+        .stat .num{font-size:1.3rem;font-weight:800;color:#ec4899}
+        .stat .label{font-size:0.8rem;color:#a1a1aa}
+        .tip-card{background:linear-gradient(135deg,rgba(236,72,153,0.1),rgba(99,102,241,0.1));border:1px solid rgba(236,72,153,0.2);border-radius:16px;padding:24px;margin-bottom:24px}
+        .tip-card h3{color:#ec4899;margin-bottom:8px;font-size:1rem}
+        .tip-card p{color:#a1a1aa;font-size:0.9rem;line-height:1.6}
+        .tip-card ul{margin-top:8px;padding-left:20px;color:#a1a1aa;font-size:0.9rem}
+        .tip-card li{margin-bottom:4px}
+        .watermark{text-align:center;padding:16px;font-size:0.75rem;color:#ec4899;margin-top:12px}
+        .hidden{display:none}
+        @media(max-width:600px){.supplier-header{flex-direction:column;gap:8px}.stats-bar{grid-template-columns:1fr 1fr}}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Daftar Supplier Sembako Murah</h1>
+        <a href="../">← Kembali ke Store</a>
+    </div>
+    <div class="container">
+        <div class="tip-card">
+            <h3>💡 Tips Memilih Supplier</h3>
+            <ul>
+                <li>Bandingkan harga minimal dari 3 supplier sebelum deal</li>
+                <li>Minta sample produk dulu sebelum order banyak</li>
+                <li>Cek ongkir — kadang harga murah tapi ongkir mahal</li>
+                <li>Bangun hubungan baik untuk dapat harga khusus</li>
+                <li>Manfaatkan grosir untuk dapat harga lebih murah</li>
+            </ul>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat"><div class="num" id="totalSuppliers">0</div><div class="label">Supplier</div></div>
+            <div class="stat"><div class="num" id="totalCategories">0</div><div class="label">Kategori</div></div>
+            <div class="stat"><div class="num">15+</div><div class="label">Kota</div></div>
+            <div class="stat"><div class="num">2026</div><div class="label">Update</div></div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Cari supplier, produk, atau kota..." oninput="filterSuppliers()">
+        </div>
+        <div class="filter-chips" id="filterChips"></div>
+        <div id="supplierList"></div>
+        <div class="watermark">Dibuat dengan ModalReceh Tools — oxmdlrch.me</div>
+    </div>
+
+    <script>
+        const suppliers=[
+            {name:"PT Sinar Sembako",cat:"Sembako",desc:"Supplier grosir beras, minyak, gula, tepung. Melayani ecer dan grosir. Pengiriman ke seluruh Jawa.",location:"Jakarta",wa:"081234567890",min:"50 kg",badge:"verified",items:["Beras","Minyak Goreng","Gula","Tepung"]},
+            {name:"CV Berkah Jaya",cat:"Sembako",desc:"Distributor sembako harga pabrik. Khusus area Jabodetabek. Gratis ongkir min order 1 ton.",location:"Bekasi",wa:"081234567891",min:"100 kg",badge:"hot",items:["Beras","Gula Pasir","Minyak Curah"]},
+            {name:"Toko Aneka Bumbu",cat:"Bumbu & Rempah",desc:"Supplier bumbu dapur lengkap. Cabai bubuk, bawang, kunyit, lengkuas. Harga grosir.",location:"Surabaya",wa:"081234567892",min:"5 kg",badge:"new",items:["Cabai Bubuk","Bawang Merah","Bawang Putih","Kunyit"]},
+            {name:"UD Maju Bersama",cat:"Minuman",desc:"Distributor teh, kopi, susu, sirup. Melayani reseller dan warung. Stok ready.",location:"Bandung",wa:"081234567893",min:"1 dus",badge:"verified",items:["Teh Celup","Kopi Sachet","Susu UHT","Sirup"]},
+            {name:"Grosir Snack Nusantara",cat:"Snack",desc:"Supplier keripik, wafer, biskuit, permen. Harga pabrik. Kirim se-Indonesia.",location:"Semarang",wa:"081234567894",min:"1 karton",badge:"hot",items:["Keripik","Wafer","Biskuit","Permen"]},
+            {name:"PT Tirta Segar",cat:"Minuman",desc:"Agen minuman segar: air mineral, jus kotak, softdrink. Cocok untuk warung dan restoran.",location:"Jakarta",wa:"081234567895",min:"5 dus",badge:"verified",items:["Air Mineral","Jus Kotak","Softdrink","Es Teh"]},
+            {name:"Supplier Gas Elpiji",cat:"Gas & Energi",desc:"Agen gas elpiji 3kg dan 12kg. Harga subsidi. Pengiriman harian.",location:"Depok",wa:"081234567896",min:"1 tabung",badge:"",items:["Gas 3kg","Gas 12kg","Gas 5.5kg"]},
+            {name:"CV Pangan Sejahtera",cat:"Sembako",desc:"Supplier bahan pangan segar: telur, ayam, sayuran. Supply harian untuk warung dan resto.",location:"Tangerang",wa:"081234567897",min:"10 kg",badge:"new",items:["Telur","Ayam Potong","Sayuran","Tahu Tempe"]},
+            {name:"Grosir Plastik & Kemasan",cat:"Kemasan",desc:"Supplier plastik, kertas nasi, box makanan, sedotan. Harga grosir murah.",location:"Solo",wa:"081234567898",min:"1 pack",badge:"verified",items:["Plastik Wrap","Kertas Nasi","Box Makanan","Sedotan"]},
+            {name:"UD Sari Roti Mitra",cat:"Roti & Kue",desc:"Distributor roti, kue, dan pastry. Cocok untuk warung yang jual sarapan.",location:"Yogyakarta",wa:"081234567899",min:"1 dus",badge:"",items:["Roti Tawar","Roti Manis","Kue Basah","Pastry"]},
+            {name:"Supplier Es Batu Crystal",cat:"Es & Pendingin",desc:"Es batu kristal bersih. Pengiriman harian. Cocok untuk warung minuman.",location:"Malang",wa:"081234567900",min:"50 kg",badge:"new",items:["Es Batu Kristal","Es Tube","Es Balok"]},
+            {name:"PT Rasa Nusantara",cat:"Bumbu & Rempah",desc:"Supplier bumbu instan, saus, kecap. Brand ternama harga grosir.",location:"Semarang",wa:"081234567901",min:"1 karton",badge:"hot",items:["Kecap Manis","Saus Sambal","Saus Tomat","Bumbu Instan"]},
+            {name:"Grosir Mie Instan",cat:"Mie & Pasta",desc:"Supplier mie instan semua brand. Harga distributor. Ready stock ribuan karton.",location:"Jakarta",wa:"081234567902",min:"1 dus",badge:"verified",items:["Indomie","Mie Sedaap","Sarimi","Pop Mie"]},
+            {name:"CV Tahu Tempe Sejahtera",cat:"Protein",desc:"Produsen tahu dan tempe segar. Supply harian. Khusus area Jabodetabek.",location:"Bogor",wa:"081234567903",min:"10 kg",badge:"",items:["Tahu Putih","Tahu Sumedang","Tempe","Oncom"]},
+            {name:"Supplier Ikan Segar",cat:"Protein",desc:"Ikan laut dan air tawar segar. Supply pagi hari. Cocok untuk warung makan.",location:"Cirebon",wa:"081234567904",min:"5 kg",badge:"new",items:["Ikan Lele","Ikan Nila","Ikan Tongkol","Udang"]}
+        ];
+
+        const categories=[...new Set(suppliers.map(s=>s.cat))];
+
+        function renderFilters(){
+            const el=document.getElementById('filterChips');
+            el.innerHTML='<div class="chip active" onclick="filterCat(\'\',this)">Semua</div>'+categories.map(c=>'<div class="chip" onclick="filterCat(\''+c+'\',this)">'+c+'</div>').join('');
+            document.getElementById('totalSuppliers').textContent=suppliers.length;
+            document.getElementById('totalCategories').textContent=categories.length;
+        }
+
+        let activeCat='';
+        function filterCat(cat,el){
+            activeCat=cat;
+            document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+            el.classList.add('active');
+            filterSuppliers();
+        }
+
+        function filterSuppliers(){
+            const q=document.getElementById('searchInput').value.toLowerCase();
+            const filtered=suppliers.filter(s=>{
+                const matchCat=!activeCat||s.cat===activeCat;
+                const matchSearch=!q||s.name.toLowerCase().includes(q)||s.desc.toLowerCase().includes(q)||s.location.toLowerCase().includes(q)||s.items.some(i=>i.toLowerCase().includes(q));
+                return matchCat&&matchSearch;
+            });
+            renderList(filtered);
+        }
+
+        function renderList(list){
+            const el=document.getElementById('supplierList');
+            if(!list.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#a1a1aa">Supplier tidak ditemukan 😅</div>';return}
+            el.innerHTML=list.map(s=>{
+                let badgeHtml='';
+                if(s.badge==='hot')badgeHtml='<span class="badge badge-hot">🔥 HOT</span>';
+                else if(s.badge==='new')badgeHtml='<span class="badge badge-new">✨ NEW</span>';
+                else if(s.badge==='verified')badgeHtml='<span class="badge badge-verified">✓ VERIFIED</span>';
+                return '<div class="supplier-card"><div class="supplier-header"><div><span class="supplier-name">'+s.name+badgeHtml+'</span></div><span class="supplier-category">'+s.cat+'</span></div><div class="supplier-desc">'+s.desc+'</div><div class="supplier-meta"><span>📍 '+s.location+'</span><span>📦 Min: '+s.min+'</span><span>🏷 '+s.items.join(', ')+'</span></div><div class="supplier-actions"><a href="https://wa.me/62'+s.wa.substring(1)+'?text=Halo%20saya%20mau%20tanya%20harga%20grosir" target="_blank" class="btn btn-pink">💬 Chat WhatsApp</a><button class="btn btn-outline" onclick="saveSupplier(\''+s.name+'\')">💾 Simpan</button></div></div>';
+            }).join('');
+        }
+
+        function saveSupplier(name){
+            let saved=JSON.parse(localStorage.getItem('saved_suppliers')||'[]');
+            if(!saved.includes(name)){saved.push(name);alert('Supplier "'+name+'" tersimpan! ✅')}
+            else alert('Sudah tersimpan sebelumnya');
+            localStorage.setItem('saved_suppliers',JSON.stringify(saved));
+        }
+
+        renderFilters();
+        filterSuppliers();
+    </script>
+</body>
+</html>
