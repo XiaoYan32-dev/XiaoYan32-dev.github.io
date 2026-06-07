@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Harga Kopi & Minuman — ModalReceh Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0a0a0b;--bg2:#111113;--bg3:#18181b;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#8B4513;--accent2:#D2691E;--green:#22c55e;--orange:#f59e0b;--pink:#ec4899;--red:#ef4444;--blue:#3b82f6;--border:#27272a;--radius:16px}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+        ::selection{background:var(--accent2);color:#fff}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+        .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;backdrop-filter:blur(20px)}
+        .topbar h1{font-size:1rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .topbar a{color:var(--text3);text-decoration:none;font-size:0.85rem}.topbar a:hover{color:var(--accent2)}
+
+        .container{max-width:1000px;margin:0 auto;padding:24px}
+        .hero{text-align:center;padding:48px 0 32px;position:relative}
+        .hero-icon{font-size:3.5rem;margin-bottom:12px}
+        .hero h2{font-size:2rem;font-weight:900;letter-spacing:-1px;margin-bottom:8px;background:linear-gradient(135deg,var(--accent),var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{color:var(--text2);max-width:550px;margin:0 auto;font-size:1rem}
+
+        .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+        .card-title{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:700;margin-bottom:20px}
+        .card-title .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+
+        .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+        .menu-card{background:var(--bg);border:2px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:0.3s;text-align:center}
+        .menu-card:hover{border-color:var(--accent2);transform:translateY(-3px)}
+        .menu-card.selected{border-color:var(--accent2);background:rgba(139,69,19,0.1)}
+        .menu-card .emoji{font-size:2rem;margin-bottom:8px}
+        .menu-card .name{font-weight:700;font-size:0.9rem}
+        .menu-card .price{font-size:0.75rem;color:var(--text3);margin-top:2px}
+
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .form-group label{display:block;font-size:0.75rem;color:var(--text3);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+        input,select{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.9rem;outline:none;transition:0.2s;font-family:inherit}
+        input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(139,69,19,0.1)}
+
+        .bahan-row{display:grid;grid-template-columns:2fr 1fr 1fr 44px;gap:8px;margin-bottom:8px;align-items:end}
+        .bahan-row input{padding:10px 12px;font-size:0.85rem}
+
+        .btn{padding:12px 24px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:0.9rem;transition:0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+        .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 16px rgba(139,69,19,0.25)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,69,19,0.35)}
+        .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+        .btn-outline:hover{border-color:var(--accent2);color:var(--accent2)}
+        .btn-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);padding:8px 12px;font-size:0.8rem}
+        .btn-green{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff}
+        .btn-sm{padding:8px 16px;font-size:0.8rem}
+
+        .margin-btns{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+        .margin-btn{padding:10px 20px;border-radius:100px;background:var(--bg);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:0.85rem;font-weight:600;transition:0.2s;font-family:inherit}
+        .margin-btn.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+
+        .result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:20px}
+        .result-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:center;transition:0.3s}
+        .result-card:hover{transform:translateY(-3px)}
+        .result-card .label{font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .result-card .value{font-size:1.5rem;font-weight:800}
+        .result-card.brown .value{color:var(--accent2)}.result-card.green .value{color:var(--green)}.result-card.orange .value{color:var(--orange)}.result-card.blue .value{color:var(--blue)}
+
+        .margin-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:16px}
+        .margin-table th{background:var(--bg);padding:10px 12px;text-align:left;font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+        .margin-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:0.85rem}
+        .margin-table tr:hover td{background:rgba(139,69,19,0.02)}
+
+        .tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.7rem;font-weight:700}
+        .tag-green{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+        .tag-orange{background:rgba(245,158,11,0.1);color:var(--orange);border:1px solid rgba(245,158,11,0.2)}
+        .tag-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+
+        .tip-card{background:linear-gradient(135deg,rgba(139,69,19,0.1),rgba(245,158,11,0.05));border:1px solid rgba(139,69,19,0.2);border-radius:var(--radius);padding:20px;margin-bottom:20px}
+        .tip-card h4{color:var(--accent2);margin-bottom:8px}
+        .tip-card p{color:var(--text2);font-size:0.9rem;line-height:1.6}
+        .tip-card ul{margin-top:8px;padding-left:20px;color:var(--text2);font-size:0.85rem}
+        .tip-card li{margin-bottom:4px}
+
+        .actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+        .watermark{text-align:center;padding:20px;font-size:0.75rem;color:var(--text3);margin-top:20px}.watermark a{color:var(--accent2);text-decoration:none}
+
+        @media(max-width:640px){.form-grid{grid-template-columns:1fr}.bahan-row{grid-template-columns:1fr 1fr}.result-grid{grid-template-columns:1fr 1fr}.menu-grid{grid-template-columns:repeat(3,1fr)}.container{padding:16px}}
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <h1>☕ Kalkulator Harga Kopi & Minuman</h1>
+        <a href="../">← Kembali</a>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-icon">☕</div>
+            <h2>Hitung Harga Jual Kopi</h2>
+            <p>Input bahan → langsung tahu HPP, harga jual, dan profit per cup. Khusus untuk bisnis kopi & minuman.</p>
+        </div>
+
+        <div class="tip-card">
+            <h4>💡 Tips Harga Jual Kopi</h4>
+            <ul>
+                <li>Margin ideal kopi: <b>60-100%</b> (harga bahan cuma 30-40% dari harga jual)</li>
+                <li>Harga kopi susu kekinian: <b>Rp 15.000 - 25.000</b></li>
+                <li>Harga es kopi biasa: <b>Rp 10.000 - 18.000</b></li>
+                <li>Jangan lupa hitung <b>cup, tutup, sedotan, es batu</b></li>
+                <li>Beli bahan grosir = HPP lebih murah = profit lebih gede</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><div class="icon" style="background:rgba(139,69,19,0.1);color:var(--accent2)">⚡</div> Pilih Menu</div>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="selectMenu('eskopi')"><div class="emoji">🧊</div><div class="name">Es Kopi Susu</div><div class="price">Target: 18rb</div></div>
+                <div class="menu-card" onclick="selectMenu('hotkopi')"><div class="emoji">☕</div><div class="name">Kopi Hitam</div><div class="price">Target: 12rb</div></div>
+                <div class="menu-card" onclick="selectMenu('matcha')"><div class="emoji">🍵</div><div class="name">Matcha Latte</div><div class="price">Target: 20rb</div></div>
+                <div class="menu-card" onclick="selectMenu('choco')"><div class="emoji">🍫</div><div class="name">Chocolate</div><div class="price">Target: 18rb</div></div>
+                <div class="menu-card" onclick="selectMenu('thai')"><div class="emoji">🧋</div><div class="name">Thai Tea</div><div class="price">Target: 15rb</div></div>
+                <div class="menu-card" onclick="selectMenu('jus')"><div class="emoji">🥤</div><div class="name">Jus Buah</div><div class="price">Target: 15rb</div></div>
+                <div class="menu-card" onclick="selectMenu('boba')"><div class="emoji">🧋</div><div class="name">Boba Milk</div><div class="price">Target: 22rb</div></div>
+                <div class="menu-card" onclick="selectMenu('custom')"><div class="emoji">✏️</div><div class="name">Custom</div><div class="price">Bikin sendiri</div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><div class="icon" style="background:rgba(245,158,11,0.1);color:var(--orange)">📦</div> Data Produk</div>
+            <div class="form-grid">
+                <div class="form-group"><label>Nama Menu</label><input id="menuName" placeholder="Es Kopi Susu Gula Aren"></div>
+                <div class="form-group"><label>Jumlah Cup per Resep</label><input type="number" id="menuPorsi" value="20" min="1" oninput="calc()"></div>
+                <div class="form-group"><label>Harga Jual Target (Rp)</label><input type="number" id="menuTarget" placeholder="18000" oninput="calc()"></div>
+                <div class="form-group"><label>Biaya Tambahan (listrik, sewa, dll)</label><input type="number" id="menuTambahan" value="0" oninput="calc()"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><div class="icon" style="background:rgba(139,69,19,0.1);color:var(--accent2)">🥘</div> Bahan Baku</div>
+            <div id="bahanList"></div>
+            <button class="btn btn-outline btn-sm" onclick="addBahan()" style="margin-top:10px">+ Tambah Bahan</button>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><div class="icon" style="background:rgba(34,197,94,0.1);color:var(--green)">💰</div> Target Margin</div>
+            <div class="margin-btns">
+                <button class="margin-btn" onclick="setMargin(50,this)">50%</button>
+                <button class="margin-btn active" onclick="setMargin(70,this)">70%</button>
+                <button class="margin-btn" onclick="setMargin(100,this)">100%</button>
+                <button class="margin-btn" onclick="setMargin(150,this)">150%</button>
+                <button class="margin-btn" onclick="setMargin(200,this)">200%</button>
+                <div style="display:flex;align-items:center;gap:6px"><input type="number" id="customMargin" placeholder="%" style="width:60px;padding:8px" oninput="setMargin(this.value)"><span style="color:var(--text3);font-size:0.8rem">Custom</span></div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calc()" style="width:100%;padding:16px;font-size:1rem">☕ Hitung Harga Kopi</button>
+
+        <div id="resultArea" style="display:none">
+            <div class="result-grid">
+                <div class="result-card brown"><div class="label">Total Biaya Bahan</div><div class="value" id="rBiaya">Rp 0</div></div>
+                <div class="result-card orange"><div class="label">HPP per Cup</div><div class="value" id="rHPP">Rp 0</div></div>
+                <div class="result-card green"><div class="label">Harga Jual</div><div class="value" id="rJual">Rp 0</div></div>
+                <div class="result-card blue"><div class="label">Profit per Cup</div><div class="value" id="rProfit">Rp 0</div></div>
+            </div>
+
+            <div class="card" style="margin-top:20px">
+                <div class="card-title">📊 Analisa Profit</div>
+                <div class="table-wrap"><table class="margin-table"><thead><tr><th>Penjualan/Hari</th><th>Revenue/Hari</th><th>Profit/Hari</th><th>Profit/Bulan (30hr)</th></tr></thead><tbody id="profitTbl"></tbody></table></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📈 Rekomendasi Harga Jual</div>
+                <div class="table-wrap"><table class="margin-table"><thead><tr><th>Margin</th><th>Harga Jual</th><th>Profit/Cup</th><th>Profit/Bulan (600 cup)</th><th>Status</th></tr></thead><tbody id="marginTbl"></tbody></table></div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-green" onclick="printReport()">🖨️ Print Laporan</button>
+                <button class="btn btn-outline" onclick="saveMenu()">💾 Simpan Menu</button>
+            </div>
+        </div>
+
+        <div class="watermark">Dibuat dengan <a href="../">ModalReceh Tools</a> — oxmdlrch.me</div>
+    </div>
+
+    <script>
+        let margin=70;
+        let savedMenus=JSON.parse(localStorage.getItem('kopi_menus')||'[]');
+
+        const menus={
+            eskopi:{name:'Es Kopi Susu Gula Aren',porsi:20,target:18000,bahan:[{name:'Kopi arabika bubuk 250g',qty:1,sat:'bungkus',harga:35000},{name:'Susu UHT full cream 1L',qty:2,sat:'kotak',harga:16000},{name:'Gula aren 500g',qty:1,sat:'bungkus',harga:18000},{name:'Es batu',qty:2,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup',qty:20,sat:'pcs',harga:1500},{name:'Sedotan',qty:20,sat:'pcs',harga:300}]},
+            hotkopi:{name:'Kopi Hitam Tubruk',porsi:20,target:12000,bahan:[{name:'Kopi robusta bubuk 250g',qty:1,sat:'bungkus',harga:20000},{name:'Gula pasir 500g',qty:1,sat:'bungkus',harga:7000},{name:'Cup 8oz',qty:20,sat:'pcs',harga:1000}]},
+            matcha:{name:'Matcha Latte',porsi:15,target:20000,bahan:[{name:'Bubuk matcha 100g',qty:1,sat:'bungkus',harga:45000},{name:'Susu UHT 1L',qty:2,sat:'kotak',harga:16000},{name:'Gula cair 500ml',qty:1,sat:'botol',harga:10000},{name:'Es batu',qty:2,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup',qty:15,sat:'pcs',harga:1500}]},
+            choco:{name:'Chocolate Premium',porsi:15,target:18000,bahan:[{name:'Cokelat bubuk 250g',qty:1,sat:'bungkus',harga:30000},{name:'Susu UHT 1L',qty:2,sat:'kotak',harga:16000},{name:'Gula pasir 500g',qty:1,sat:'bungkus',harga:7000},{name:'Es batu',qty:2,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup',qty:15,sat:'pcs',harga:1500}]},
+            thai:{name:'Thai Tea Original',porsi:15,target:15000,bahan:[{name:'Teh Thai 200g',qty:1,sat:'bungkus',harga:25000},{name:'Susu kental manis',qty:2,sat:'kaleng',harga:8000},{name:'Gula cair 500ml',qty:1,sat:'botol',harga:10000},{name:'Es batu',qty:2,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup',qty:15,sat:'pcs',harga:1500}]},
+            jus:{name:'Jus Buah Segar',porsi:10,target:15000,bahan:[{name:'Buah segar (mix)',qty:1,sat:'kg',harga:30000},{name:'Susu kental manis',qty:1,sat:'kaleng',harga:8000},{name:'Gula cair 250ml',qty:1,sat:'botol',harga:5000},{name:'Es batu',qty:1,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup',qty:10,sat:'pcs',harga:1500}]},
+            boba:{name:'Boba Milk Tea',porsi:12,target:22000,bahan:[{name:'Teh melati bubuk 200g',qty:1,sat:'bungkus',harga:20000},{name:'Susu UHT 1L',qty:1,sat:'kotak',harga:16000},{name:'Boba tapioca 500g',qty:1,sat:'bungkus',harga:25000},{name:'Gula cair 500ml',qty:1,sat:'botol',harga:10000},{name:'Es batu',qty:2,ssat:'kg',harga:5000},{name:'Cup 16oz + tutup + sedotan',qty:12,sat:'pcs',harga:2000}]},
+            custom:{name:'',porsi:20,target:0,bahan:[]}
+        };
+
+        function selectMenu(key){
+            document.querySelectorAll('.menu-card').forEach(c=>c.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            const m=menus[key];
+            document.getElementById('menuName').value=m.name;
+            document.getElementById('menuPorsi').value=m.porsi;
+            document.getElementById('menuTarget').value=m.target;
+            document.getElementById('bahanList').innerHTML='';
+            m.bahan.forEach(b=>addBahan(b));
+            calc();
+        }
+
+        function addBahan(d){
+            const div=document.createElement('div');
+            div.className='bahan-row';
+            const v=d||{name:'',qty:1,sat:'',harga:0};
+            div.innerHTML='<div><label>Bahan</label><input placeholder="Nama bahan" value="'+v.name+'"></div><div><label>Qty</label><input type="number" value="'+v.qty+'" min="0" oninput="calc()"></div><div><label>Harga</label><input type="number" value="'+v.harga+'" oninput="calc()"></div><div><label>&nbsp;</label><button class="btn btn-red" onclick="this.closest(\'.bahan-row\').remove();calc()">✕</button></div>';
+            document.getElementById('bahanList').appendChild(div);
+        }
+
+        function setMargin(v,el){
+            margin=parseFloat(v)||0;
+            document.querySelectorAll('.margin-btn').forEach(b=>b.classList.remove('active'));
+            if(el)el.classList.add('active');
+            calc();
+        }
+
+        function fmt(n){return Math.round(Math.abs(n)).toLocaleString('id-ID')}
+
+        function calc(){
+            let totalBahan=0;
+            document.querySelectorAll('#bahanList .bahan-row').forEach(r=>{
+                const i=r.querySelectorAll('input');
+                totalBahan+=(parseFloat(i[1].value)||0)*(parseFloat(i[2].value)||0);
+            });
+            const tambahan=parseFloat(document.getElementById('menuTambahan').value)||0;
+            const porsi=parseFloat(document.getElementById('menuPorsi').value)||1;
+            const target=parseFloat(document.getElementById('menuTarget').value)||0;
+            const cost=totalBahan+tambahan;
+            const hpp=cost/porsi;
+            const hargaRekomendasi=hpp*(1+margin/100);
+            const hargaJual=target>0?target:hargaRekomendasi;
+            const profit=hargaJual-hpp;
+            const profitPct=hpp>0?(profit/hpp*100):0;
+
+            document.getElementById('rBiaya').textContent='Rp '+fmt(cost);
+            document.getElementById('rHPP').textContent='Rp '+fmt(hpp);
+            document.getElementById('rJual').textContent='Rp '+fmt(hargaJual);
+            document.getElementById('rProfit').textContent='Rp '+fmt(profit);
+
+            // Profit table
+            const quantities=[20,40,60,80,100];
+            let pt='';
+            quantities.forEach(q=>{
+                const rev=hargaJual*q;
+                const pr=profit*q;
+                const monthly=pr*30;
+                pt+='<tr><td><b>'+q+' cup</b></td><td>Rp '+fmt(rev)+'</td><td style="color:var(--green);font-weight:700">Rp '+fmt(pr)+'</td><td style="color:var(--green);font-weight:700">Rp '+fmt(monthly)+'</td></tr>';
+            });
+            document.getElementById('profitTbl').innerHTML=pt;
+
+            // Margin table
+            const margins=[30,50,70,100,120,150,200];
+            let mt='';
+            margins.forEach(m=>{
+                const hj=hpp*(1+m/100);
+                const pr=hj-hpp;
+                const monthly=pr*600;
+                const st=m<50?'<span class="tag tag-red">Rendah</span>':m<80?'<span class="tag tag-orange">Cukup</span>':'<span class="tag tag-green">Ideal</span>';
+                mt+='<tr><td>'+m+'%</td><td>Rp '+fmt(hj)+'</td><td>Rp '+fmt(pr)+'</td><td>Rp '+fmt(monthly)+'</td><td>'+st+'</td></tr>';
+            });
+            document.getElementById('marginTbl').innerHTML=mt;
+
+            document.getElementById('resultArea').style.display='block';
+            document.getElementById('resultArea').scrollIntoView({behavior:'smooth'});
+        }
+
+        function saveMenu(){
+            const name=document.getElementById('menuName').value||'Menu Custom';
+            let totalBahan=0;
+            document.querySelectorAll('#bahanList .bahan-row').forEach(r=>{
+                const i=r.querySelectorAll('input');
+                totalBahan+=(parseFloat(i[1].value)||0)*(parseFloat(i[2].value)||0);
+            });
+            const porsi=parseFloat(document.getElementById('menuPorsi').value)||1;
+            const hpp=Math.round((totalBahan+(parseFloat(document.getElementById('menuTambahan').value)||0))/porsi);
+            const target=parseFloat(document.getElementById('menuTarget').value)||0;
+            const jual=target>0?target:Math.round(hpp*(1+margin/100));
+            savedMenus.push({name,hpp,jual,margin,date:new Date().toLocaleDateString('id-ID')});
+            localStorage.setItem('kopi_menus',JSON.stringify(savedMenus));
+            alert('Menu "'+name+'" tersimpan! ✅');
+        }
+
+        function printReport(){
+            const el=document.getElementById('resultArea');
+            const win=window.open('','','width=800,height=600');
+            win.document.write('<html><head><title>Laporan Harga Kopi</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;padding:30px;color:#000;background:#fff}h1{text-align:center;margin-bottom:20px;font-size:1.3rem}table{width:100%;border-collapse:collapse;margin:16px 0}th{background:#f5f5f5;padding:10px;text-align:left;font-size:0.75rem;border-bottom:2px solid #ddd}td{padding:10px;border-bottom:1px solid #eee;font-size:0.85rem}.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.result-card{text-align:center;padding:16px;border:1px solid #ddd;border-radius:10px}.result-card .label{font-size:0.65rem;color:#666;text-transform:uppercase}.result-card .value{font-size:1.1rem;font-weight:800;margin-top:4px}.actions,.margin-btns,.tip-card{display:none}</style></head><body><h1>☕ Laporan Harga — '+document.getElementById('menuName').value+'</h1>'+el.innerHTML+'</body></html>');
+            win.document.close();win.print();
+        }
+
+        addBahan();
+    </script>
+</body>
+</html>
