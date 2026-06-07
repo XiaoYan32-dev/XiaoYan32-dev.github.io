@@ -12,214 +12,176 @@
         html{scroll-behavior:smooth}
         body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
         ::selection{background:var(--accent);color:#fff}
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(10,10,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-        .nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
-        .logo{font-weight:800;font-size:1.2rem;background:linear-gradient(135deg,var(--pink),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .nav-links{display:flex;gap:28px;list-style:none}
-        .nav-links a{color:var(--text2);text-decoration:none;font-size:0.9rem;font-weight:500;transition:0.2s}
-        .nav-links a:hover{color:var(--text)}
+
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;background:rgba(10,10,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .logo{font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,var(--pink),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        nav a{color:var(--text3);text-decoration:none;font-size:0.85rem;transition:0.2s}nav a:hover{color:var(--text)}
+
         .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
-        .hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.15),transparent),radial-gradient(ellipse 60% 40% at 80% 50%,rgba(236,72,153,0.08),transparent)}
+        .hero-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.15),transparent),radial-gradient(ellipse 60% 40% at 80% 50%,rgba(236,72,153,0.08),transparent),radial-gradient(ellipse 60% 40% at 20% 80%,rgba(34,197,94,0.06),transparent)}
+        .hero-grid{position:absolute;top:0;left:0;right:0;bottom:0;background-image:linear-gradient(rgba(99,102,241,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,black,transparent)}
         .hero-content{position:relative;z-index:1;max-width:800px}
         .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);font-size:0.85rem;color:var(--green);margin-bottom:24px;font-weight:500}
+        .hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
         .hero h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:900;line-height:1.1;letter-spacing:-2px;margin-bottom:20px}
         .hero h1 .gradient{background:linear-gradient(135deg,var(--pink),var(--accent),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .hero p{font-size:1.15rem;color:var(--text2);max-width:560px;margin:0 auto 32px;line-height:1.7}
+        .hero p{font-size:1.1rem;color:var(--text2);max-width:520px;margin:0 auto 32px;line-height:1.7}
         .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
         .btn{padding:14px 28px;border-radius:12px;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;border:none;font-family:inherit}
         .btn-primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff;box-shadow:0 4px 24px rgba(99,102,241,0.3)}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,0.4)}
-        .btn-green{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;box-shadow:0 4px 24px rgba(34,197,94,0.3)}
         .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
         .btn-outline:hover{border-color:var(--accent)}
 
-        section{padding:80px 24px}
-        .section-inner{max-width:1100px;margin:0 auto}
-        .section-label{font-size:0.85rem;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;text-align:center}
-        .section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;letter-spacing:-1px;margin-bottom:16px;text-align:center}
-        .section-desc{color:var(--text2);max-width:560px;font-size:1rem;line-height:1.7;margin:0 auto 48px;text-align:center}
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:800px;margin:-40px auto 0;padding:0 24px;position:relative;z-index:2}
+        .stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:0.3s}
+        .stat:hover{border-color:var(--accent);transform:translateY(-4px)}
+        .stat .num{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat .label{color:var(--text3);font-size:0.8rem;margin-top:2px}
 
-        .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+        section{padding:80px 24px}.section-inner{max-width:1000px;margin:0 auto}
+        .section-label{font-size:0.8rem;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;text-align:center}
+        .section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;letter-spacing:-1px;margin-bottom:16px;text-align:center}
+        .section-desc{color:var(--text2);max-width:500px;font-size:1rem;line-height:1.7;margin:0 auto 48px;text-align:center}
+
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
         .product-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all 0.4s;position:relative;overflow:hidden;text-decoration:none;color:var(--text);display:block}
-        .product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--pink));opacity:0;transition:opacity 0.3s}
+        .product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity 0.3s}
         .product-card:hover{border-color:rgba(99,102,241,0.3);transform:translateY(-6px)}
         .product-card:hover::before{opacity:1}
+        .product-card:nth-child(1)::before{background:linear-gradient(90deg,var(--accent),var(--pink))}
+        .product-card:nth-child(2)::before{background:linear-gradient(90deg,var(--green),var(--accent))}
+        .product-card:nth-child(3)::before{background:linear-gradient(90deg,var(--orange),var(--pink))}
+        .product-card:nth-child(4)::before{background:linear-gradient(90deg,var(--pink),var(--accent))}
+        .product-card:nth-child(5)::before{background:linear-gradient(90deg,var(--accent),var(--green))}
         .product-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px}
-        .product-card h3{font-size:1.15rem;font-weight:700;margin-bottom:8px}
-        .product-card p{color:var(--text2);font-size:0.9rem;line-height:1.6;margin-bottom:16px}
+        .product-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+        .product-card p{color:var(--text2);font-size:0.85rem;line-height:1.6;margin-bottom:16px}
         .product-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
         .tag{padding:4px 10px;border-radius:100px;font-size:0.7rem;font-weight:600;border:1px solid}
         .tag-blue{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.2);color:var(--accent2)}
         .tag-green{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2);color:var(--green)}
         .tag-orange{background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.2);color:var(--orange)}
         .tag-pink{background:rgba(236,72,153,0.1);border-color:rgba(236,72,153,0.2);color:var(--pink)}
-        .product-link{color:var(--accent2);font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:6px;transition:gap 0.3s}
+        .product-link{color:var(--accent2);font-weight:600;font-size:0.85rem;display:inline-flex;align-items:center;gap:6px;transition:gap 0.3s}
         .product-card:hover .product-link{gap:10px}
 
-        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:48px}
+        .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:48px}
         .feature{text-align:center;padding:24px}
         .feature-icon{font-size:2rem;margin-bottom:12px}
         .feature h4{font-weight:700;margin-bottom:6px}
-        .feature p{color:var(--text2);font-size:0.9rem}
+        .feature p{color:var(--text2);font-size:0.85rem}
 
         .cta{text-align:center;padding:80px 24px;background:linear-gradient(180deg,transparent,rgba(99,102,241,0.05))}
         .cta h2{font-size:2rem;font-weight:800;margin-bottom:12px}
         .cta p{color:var(--text2);margin-bottom:24px}
 
-        footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;color:var(--text3);font-size:0.85rem}
+        footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;color:var(--text3);font-size:0.8rem}
         footer a{color:var(--accent2);text-decoration:none}
 
-        @media(max-width:768px){
-            .nav-links{display:none}
-            .products-grid{grid-template-columns:1fr}
-            .hero h1{font-size:2.2rem}
-        }
+        @media(max-width:768px){.stats{grid-template-columns:repeat(2,1fr)}.products-grid{grid-template-columns:1fr}.hero h1{font-size:2.2rem}}
     </style>
 </head>
 <body>
     <nav>
-        <div class="nav-inner">
-            <div class="logo">ModalReceh</div>
-            <ul class="nav-links">
-                <li><a href="#products">Tools</a></li>
-                <li><a href="#features">Fitur</a></li>
-                <li><a href="https://github.com/modalreceh156-wq" target="_blank">GitHub</a></li>
-            </ul>
-        </div>
+        <div class="logo">ModalReceh</div>
+        <a href="https://oxmdlrch.me">← Portfolio</a>
     </nav>
 
     <section class="hero">
         <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
         <div class="hero-content">
-            <div class="hero-badge">🆓 100% Gratis — Tanpa Registrasi</div>
-            <h1>Tools <span class="gradient">UMKM</span> yang Lo Butuhin, <span class="gradient">Gratis.</span></h1>
-            <p>Kalkulator HPP, generator struk, laporan keuangan, daftar supplier, dan panduan bantuan UMKM. Semua tools ini dibikin khusus buat warung dan usaha kecil Indonesia.</p>
+            <div class="hero-badge"><span class="dot"></span> 100% Gratis — Tanpa Registrasi</div>
+            <h1>Tools <span class="gradient">UMKM</span> yang Lo Butuhin.</h1>
+            <p>Kalkulator HPP, struk, laporan keuangan, supplier, panduan bantuan. Semua gratis, langsung pake, data di browser lo.</p>
             <div class="hero-btns">
-                <a href="#products" class="btn btn-primary">Lihat Tools →</a>
-                <a href="https://github.com/modalreceh156-wq" target="_blank" class="btn btn-outline">⭐ GitHub</a>
+                <a href="#tools" class="btn btn-primary">Lihat Tools →</a>
+                <a href="https://github.com/XiaoYan32-dev" target="_blank" class="btn btn-outline">⭐ GitHub</a>
             </div>
         </div>
     </section>
 
-    <section id="products">
+    <div class="stats">
+        <div class="stat"><div class="num">5</div><div class="label">Tools</div></div>
+        <div class="stat"><div class="num">100%</div><div class="label">Gratis</div></div>
+        <div class="stat"><div class="num">0</div><div class="label">Registrasi</div></div>
+        <div class="stat"><div class="num">∞</div><div class="label">Pemakaian</div></div>
+    </div>
+
+    <section id="tools">
         <div class="section-inner">
             <div class="section-label">Tools</div>
-            <h2 class="section-title">Pilih Tools yang Lo Butuh</h2>
-            <p class="section-desc">Semua gratis, langsung dipake, data tersimpan di browser lo sendiri (private & aman).</p>
+            <h2 class="section-title">Pilih yang Lo Butuh</h2>
+            <p class="section-desc">Klik tool → langsung pake. Data tersimpan di browser lo (private & aman).</p>
 
             <div class="products-grid">
                 <a href="./invoice/" class="product-card">
                     <div class="product-icon" style="background:rgba(99,102,241,0.1)">🧾</div>
-                    <h3>Generator Struk/Invoice</h3>
-                    <p>Bikin struk penjualan dan invoice profesional dalam hitungan detik. Support print thermal 58mm/80mm.</p>
-                    <div class="product-tags">
-                        <span class="tag tag-blue">Struk</span>
-                        <span class="tag tag-green">Print</span>
-                        <span class="tag tag-orange">Invoice</span>
-                    </div>
+                    <h3>Generator Struk & Invoice</h3>
+                    <p>Bikin struk penjualan & invoice profesional. Siap print thermal 58mm/80mm. Auto hitung kembalian.</p>
+                    <div class="product-tags"><span class="tag tag-blue">Struk</span><span class="tag tag-green">Print</span><span class="tag tag-orange">Invoice</span></div>
                     <span class="product-link">Buka Tool →</span>
                 </a>
 
                 <a href="./hpp/" class="product-card">
                     <div class="product-icon" style="background:rgba(34,197,94,0.1)">📊</div>
-                    <h3>Kalkulator HPP</h3>
-                    <p>Hitung Harga Pokok Penjualan otomatis. Input bahan → dapat HPP per porsi + rekomendasi harga jual.</p>
-                    <div class="product-tags">
-                        <span class="tag tag-green">HPP</span>
-                        <span class="tag tag-blue">Kalkulator</span>
-                        <span class="tag tag-pink">Margin</span>
-                    </div>
+                    <h3>Kalkulator HPP Per Porsi</h3>
+                    <p>Hitung HPP per porsi otomatis. Ada preset kopi, nasi goreng, es teh, dll. Rekomendasi harga jual.</p>
+                    <div class="product-tags"><span class="tag tag-green">HPP</span><span class="tag tag-blue">Per Porsi</span><span class="tag tag-pink">Kopi</span></div>
                     <span class="product-link">Buka Tool →</span>
                 </a>
 
                 <a href="./laporan/" class="product-card">
                     <div class="product-icon" style="background:rgba(245,158,11,0.1)">💰</div>
-                    <h3>Laporan Keuangan</h3>
-                    <p>Catat pemasukan & pengeluaran warung. Auto hitung laba bersih. Export CSV. Grafik per bulan.</p>
-                    <div class="product-tags">
-                        <span class="tag tag-orange">Keuangan</span>
-                        <span class="tag tag-green">Laporan</span>
-                        <span class="tag tag-blue">Export</span>
-                    </div>
+                    <h3>Laporan Keuangan Warung</h3>
+                    <p>Catat pemasukan & pengeluaran. Auto hitung laba. Grafik per bulan. Export CSV.</p>
+                    <div class="product-tags"><span class="tag tag-orange">Keuangan</span><span class="tag tag-green">Grafik</span><span class="tag tag-blue">CSV</span></div>
                     <span class="product-link">Buka Tool →</span>
                 </a>
 
                 <a href="./supplier/" class="product-card">
                     <div class="product-icon" style="background:rgba(236,72,153,0.1)">📦</div>
                     <h3>Daftar Supplier Sembako</h3>
-                    <p>15+ supplier sembako murah se-Indonesia. Langsung chat WhatsApp. Filter by kategori & kota.</p>
-                    <div class="product-tags">
-                        <span class="tag tag-pink">Supplier</span>
-                        <span class="tag tag-orange">Sembako</span>
-                        <span class="tag tag-green">WhatsApp</span>
-                    </div>
+                    <p>15+ supplier sembako murah se-Indonesia. Filter kategori. Langsung chat WhatsApp.</p>
+                    <div class="product-tags"><span class="tag tag-pink">Supplier</span><span class="tag tag-orange">Sembako</span><span class="tag tag-green">WhatsApp</span></div>
                     <span class="product-link">Buka Tool →</span>
                 </a>
 
                 <a href="./panduan/" class="product-card">
                     <div class="product-icon" style="background:rgba(99,102,241,0.1)">📋</div>
                     <h3>Panduan UMKM Dapat Bantuan</h3>
-                    <p>Step-by-step daftar BPUM, BLT, dan bantuan UMKM lainnya. Checklist dokumen + FAQ lengkap.</p>
-                    <div class="product-tags">
-                        <span class="tag tag-blue">BPUM</span>
-                        <span class="tag tag-green">Bantuan</span>
-                        <span class="tag tag-orange">Panduan</span>
-                    </div>
+                    <p>Step-by-step daftar BPUM/BLT. Checklist dokumen + progress bar. FAQ lengkap.</p>
+                    <div class="product-tags"><span class="tag tag-blue">BPUM</span><span class="tag tag-green">Bantuan</span><span class="tag tag-orange">Panduan</span></div>
                     <span class="product-link">Buka Tool →</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="features" style="background:var(--bg2)">
+    <section style="background:var(--bg2)">
         <div class="section-inner">
             <div class="section-label">Kenapa ModalReceh?</div>
-            <h2 class="section-title">Dibikin Khusus untuk UMKM</h2>
-            <p class="section-desc">Nggak perlu install aplikasi, nggak perlu bayar, nggak perlu daftar. Langsung pake.</p>
-
+            <h2 class="section-title">Dibikin untuk UMKM</h2>
+            <p class="section-desc">Nggak perlu install, nggak perlu bayar, nggak perlu daftar.</p>
             <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🆓</div>
-                    <h4>100% Gratis</h4>
-                    <p>Nggak ada biaya tersembunyi. Nggak perlu kartu kredit. Langsung pake.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h4>Privasi Aman</h4>
-                    <p>Data tersimpan di browser lo. Nggak dikirim ke server manapun.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h4>Mobile Friendly</h4>
-                    <p>Bisa dipake di HP Android/iOS. Responsive di semua layar.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h4>Langsung Pake</h4>
-                    <p>Nggak perlu install atau registrasi. Buka link, langsung jalan.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🖨</div>
-                    <h4>Siap Print</h4>
-                    <p>Struk, laporan, dan invoice bisa langsung print dari browser.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">💾</div>
-                    <h4>Auto Save</h4>
-                    <p>Data otomatis tersimpan. Nggak hilang walau refresh browser.</p>
-                </div>
+                <div class="feature"><div class="feature-icon">🆓</div><h4>100% Gratis</h4><p>Nggak ada biaya tersembunyi.</p></div>
+                <div class="feature"><div class="feature-icon">🔒</div><h4>Privasi Aman</h4><p>Data di browser lo, bukan di server.</p></div>
+                <div class="feature"><div class="feature-icon">📱</div><h4>Mobile Friendly</h4><p>Bisa di HP Android/iOS.</p></div>
+                <div class="feature"><div class="feature-icon">⚡</div><h4>Langsung Pake</h4><p>Buka link, langsung jalan.</p></div>
             </div>
         </div>
     </section>
 
     <div class="cta">
         <h2>Siap Mulai?</h2>
-        <p>Pilih tools yang lo butuh dan langsung pake. Gratis selamanya.</p>
-        <a href="#products" class="btn btn-green">🚀 Mulai Sekarang</a>
+        <p>Pilih tools yang lo butuh dan langsung pake.</p>
+        <a href="#tools" class="btn btn-primary" style="background:linear-gradient(135deg,var(--green),#16a34a)">🚀 Mulai Sekarang</a>
     </div>
 
     <footer>
-        <p>&copy; 2026 <a href="#">ModalReceh Tools</a>. Dibuat dengan ❤️ untuk UMKM Indonesia.</p>
+        <p>&copy; 2026 <a href="https://oxmdlrch.me">ModalReceh Tools</a>. Dibuat dengan ❤️ untuk UMKM Indonesia.</p>
     </footer>
 </body>
 </html>

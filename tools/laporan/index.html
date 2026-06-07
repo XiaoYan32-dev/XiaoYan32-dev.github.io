@@ -3,91 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Keuangan Warung - ModalReceh Tools</title>
+    <title>Laporan Keuangan Warung — ModalReceh Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f11;color:#e4e4e7;min-height:100vh}
-        .header{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:20px 24px;border-bottom:1px solid #27272a;display:flex;justify-content:space-between;align-items:center}
-        .header h1{font-size:1.1rem;background:linear-gradient(135deg,#f59e0b,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .header a{color:#818cf8;text-decoration:none;font-size:0.85rem}
-        .container{max-width:1000px;margin:0 auto;padding:24px}
-        .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-        .tab{padding:10px 20px;border-radius:10px;background:#18181b;border:1px solid #27272a;color:#a1a1aa;cursor:pointer;font-size:0.9rem;transition:0.2s}
-        .tab.active{background:#f59e0b;color:#000;border-color:#f59e0b}
-        .card{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px}
-        .card h3{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        :root{--bg:#0a0a0b;--bg2:#111113;--bg3:#18181b;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#f59e0b;--accent2:#fbbf24;--blue:#6366f1;--green:#22c55e;--pink:#ec4899;--red:#ef4444;--border:#27272a;--radius:16px}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+        ::selection{background:var(--accent);color:#000}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+        .topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50;backdrop-filter:blur(20px)}
+        .topbar h1{font-size:1rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .topbar a{color:var(--text3);text-decoration:none;font-size:0.85rem;transition:0.2s}.topbar a:hover{color:var(--accent2)}
+
+        .container{max-width:960px;margin:0 auto;padding:24px}
+        .hero{text-align:center;padding:40px 0 32px}
+        .hero-icon{font-size:3rem;margin-bottom:12px}
+        .hero h2{font-size:1.8rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+        .hero p{color:var(--text2);max-width:500px;margin:0 auto}
+
+        .tabs{display:flex;gap:8px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
+        .tab{padding:10px 20px;border-radius:100px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:0.85rem;font-weight:500;transition:0.2s;font-family:inherit}
+        .tab.active{background:var(--accent);color:#000;border-color:var(--accent)}
+
+        .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+        .card-title{display:flex;align-items:center;gap:10px;font-size:1rem;font-weight:700;margin-bottom:20px}
+        .card-title .icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+
+        .form-grid{display:grid;grid-template-columns:1fr 2fr 1fr 1fr 44px;gap:8px;align-items:end}
+        .form-group{margin-bottom:0}
+        label{display:block;font-size:0.8rem;color:var(--text3);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+        input,select{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.9rem;outline:none;transition:0.2s;font-family:inherit}
+        input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(245,158,11,0.1)}
+
+        .btn{padding:12px 24px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:0.9rem;transition:0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+        .btn-primary{background:linear-gradient(135deg,var(--accent),#d97706);color:#000;box-shadow:0 4px 16px rgba(245,158,11,0.25)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,0.35)}
+        .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+        .btn-outline:hover{border-color:var(--accent);color:var(--accent2)}
+        .btn-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);padding:8px 12px;font-size:0.8rem}
+        .btn-green{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff}
+        .btn-sm{padding:8px 16px;font-size:0.8rem}
+
         .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
-        .summary-card{background:#0f0f11;border:1px solid #27272a;border-radius:12px;padding:20px;text-align:center}
-        .summary-card .label{font-size:0.8rem;color:#a1a1aa;margin-bottom:4px}
-        .summary-card .value{font-size:1.4rem;font-weight:800}
-        .green{color:#22c55e}.red{color:#ef4444}.blue{color:#818cf8}.orange{color:#f59e0b}
-        .form-row{display:grid;grid-template-columns:1fr 2fr 1fr 1fr 40px;gap:8px;margin-bottom:8px;align-items:end}
-        .form-row input,.form-row select{padding:10px;border-radius:8px;border:1px solid #27272a;background:#0f0f11;color:#e4e4e7;font-size:0.85rem;outline:none}
-        .form-row input:focus{border-color:#f59e0b}
-        label{display:block;font-size:0.8rem;color:#a1a1aa;margin-bottom:4px}
-        .btn{padding:10px 20px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:0.85rem;transition:0.2s;font-family:inherit}
-        .btn-primary{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000}
-        .btn-primary:hover{transform:translateY(-2px)}
-        .btn-outline{background:transparent;border:1px solid #27272a;color:#a1a1aa}
-        .btn-outline:hover{border-color:#f59e0b;color:#f59e0b}
-        .btn-red{background:#ef4444;color:#fff;padding:6px 10px;font-size:0.8rem}
-        .btn-green{background:#22c55e;color:#fff}
-        .tx-table{width:100%;border-collapse:collapse;margin-top:16px}
-        .tx-table th{background:#0f0f11;padding:10px;text-align:left;font-size:0.8rem;color:#a1a1aa;text-transform:uppercase;letter-spacing:1px}
-        .tx-table td{padding:10px;border-bottom:1px solid #27272a;font-size:0.9rem}
-        .tx-table tr:hover{background:rgba(245,158,11,0.03)}
-        .tx-type{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600}
-        .tx-in{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
-        .tx-out{background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
-        .chart-bar{height:24px;border-radius:6px;margin-bottom:8px;display:flex;align-items:center;padding:0 12px;font-size:0.75rem;font-weight:600;color:#fff;transition:width 0.5s}
+        .summary-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:0.3s}
+        .summary-card:hover{transform:translateY(-4px)}
+        .summary-card .label{font-size:0.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .summary-card .value{font-size:1.6rem;font-weight:800}
+        .green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}.orange{color:var(--accent)}
+
+        .tx-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:16px}
+        .tx-table th{background:var(--bg);padding:10px 12px;text-align:left;font-size:0.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+        .tx-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:0.85rem}
+        .tx-table tr:hover td{background:rgba(245,158,11,0.02)}
+
+        .tx-type{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.7rem;font-weight:700}
+        .tx-in{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+        .tx-out{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+
+        .chart-bar{height:28px;border-radius:8px;margin-bottom:10px;display:flex;align-items:center;padding:0 14px;font-size:0.75rem;font-weight:600;color:#fff;transition:width 0.5s;min-width:60px}
+
         .filter-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-        .filter-row select,.filter-row input{padding:8px 12px;border-radius:8px;border:1px solid #27272a;background:#0f0f11;color:#e4e4e7;font-size:0.85rem}
+        .filter-row select,.filter-row input{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.85rem}
+
         .actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
-        .empty{text-align:center;padding:40px;color:#a1a1aa}
-        .watermark{text-align:center;padding:16px;font-size:0.75rem;color:#f59e0b;margin-top:12px}
-        @media(max-width:600px){.form-row{grid-template-columns:1fr 1fr}.summary-grid{grid-template-columns:1fr 1fr}}
+        .empty{text-align:center;padding:40px;color:var(--text3)}
+        .watermark{text-align:center;padding:20px;font-size:0.75rem;color:var(--text3);margin-top:20px}.watermark a{color:var(--accent2);text-decoration:none}
+
+        @media(max-width:640px){
+            .form-grid{grid-template-columns:1fr 1fr}
+            .summary-grid{grid-template-columns:1fr 1fr}
+            .container{padding:16px}
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Laporan Keuangan Warung</h1>
-        <a href="../">← Kembali ke Store</a>
+    <div class="topbar">
+        <h1>💰 Laporan Keuangan Warung</h1>
+        <a href="../">← Kembali</a>
     </div>
+
     <div class="container">
+        <div class="hero">
+            <div class="hero-icon">💰</div>
+            <h2>Catat Keuangan Warung</h2>
+            <p>Pemasukan, pengeluaran, laba bersih — semua tercatat rapi.</p>
+        </div>
+
         <div class="tabs">
-            <div class="tab active" onclick="switchTab('input',this)">📝 Input Transaksi</div>
-            <div class="tab" onclick="switchTab('laporan',this)">📊 Laporan</div>
-            <div class="tab" onclick="switchTab('chart',this)">📈 Grafik</div>
+            <button class="tab active" onclick="switchTab('input',this)">📝 Input</button>
+            <button class="tab" onclick="switchTab('laporan',this)">📊 Laporan</button>
+            <button class="tab" onclick="switchTab('chart',this)">📈 Grafik</button>
         </div>
 
         <!-- INPUT -->
         <div id="tab-input">
             <div class="card">
-                <h3>➕ Tambah Transaksi</h3>
-                <div class="form-row">
-                    <div><label>Tanggal</label><input type="date" id="txDate"></div>
-                    <div><label>Keterangan</label><input placeholder="Penjualan / Beli bahan / dll" id="txDesc"></div>
-                    <div><label>Jumlah</label><input type="number" placeholder="0" id="txAmount"></div>
-                    <div><label>Tipe</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
-                    <div><label>&nbsp;</label><button class="btn btn-primary" onclick="addTx()">+</button></div>
+                <div class="card-title"><div class="icon" style="background:rgba(245,158,11,0.1);color:var(--accent)">➕</div> Tambah Transaksi</div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Tanggal</label><input type="date" id="txDate"></div>
+                    <div class="form-group"><label>Keterangan</label><input placeholder="Penjualan / Beli bahan / dll" id="txDesc"></div>
+                    <div class="form-group"><label>Jumlah (Rp)</label><input type="number" placeholder="0" id="txAmount"></div>
+                    <div class="form-group"><label>Tipe</label><select id="txType"><option value="in">📥 Pemasukan</option><option value="out">📤 Pengeluaran</option></select></div>
+                    <div class="form-group"><label>&nbsp;</label><button class="btn btn-primary" onclick="addTx()">+</button></div>
                 </div>
             </div>
 
             <div class="card">
-                <h3>📋 Transaksi Terbaru</h3>
+                <div class="card-title"><div class="icon" style="background:rgba(99,102,241,0.1);color:var(--blue)">📋</div> Transaksi Terbaru</div>
                 <div class="filter-row">
-                    <select id="filterMonth" onchange="renderTx()">
-                        <option value="">Semua Bulan</option>
-                        <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option>
-                        <option value="3">April</option><option value="4">Mei</option><option value="5">Juni</option>
-                        <option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option>
-                        <option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option>
-                    </select>
-                    <select id="filterType" onchange="renderTx()">
-                        <option value="">Semua Tipe</option>
-                        <option value="in">Pemasukan</option>
-                        <option value="out">Pengeluaran</option>
-                    </select>
+                    <select id="filterMonth" onchange="renderTx()"><option value="">Semua Bulan</option><option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option><option value="3">April</option><option value="4">Mei</option><option value="5">Juni</option><option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option><option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option></select>
+                    <select id="filterType" onchange="renderTx()"><option value="">Semua Tipe</option><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select>
                 </div>
                 <div id="txList"></div>
             </div>
@@ -97,27 +123,28 @@
         <div id="tab-laporan" style="display:none">
             <div class="summary-grid" id="summaryGrid"></div>
             <div class="card">
-                <h3>📊 Ringkasan per Kategori</h3>
+                <div class="card-title"><div class="icon" style="background:rgba(236,72,153,0.1);color:var(--pink)">📊</div> Ringkasan per Kategori</div>
                 <div id="categorySummary"></div>
             </div>
             <div class="actions">
-                <button class="btn btn-primary" onclick="exportCSV()">📥 Export CSV</button>
-                <button class="btn btn-outline" onclick="printLaporan()">🖨 Print Laporan</button>
+                <button class="btn btn-green" onclick="exportCSV()">📥 Export CSV</button>
+                <button class="btn btn-outline" onclick="printLaporan()">🖨️ Print</button>
             </div>
         </div>
 
         <!-- GRAFIK -->
         <div id="tab-chart" style="display:none">
             <div class="card">
-                <h3>📈 Pemasukan vs Pengeluaran (Per Bulan)</h3>
+                <div class="card-title"><div class="icon" style="background:rgba(99,102,241,0.1);color:var(--blue)">📈</div> Pemasukan vs Pengeluaran</div>
                 <div id="barChart"></div>
             </div>
         </div>
-        <div class="watermark">Dibuat dengan ModalReceh Tools — oxmdlrch.me</div>
+
+        <div class="watermark">Dibuat dengan <a href="../">ModalReceh Tools</a> — oxmdlrch.me</div>
     </div>
 
     <script>
-        let transactions=JSON.parse(localStorage.getItem('warung_tx')||'[]');
+        let tx=JSON.parse(localStorage.getItem('warung_tx')||'[]');
         document.getElementById('txDate').value=new Date().toISOString().split('T')[0];
 
         function switchTab(tab,el){
@@ -134,82 +161,68 @@
             const type=document.getElementById('txType').value;
             const date=document.getElementById('txDate').value;
             if(!desc||!amount)return alert('Isi keterangan dan jumlah!');
-            transactions.push({date,desc,amount,type,id:Date.now()});
-            localStorage.setItem('warung_tx',JSON.stringify(transactions));
+            tx.push({date,desc,amount,type,id:Date.now()});
+            localStorage.setItem('warung_tx',JSON.stringify(tx));
             document.getElementById('txDesc').value='';
             document.getElementById('txAmount').value='';
             renderTx();
         }
 
-        function deleteTx(id){
-            transactions=transactions.filter(t=>t.id!==id);
-            localStorage.setItem('warung_tx',JSON.stringify(transactions));
-            renderTx();
-        }
-
-        function formatNum(n){return Math.round(Math.abs(n)).toLocaleString('id-ID')}
+        function deleteTx(id){tx=tx.filter(t=>t.id!==id);localStorage.setItem('warung_tx',JSON.stringify(tx));renderTx()}
+        function fmt(n){return Math.round(Math.abs(n)).toLocaleString('id-ID')}
 
         function renderTx(){
             const month=document.getElementById('filterMonth').value;
             const type=document.getElementById('filterType').value;
-            let filtered=[...transactions].reverse();
-            if(month)filtered=filtered.filter(t=>new Date(t.date).getMonth()==month);
-            if(type)filtered=filtered.filter(t=>t.type===type);
-
+            let f=[...tx].reverse();
+            if(month)f=f.filter(t=>new Date(t.date).getMonth()==month);
+            if(type)f=f.filter(t=>t.type===type);
             const el=document.getElementById('txList');
-            if(!filtered.length){el.innerHTML='<div class="empty">Belum ada transaksi</div>';return}
-            el.innerHTML='<table class="tx-table"><thead><tr><th>Tanggal</th><th>Keterangan</th><th style="text-align:right">Jumlah</th><th>Tipe</th><th></th></tr></thead><tbody>'+filtered.map(t=>'<tr><td>'+new Date(t.date).toLocaleDateString('id-ID')+'</td><td>'+t.desc+'</td><td style="text-align:right;font-weight:600" class="'+(t.type==='in'?'green':'red')+'">'+(t.type==='in'?'+':'-')+'Rp '+formatNum(t.amount)+'</td><td><span class="tx-type '+(t.type==='in'?'tx-in':'tx-out')+'">'+(t.type==='in'?'Masuk':'Keluar')+'</span></td><td><button class="btn btn-red" onclick="deleteTx('+t.id+')">✕</button></td></tr>').join('')+'</tbody></table>';
+            if(!f.length){el.innerHTML='<div class="empty">Belum ada transaksi</div>';return}
+            el.innerHTML='<table class="tx-table"><thead><tr><th>Tanggal</th><th>Keterangan</th><th style="text-align:right">Jumlah</th><th>Tipe</th><th></th></tr></thead><tbody>'+f.map(t=>'<tr><td>'+new Date(t.date).toLocaleDateString('id-ID')+'</td><td>'+t.desc+'</td><td style="text-align:right;font-weight:700" class="'+(t.type==='in'?'green':'red')+'">'+(t.type==='in'?'+':'-')+'Rp '+fmt(t.amount)+'</td><td><span class="tx-type '+(t.type==='in'?'tx-in':'tx-out')+'">'+(t.type==='in'?'📥 Masuk':'📤 Keluar')+'</span></td><td><button class="btn btn-red" onclick="deleteTx('+t.id+')">✕</button></td></tr>').join('')+'</tbody></table>';
         }
 
         function renderSummary(){
-            let totalIn=0,totalOut=0;
-            transactions.forEach(t=>{if(t.type==='in')totalIn+=t.amount;else totalOut+=t.amount});
-            const profit=totalIn-totalOut;
+            let ti=0,to=0;
+            tx.forEach(t=>{if(t.type==='in')ti+=t.amount;else to+=t.amount});
+            const profit=ti-to;
             document.getElementById('summaryGrid').innerHTML=
-                '<div class="summary-card"><div class="label">Total Pemasukan</div><div class="value green">Rp '+formatNum(totalIn)+'</div></div>'+
-                '<div class="summary-card"><div class="label">Total Pengeluaran</div><div class="value red">Rp '+formatNum(totalOut)+'</div></div>'+
-                '<div class="summary-card"><div class="label">Laba Bersih</div><div class="value '+(profit>=0?'green':'red')+'">Rp '+formatNum(profit)+'</div></div>'+
-                '<div class="summary-card"><div class="label">Jumlah Transaksi</div><div class="value blue">'+transactions.length+'</div></div>';
-
-            // Category summary
+                '<div class="summary-card"><div class="label">Total Pemasukan</div><div class="value green">Rp '+fmt(ti)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Total Pengeluaran</div><div class="value red">Rp '+fmt(to)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Laba Bersih</div><div class="value '+(profit>=0?'green':'red')+'">Rp '+fmt(profit)+'</div></div>'+
+                '<div class="summary-card"><div class="label">Jumlah Transaksi</div><div class="value blue">'+tx.length+'</div></div>';
             const cats={};
-            transactions.forEach(t=>{
-                if(!cats[t.desc])cats[t.desc]={in:0,out:0};
-                cats[t.desc][t.type]+=t.amount;
-            });
-            let catHtml='<table class="tx-table"><thead><tr><th>Keterangan</th><th style="text-align:right">Masuk</th><th style="text-align:right">Keluar</th></tr></thead><tbody>';
-            Object.entries(cats).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)).forEach(([name,v])=>{
-                catHtml+='<tr><td>'+name+'</td><td style="text-align:right" class="green">'+(v.in?'Rp '+formatNum(v.in):'-')+'</td><td style="text-align:right" class="red">'+(v.out?'Rp '+formatNum(v.out):'-')+'</td></tr>';
-            });
-            catHtml+='</tbody></table>';
-            document.getElementById('categorySummary').innerHTML=catHtml;
+            tx.forEach(t=>{if(!cats[t.desc])cats[t.desc]={in:0,out:0};cats[t.desc][t.type]+=t.amount});
+            let ch='<table class="tx-table"><thead><tr><th>Keterangan</th><th style="text-align:right">Masuk</th><th style="text-align:right">Keluar</th></tr></thead><tbody>';
+            Object.entries(cats).sort((a,b)=>(b[1].in+b[1].out)-(a[1].in+a[1].out)).forEach(([n,v])=>{ch+='<tr><td>'+n+'</td><td style="text-align:right" class="green">'+(v.in?'Rp '+fmt(v.in):'-')+'</td><td style="text-align:right" class="red">'+(v.out?'Rp '+fmt(v.out):'-')+'</td></tr>'});
+            ch+='</tbody></table>';
+            document.getElementById('categorySummary').innerHTML=ch;
         }
 
         function renderChart(){
             const months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
             const data=Array(12).fill(null).map(()=>({in:0,out:0}));
-            transactions.forEach(t=>{const m=new Date(t.date).getMonth();data[m][t.type]+=t.amount});
+            tx.forEach(t=>{const m=new Date(t.date).getMonth();data[m][t.type]+=t.amount});
             const max=Math.max(...data.map(d=>Math.max(d.in,d.out)),1);
-            let html='';
+            let h='';
             months.forEach((m,i)=>{
                 const inW=(data[i].in/max*100)||0;
                 const outW=(data[i].out/max*100)||0;
-                html+='<div style="margin-bottom:16px"><div style="font-size:0.85rem;color:#a1a1aa;margin-bottom:4px">'+m+'</div>';
-                if(data[i].in>0)html+='<div class="chart-bar" style="width:'+inW+'%;background:linear-gradient(90deg,#22c55e,#16a34a)">Masuk: Rp '+formatNum(data[i].in)+'</div>';
-                if(data[i].out>0)html+='<div class="chart-bar" style="width:'+outW+'%;background:linear-gradient(90deg,#ef4444,#dc2626)">Keluar: Rp '+formatNum(data[i].out)+'</div>';
-                if(!data[i].in&&!data[i].out)html+='<div style="height:8px;background:#27272a;border-radius:4px;width:100%"></div>';
-                html+='</div>';
+                h+='<div style="margin-bottom:12px"><div style="font-size:0.85rem;color:var(--text3);margin-bottom:6px;font-weight:600">'+m+'</div>';
+                if(data[i].in>0)h+='<div class="chart-bar" style="width:'+inW+'%;background:linear-gradient(90deg,#22c55e,#16a34a)">📥 Rp '+fmt(data[i].in)+'</div>';
+                if(data[i].out>0)h+='<div class="chart-bar" style="width:'+outW+'%;background:linear-gradient(90deg,#ef4444,#dc2626)">📤 Rp '+fmt(data[i].out)+'</div>';
+                if(!data[i].in&&!data[i].out)h+='<div style="height:8px;background:var(--border);border-radius:4px;width:100%"></div>';
+                h+='</div>';
             });
-            document.getElementById('barChart').innerHTML=html;
+            document.getElementById('barChart').innerHTML=h;
         }
 
         function exportCSV(){
-            if(!transactions.length)return alert('Tidak ada data!');
+            if(!tx.length)return alert('Tidak ada data!');
             let csv='Tanggal,Keterangan,Jumlah,Tipe\n';
-            transactions.forEach(t=>{csv+=t.date+',"'+t.desc+'",'+t.amount+','+(t.type==='in'?'Pemasukan':'Pengeluaran')+'\n'});
-            const blob=new Blob([csv],{type:'text/csv'});
+            tx.forEach(t=>{csv+=t.date+',"'+t.desc+'",'+t.amount+','+(t.type==='in'?'Pemasukan':'Pengeluaran')+'\n'});
             const a=document.createElement('a');
-            a.href=URL.createObjectURL(blob);
+            a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
             a.download='laporan-keuangan-warung.csv';
             a.click();
         }
@@ -218,7 +231,7 @@
             renderSummary();
             const content=document.getElementById('tab-laporan').innerHTML;
             const win=window.open('','','width=800,height=600');
-            win.document.write('<html><head><title>Laporan</title><style>body{font-family:sans-serif;padding:20px;color:#000}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left}.green{color:#16a34a}.red{color:#dc2626}.summary-card{display:inline-block;width:22%;text-align:center;padding:16px;border:1px solid #ddd;border-radius:8px;margin:4px}.value{font-size:1.2rem;font-weight:700}.label{font-size:0.8rem;color:#666}</style></head><body><h1 style="text-align:center">Laporan Keuangan Warung</h1>'+content+'</body></html>');
+            win.document.write('<html><head><title>Laporan</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,sans-serif;padding:30px;color:#000;background:#fff}h1{text-align:center;margin-bottom:20px}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.summary-card{text-align:center;padding:16px;border:1px solid #ddd;border-radius:10px}.summary-card .label{font-size:0.7rem;color:#666;text-transform:uppercase}.summary-card .value{font-size:1.2rem;font-weight:800;margin-top:4px}.green{color:#16a34a}.red{color:#dc2626}.blue{color:#4f46e5}table{width:100%;border-collapse:collapse;margin:16px 0}th{background:#f5f5f5;padding:10px;text-align:left;font-size:0.8rem;border-bottom:2px solid #ddd}td{padding:10px;border-bottom:1px solid #eee;font-size:0.85rem}.tx-type,.filter-row,.actions{display:none}</style></head><body><h1>💰 Laporan Keuangan Warung</h1>'+content+'</body></html>');
             win.document.close();
             win.print();
         }
