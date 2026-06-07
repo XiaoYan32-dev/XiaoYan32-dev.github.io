@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModalReceh Store — PPOB Terlengkap</title>
+    <meta name="description" content="Isi pulsa, paket data, token PLN, bayar PDAM, BPJS dan lainnya. Harga murah, proses cepat.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0a0a0b;--bg2:#111113;--bg3:#18181b;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#6366f1;--accent2:#818cf8;--green:#22c55e;--green2:#4ade80;--orange:#f59e0b;--pink:#ec4899;--red:#ef4444;--blue:#3b82f6;--border:#27272a;--radius:16px;--radius-sm:10px}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;min-height:100vh}
+        ::selection{background:var(--accent);color:#fff}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+        /* SIDEBAR */
+        .sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;z-index:50;transition:transform 0.3s}
+        .sidebar-logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+        .sidebar-logo h1{font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .sidebar-logo p{font-size:0.7rem;color:var(--text3);margin-top:2px}
+        .nav-item{display:flex;align-items:center;gap:12px;padding:10px 20px;color:var(--text3);cursor:pointer;font-size:0.85rem;font-weight:500;transition:0.2s;border-left:3px solid transparent}
+        .nav-item:hover{color:var(--text);background:rgba(34,197,94,0.05)}
+        .nav-item.active{color:var(--green2);background:rgba(34,197,94,0.08);border-left-color:var(--green)}
+        .nav-item .icon{font-size:1rem;width:20px;text-align:center}
+        .sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
+        .sidebar-footer .saldo{background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(99,102,241,0.05));border:1px solid rgba(34,197,94,0.2);border-radius:12px;padding:14px;text-align:center}
+        .sidebar-footer .saldo .label{font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+        .sidebar-footer .saldo .value{font-size:1.2rem;font-weight:800;color:var(--green);margin-top:2px}
+        .sidebar-footer .saldo .refresh{font-size:0.7rem;color:var(--accent2);cursor:pointer;margin-top:6px;display:inline-block}
+        .sidebar-footer .saldo .refresh:hover{text-decoration:underline}
+
+        /* MAIN */
+        .main{flex:1;margin-left:240px;padding:24px;min-height:100vh}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+        .topbar h2{font-size:1.3rem;font-weight:800}
+        .topbar .date{font-size:0.85rem;color:var(--text3)}
+
+        /* CARDS */
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+        .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:0.3s}
+        .stat-card:hover{border-color:var(--green);transform:translateY(-2px)}
+        .stat-card .label{font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .stat-card .value{font-size:1.4rem;font-weight:800}
+        .stat-card.green{border-color:rgba(34,197,94,0.3);background:linear-gradient(135deg,rgba(34,197,94,0.05),rgba(34,197,94,0.02))}
+
+        .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+        .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+        .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+        .card-title .icon{font-size:1.1rem}
+
+        /* CATEGORY GRID */
+        .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;margin-bottom:24px}
+        .cat-card{background:var(--bg);border:2px solid var(--border);border-radius:14px;padding:16px 8px;cursor:pointer;transition:0.3s;text-align:center}
+        .cat-card:hover{border-color:var(--green);transform:translateY(-3px)}
+        .cat-card.selected{border-color:var(--green);background:rgba(34,197,94,0.08)}
+        .cat-card .emoji{font-size:1.8rem;margin-bottom:6px}
+        .cat-card .name{font-weight:600;font-size:0.75rem}
+
+        /* PRODUCT LIST */
+        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+        .product-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:0.2s}
+        .product-card:hover{border-color:var(--green);transform:translateY(-2px)}
+        .product-card .name{font-weight:600;font-size:0.85rem;margin-bottom:4px}
+        .product-card .desc{font-size:0.75rem;color:var(--text3);margin-bottom:8px}
+        .product-card .price{font-weight:800;color:var(--green);font-size:1rem}
+        .product-card .price .original{text-decoration:line-through;color:var(--text3);font-size:0.75rem;font-weight:400;margin-left:6px}
+
+        /* FORM */
+        .form-group{margin-bottom:16px}
+        .form-group label{display:block;font-size:0.75rem;color:var(--text3);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+        input,select{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.9rem;outline:none;transition:0.2s;font-family:inherit}
+        input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,94,0.1)}
+
+        .btn{padding:12px 24px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:0.9rem;transition:0.2s;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+        .btn-primary{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;box-shadow:0 4px 16px rgba(34,197,94,0.25)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,197,94,0.35)}
+        .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+        .btn-outline:hover{border-color:var(--green);color:var(--green)}
+        .btn-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);padding:8px 12px;font-size:0.8rem}
+        .btn-sm{padding:8px 16px;font-size:0.8rem}
+        .btn-block{width:100%}
+
+        /* TABLE */
+        .table-wrap{overflow-x:auto}
+        table{width:100%;border-collapse:separate;border-spacing:0}
+        th{background:var(--bg);padding:10px 12px;text-align:left;font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600;position:sticky;top:0}
+        td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:0.85rem}
+        tr:hover td{background:rgba(34,197,94,0.02)}
+
+        .tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.7rem;font-weight:700}
+        .tag-green{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.2)}
+        .tag-red{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+        .tag-orange{background:rgba(245,158,11,0.1);color:var(--orange);border:1px solid rgba(245,158,11,0.2)}
+        .tag-blue{background:rgba(59,130,246,0.1);color:var(--blue);border:1px solid rgba(59,130,246,0.2)}
+
+        /* MODAL */
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:100;align-items:center;justify-content:center}
+        .modal-overlay.show{display:flex}
+        .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;max-width:440px;width:90%;max-height:80vh;overflow-y:auto}
+        .modal h3{font-size:1.1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .modal .close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer}
+
+        /* PAGES */
+        .page{display:none}.page.active{display:block}
+
+        /* EMPTY */
+        .empty{text-align:center;padding:40px;color:var(--text3)}
+        .empty .icon{font-size:2rem;margin-bottom:8px}
+
+        /* LOADING */
+        .loading{text-align:center;padding:40px;color:var(--text3)}
+        .spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* SEARCH */
+        .search-bar{display:flex;gap:12px;margin-bottom:20px}
+        .search-bar input{flex:1}
+
+        /* MOBILE */
+        .mobile-menu{display:none;position:fixed;top:16px;left:16px;z-index:60;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:pointer;font-size:1.2rem}
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}
+            .main{margin-left:0;padding:16px}
+            .mobile-menu{display:block}
+            .stats-grid{grid-template-columns:1fr 1fr}
+            .cat-grid{grid-template-columns:repeat(4,1fr)}
+            .product-grid{grid-template-columns:1fr 1fr}
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-menu" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</div>
+
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <h1>💸 ModalReceh Store</h1>
+            <p>PPOB Terlengkap</p>
+        </div>
+        <div class="nav-item active" onclick="showPage('dashboard',this)"><span class="icon">📊</span> Dashboard</div>
+        <div class="nav-item" onclick="showPage('produk',this)"><span class="icon">🛒</span> Beli Produk</div>
+        <div class="nav-item" onclick="showPage('transaksi',this)"><span class="icon">📋</span> Transaksi</div>
+        <div class="nav-item" onclick="showPage('settings',this)"><span class="icon">⚙️</span> Settings</div>
+        <div class="sidebar-footer">
+            <div class="saldo">
+                <div class="label">Saldo Digiflazz</div>
+                <div class="value" id="saldoValue">Rp 0</div>
+                <div class="refresh" onclick="cekSaldo()">🔄 Refresh</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <!-- DASHBOARD -->
+        <div class="page active" id="page-dashboard">
+            <div class="topbar">
+                <div><h2>Dashboard</h2><div class="date" id="todayDate"></div></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card green"><div class="label">Saldo</div><div class="value green" id="statSaldo">Rp 0</div></div>
+                <div class="stat-card"><div class="label">Transaksi Hari Ini</div><div class="value" id="statTxHari">0</div></div>
+                <div class="stat-card"><div class="label">Total Transaksi</div><div class="value" id="statTxTotal">0</div></div>
+                <div class="stat-card"><div class="label">Total Profit</div><div class="value green" id="statProfit">Rp 0</div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">⚡ Quick Actions</div>
+                <div class="cat-grid" style="margin-top:16px">
+                    <div class="cat-card" onclick="goToProduk('pulsa')"><div class="emoji">📱</div><div class="name">Pulsa</div></div>
+                    <div class="cat-card" onclick="goToProduk('data')"><div class="emoji">📡</div><div class="name">Paket Data</div></div>
+                    <div class="cat-card" onclick="goToProduk('pln')"><div class="emoji">⚡</div><div class="name">PLN</div></div>
+                    <div class="cat-card" onclick="goToProduk('pdam')"><div class="emoji">💧</div><div class="name">PDAM</div></div>
+                    <div class="cat-card" onclick="goToProduk('bpjs')"><div class="emoji">🏥</div><div class="name">BPJS</div></div>
+                    <div class="cat-card" onclick="goToProduk('ewallet')"><div class="emoji">💳</div><div class="name">E-Wallet</div></div>
+                    <div class="cat-card" onclick="goToProduk('game')"><div class="emoji">🎮</div><div class="name">Game</div></div>
+                    <div class="cat-card" onclick="goToProduk('lainnya')"><div class="emoji">📦</div><div class="name">Lainnya</div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 Transaksi Terakhir</div>
+                <div id="recentTx"></div>
+            </div>
+        </div>
+
+        <!-- PRODUK -->
+        <div class="page" id="page-produk">
+            <div class="topbar"><h2>🛒 Beli Produk</h2></div>
+
+            <div class="cat-grid" id="catGrid">
+                <div class="cat-card selected" onclick="selectCat('pulsa',this)"><div class="emoji">📱</div><div class="name">Pulsa</div></div>
+                <div class="cat-card" onclick="selectCat('data',this)"><div class="emoji">📡</div><div class="name">Paket Data</div></div>
+                <div class="cat-card" onclick="selectCat('pln',this)"><div class="emoji">⚡</div><div class="name">PLN</div></div>
+                <div class="cat-card" onclick="selectCat('pdam',this)"><div class="emoji">💧</div><div class="name">PDAM</div></div>
+                <div class="cat-card" onclick="selectCat('bpjs',this)"><div class="emoji">🏥</div><div class="name">BPJS</div></div>
+                <div class="cat-card" onclick="selectCat('ewallet',this)"><div class="emoji">💳</div><div class="name">E-Wallet</div></div>
+                <div class="cat-card" onclick="selectCat('game',this)"><div class="emoji">🎮</div><div class="name">Game</div></div>
+                <div class="cat-card" onclick="selectCat('lainnya',this)"><div class="emoji">📦</div><div class="name">Lainnya</div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title" id="catTitle">📱 Pulsa</div>
+                <div class="search-bar">
+                    <input type="text" id="searchProduct" placeholder="🔍 Cari produk..." oninput="filterProducts()">
+                </div>
+                <div class="product-grid" id="productGrid">
+                    <div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading produk...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANSAKSI -->
+        <div class="page" id="page-transaksi">
+            <div class="topbar"><h2>📋 Riwayat Transaksi</h2><div class="actions"><button class="btn btn-outline btn-sm" onclick="exportTx()">📥 Export CSV</button></div></div>
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" id="searchTx" placeholder="🔍 Cari transaksi..." oninput="renderTx()">
+                    <select id="filterStatus" onchange="renderTx()" style="padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:0.85rem"><option value="">Semua Status</option><option value="success">Berhasil</option><option value="pending">Pending</option><option value="failed">Gagal</option></select>
+                </div>
+                <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Produk</th><th>No. Tujuan</th><th>Harga</th><th>Profit</th><th>Status</th><th>Ref ID</th></tr></thead><tbody id="txTbl"></tbody></table></div>
+                <div id="txEmpty" class="empty"><div class="icon">📋</div><p>Belum ada transaksi</p></div>
+            </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="page" id="page-settings">
+            <div class="topbar"><h2>⚙️ Settings</h2></div>
+            <div class="card">
+                <div class="card-title">🔑 API Digiflazz</div>
+                <div class="form-group"><label>Username</label><input id="apiUsername" placeholder="Username Digiflazz"></div>
+                <div class="form-group"><label>API Key</label><input id="apiKey" type="password" placeholder="API Key Digiflazz"></div>
+                <button class="btn btn-primary" onclick="saveAPI()">💾 Simpan & Test Koneksi</button>
+                <div id="apiStatus" style="margin-top:12px;font-size:0.85rem"></div>
+            </div>
+            <div class="card">
+                <div class="card-title">💰 Markup Harga</div>
+                <p style="color:var(--text2);font-size:0.85rem;margin-bottom:16px">Persentase markup yang ditambahkan ke harga modal. Contoh: 10% = harga modal + 10%.</p>
+                <div class="form-group"><label>Markup (%)</label><input type="number" id="markupPercent" value="10" min="0" max="100"></div>
+                <button class="btn btn-primary" onclick="saveMarkup()">💾 Simpan Markup</button>
+            </div>
+            <div class="card">
+                <div class="card-title">🏪 Info Toko</div>
+                <div class="form-group"><label>Nama Toko</label><input id="storeName" placeholder="ModalReceh Store" value="ModalReceh Store"></div>
+                <div class="form-group"><label>No. WhatsApp</label><input id="storeWA" placeholder="0812xxxx"></div>
+                <button class="btn btn-primary" onclick="saveStore()">💾 Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TRANSAKSI -->
+    <div class="modal-overlay" id="txModal">
+        <div class="modal" style="position:relative">
+            <button class="close" onclick="closeModal()">✕</button>
+            <h3 id="modalTitle">🛒 Konfirmasi Transaksi</h3>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIG
+        const CONFIG_KEY='mrstore_config';
+        const TX_KEY='mrstore_tx';
+        let config=JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}');
+        let transaksi=JSON.parse(localStorage.getItem(TX_KEY)||'[]');
+        let currentCat='pulsa';
+        let allProducts=[];
+        let selectedProduct=null;
+
+        // DEFAULT CONFIG
+        if(!config.markup)config.markup=10;
+        if(!config.storeName)config.storeName='ModalReceh Store';
+
+        // CATEGORIES
+        const categories={
+            pulsa:{name:'Pulsa',brand:'Pulsa',icon:'📱'},
+            data:{name:'Paket Data',brand:'Data',icon:'📡'},
+            pln:{name:'PLN',brand:'PLN',icon:'⚡'},
+            pdam:{name:'PDAM',brand:'PDAM',icon:'💧'},
+            bpjs:{name:'BPJS',brand:'BPJS',icon:'🏥'},
+            ewallet:{name:'E-Wallet',brand:'E-Wallet',icon:'💳'},
+            game:{name:'Game',brand:'Game',icon:'🎮'},
+            lainnya:{name:'Lainnya',brand:'',icon:'📦'}
+        };
+
+        // NAV
+        function showPage(id,el){
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            document.getElementById('page-'+id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+            if(el)el.classList.add('active');
+            document.querySelector('.sidebar').classList.remove('open');
+            if(id==='dashboard')renderDashboard();
+            if(id==='transaksi')renderTx();
+            if(id==='settings')loadSettings();
+            if(id==='produk')loadProducts(currentCat);
+        }
+
+        function goToProduk(cat){
+            currentCat=cat;
+            showPage('produk',document.querySelectorAll('.nav-item')[1]);
+            document.querySelectorAll('#catGrid .cat-card').forEach(c=>{
+                c.classList.toggle('selected',c.querySelector('.name').textContent===categories[cat].name);
+            });
+            loadProducts(cat);
+        }
+
+        // DASHBOARD
+        function renderDashboard(){
+            document.getElementById('todayDate').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+            const today=new Date().toISOString().split('T')[0];
+            const txHari=transaksi.filter(t=>t.date===today);
+            const totalProfit=transaksi.reduce((a,t)=>a+(t.profit||0),0);
+            document.getElementById('statSaldo').textContent='Rp '+fmt(config.saldo||0);
+            document.getElementById('statTxHari').textContent=txHari.length;
+            document.getElementById('statTxTotal').textContent=transaksi.length;
+            document.getElementById('statProfit').textContent='Rp '+fmt(totalProfit);
+
+            const recent=[...transaksi].reverse().slice(0,5);
+            document.getElementById('recentTx').innerHTML=recent.length?'<table><thead><tr><th>Tanggal</th><th>Produk</th><th>No.</th><th>Harga</th><th>Status</th></tr></thead><tbody>'+recent.map(t=>'<tr><td>'+t.date+'</td><td>'+t.product+'</td><td>'+t.target+'</td><td>Rp '+fmt(t.price)+'</td><td><span class="tag '+(t.status==='success'?'tag-green':t.status==='pending'?'tag-orange':'tag-red')+'">'+t.status+'</span></td></tr>').join('')+'</tbody></table>':'<div class="empty"><div class="icon">📋</div><p>Belum ada transaksi</p></div>';
+        }
+
+        // PRODUCTS
+        function selectCat(cat,el){
+            currentCat=cat;
+            document.querySelectorAll('#catGrid .cat-card').forEach(c=>c.classList.remove('selected'));
+            el.classList.add('selected');
+            loadProducts(cat);
+        }
+
+        async function loadProducts(cat){
+            const grid=document.getElementById('productGrid');
+            const catInfo=categories[cat];
+            document.getElementById('catTitle').textContent=catInfo.icon+' '+catInfo.name;
+            grid.innerHTML='<div class="loading"><div class="spinner"></div><p style="margin-top:12px">Loading produk...</p></div>';
+
+            if(!config.apiKey||!config.apiUsername){
+                grid.innerHTML='<div class="empty"><div class="icon">🔑</div><p>Setting API Digiflazz dulu di menu Settings</p><button class="btn btn-primary btn-sm" onclick="showPage(\'settings\',document.querySelectorAll(\'.nav-item\')[3])" style="margin-top:12px">Buka Settings</button></div>';
+                return;
+            }
+
+            try{
+                const products=await fetchProducts(cat);
+                allProducts=products;
+                renderProducts(products);
+            }catch(e){
+                grid.innerHTML='<div class="empty"><div class="icon">❌</div><p>Gagal load produk: '+e.message+'</p><button class="btn btn-outline btn-sm" onclick="loadProducts(\''+cat+'\')" style="margin-top:12px">Coba Lagi</button></div>';
+            }
+        }
+
+        async function fetchProducts(cat){
+            // Digiflazz API - get price list
+            const brand=categories[cat].brand;
+            const response=await fetch('https://api.digiflazz.com/v1/price-list',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    cmd:'prepaid',
+                    username:config.apiUsername,
+                    sign:await generateSign(),
+                    status:'all'
+                })
+            });
+            const data=await response.json();
+            if(data.data){
+                let products=data.data;
+                if(brand){
+                    products=products.filter(p=>{
+                        const cat_lower=(p.category||'').toLowerCase();
+                        const brand_lower=(p.brand||'').toLowerCase();
+                        const name_lower=(p.product_name||'').toLowerCase();
+                        return cat_lower.includes(cat)||brand_lower.includes(cat)||name_lower.includes(cat);
+                    });
+                }
+                return products.map(p=>({
+                    sku:p.buyer_sku_code,
+                    name:p.product_name,
+                    category:p.category,
+                    brand:p.brand,
+                    price:p.price,
+                    desc:p.desc||'',
+                    status:p.status,
+                    type:p.type
+                }));
+            }
+            return [];
+        }
+
+        function renderProducts(products){
+            const grid=document.getElementById('productGrid');
+            if(!products.length){grid.innerHTML='<div class="empty"><div class="icon">📦</div><p>Tidak ada produk ditemukan</p></div>';return}
+            grid.innerHTML=products.filter(p=>p.status==='active').map(p=>{
+                const markupPrice=Math.round(p.price*(1+config.markup/100));
+                return '<div class="product-card" onclick="selectProduct(\''+encodeURIComponent(JSON.stringify(p))+'\')"><div class="name">'+p.name+'</div><div class="desc">'+p.category+' • '+p.brand+'</div><div class="price">Rp '+fmt(markupPrice)+'<span class="original">Rp '+fmt(p.price)+'</span></div></div>';
+            }).join('');
+        }
+
+        function filterProducts(){
+            const q=document.getElementById('searchProduct').value.toLowerCase();
+            const filtered=allProducts.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)||p.brand.toLowerCase().includes(q));
+            renderProducts(filtered);
+        }
+
+        // SELECT PRODUCT
+        function selectProduct(encoded){
+            selectedProduct=JSON.parse(decodeURIComponent(encoded));
+            const markupPrice=Math.round(selectedProduct.price*(1+config.markup/100));
+            const isPLN=selectedProduct.category&&selectedProduct.category.toLowerCase().includes('pln');
+            const isPDAM=selectedProduct.category&&selectedProduct.category.toLowerCase().includes('pdam');
+            const isBPJS=selectedProduct.category&&selectedProduct.category.toLowerCase().includes('bpjs');
+            const label=isPLN?'No. Meter/ID Pelanggan':isPDAM?'No. Pelanggan PDAM':isBPJS?'No. BPJS':'No. Tujuan';
+
+            let h='<div style="margin-bottom:16px">';
+            h+='<div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px">';
+            h+='<div style="font-weight:700;font-size:0.95rem">'+selectedProduct.name+'</div>';
+            h+='<div style="font-size:0.8rem;color:var(--text3);margin-top:4px">'+selectedProduct.category+' • '+selectedProduct.brand+'</div>';
+            h+='<div style="font-weight:800;color:var(--green);font-size:1.2rem;margin-top:8px">Rp '+fmt(markupPrice)+'</div>';
+            h+='</div>';
+            h+='<div class="form-group"><label>'+label+'</label><input id="txTarget" placeholder="Masukkan nomor tujuan"></div>';
+            h+='<button class="btn btn-primary btn-block" onclick="confirmTx()">💸 Bayar Sekarang</button>';
+            h+='</div>';
+            document.getElementById('modalContent').innerHTML=h;
+            document.getElementById('modalTitle').textContent='🛒 Beli '+selectedProduct.name;
+            document.getElementById('txModal').classList.add('show');
+        }
+
+        function closeModal(){document.getElementById('txModal').classList.remove('show')}
+
+        // TRANSACTION
+        async function confirmTx(){
+            const target=document.getElementById('txTarget').value;
+            if(!target)return alert('Masukkan nomor tujuan!');
+
+            const markupPrice=Math.round(selectedProduct.price*(1+config.markup/100));
+            const profit=markupPrice-selectedProduct.price;
+
+            // Show loading
+            document.getElementById('modalContent').innerHTML='<div class="loading"><div class="spinner"></div><p style="margin-top:12px">Memproses transaksi...</p></div>';
+
+            try{
+                const refId='MR'+Date.now();
+                const sign=await generateSignBuy(refId,selectedProduct.sku,target);
+
+                const response=await fetch('https://api.digiflazz.com/v1/transaction',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({
+                        username:config.apiUsername,
+                        buyer_sku_code:selectedProduct.sku,
+                        customer_no:target,
+                        ref_id:refId,
+                        sign:sign,
+                        testing:config.testing||false
+                    })
+                });
+                const data=await response.json();
+
+                const tx={
+                    id:refId,
+                    date:new Date().toISOString().split('T')[0],
+                    time:new Date().toLocaleTimeString('id-ID'),
+                    product:selectedProduct.name,
+                    sku:selectedProduct.sku,
+                    target:target,
+                    price:markupPrice,
+                    modal:selectedProduct.price,
+                    profit:profit,
+                    status:data.data&&data.data.status==='Pending'?'pending':data.data&&data.data.status==='Sukses'?'success':'failed',
+                    message:data.data?data.data.message:'',
+                    sn:data.data?data.data.sn:'',
+                    rc:data.data?data.data.rc:''
+                };
+
+                transaksi.push(tx);
+                localStorage.setItem(TX_KEY,JSON.stringify(transaksi));
+
+                // Show result
+                let h='<div style="text-align:center;padding:16px 0">';
+                h+='<div style="font-size:3rem;margin-bottom:12px">'+(tx.status==='success'?'✅':tx.status==='pending'?'⏳':'❌')+'</div>';
+                h+='<div style="font-weight:700;font-size:1.1rem;margin-bottom:8px">'+tx.product+'</div>';
+                h+='<div style="color:var(--text3);font-size:0.85rem;margin-bottom:4px">No: '+tx.target+'</div>';
+                h+='<div style="font-weight:800;color:var(--green);font-size:1.3rem;margin-bottom:12px">Rp '+fmt(tx.price)+'</div>';
+                if(tx.sn)h+='<div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px"><div style="font-size:0.75rem;color:var(--text3)">Serial Number</div><div style="font-weight:700;font-size:1.1rem;color:var(--green)">'+tx.sn+'</div></div>';
+                h+='<div style="font-size:0.85rem;color:var(--text3);margin-bottom:16px">'+tx.message+'</div>';
+                h+='<button class="btn btn-outline btn-block" onclick="closeModal()">Tutup</button>';
+                h+='</div>';
+                document.getElementById('modalContent').innerHTML=h;
+
+            }catch(e){
+                document.getElementById('modalContent').innerHTML='<div style="text-align:center;padding:16px"><div style="font-size:3rem;margin-bottom:12px">❌</div><div style="font-weight:700;margin-bottom:8px">Error</div><div style="color:var(--text3);font-size:0.85rem;margin-bottom:16px">'+e.message+'</div><button class="btn btn-outline btn-block" onclick="closeModal()">Tutup</button></div>';
+            }
+        }
+
+        // API HELPERS
+        async function generateSign(){
+            const md5=await md5Hash(config.apiUsername+config.apiKey+'pricelist');
+            return md5;
+        }
+
+        async function generateSignBuy(refId,sku,customerNo){
+            const md5=await md5Hash(config.apiUsername+config.apiKey+refId);
+            return md5;
+        }
+
+        async function md5Hash(str){
+            const encoder=new TextEncoder();
+            const data=encoder.encode(str);
+            const hashBuffer=await crypto.subtle.digest('SHA-256',data);
+            const hashArray=Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');
+        }
+
+        // SALDO
+        async function cekSaldo(){
+            if(!config.apiKey||!config.apiUsername){alert('Setting API dulu!');return}
+            try{
+                const sign=await md5Hash(config.apiUsername+config.apiKey+'deposite');
+                const response=await fetch('https://api.digiflazz.com/v1/cek-saldo',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({cmd:'deposit',username:config.apiUsername,sign:sign})
+                });
+                const data=await response.json();
+                if(data.data){
+                    config.saldo=data.data.deposit;
+                    localStorage.setItem(CONFIG_KEY,JSON.stringify(config));
+                    document.getElementById('saldoValue').textContent='Rp '+fmt(config.saldo);
+                    document.getElementById('statSaldo').textContent='Rp '+fmt(config.saldo);
+                }
+            }catch(e){alert('Gagal cek saldo: '+e.message)}
+        }
+
+        // SETTINGS
+        function loadSettings(){
+            document.getElementById('apiUsername').value=config.apiUsername||'';
+            document.getElementById('apiKey').value=config.apiKey||'';
+            document.getElementById('markupPercent').value=config.markup||10;
+            document.getElementById('storeName').value=config.storeName||'ModalReceh Store';
+            document.getElementById('storeWA').value=config.storeWA||'';
+        }
+
+        function saveAPI(){
+            config.apiUsername=document.getElementById('apiUsername').value;
+            config.apiKey=document.getElementById('apiKey').value;
+            localStorage.setItem(CONFIG_KEY,JSON.stringify(config));
+            document.getElementById('apiStatus').innerHTML='<span style="color:var(--green)">✅ Tersimpan! Testing koneksi...</span>';
+            cekSaldo().then(()=>{
+                document.getElementById('apiStatus').innerHTML='<span style="color:var(--green)">✅ Terhubung! Saldo: Rp '+fmt(config.saldo)+'</span>';
+            }).catch(()=>{
+                document.getElementById('apiStatus').innerHTML='<span style="color:var(--red)">❌ Gagal koneksi. Cek username & API key.</span>';
+            });
+        }
+
+        function saveMarkup(){
+            config.markup=parseFloat(document.getElementById('markupPercent').value)||10;
+            localStorage.setItem(CONFIG_KEY,JSON.stringify(config));
+            alert('Markup '+config.markup+'% tersimpan!');
+        }
+
+        function saveStore(){
+            config.storeName=document.getElementById('storeName').value;
+            config.storeWA=document.getElementById('storeWA').value;
+            localStorage.setItem(CONFIG_KEY,JSON.stringify(config));
+            alert('Info toko tersimpan!');
+        }
+
+        // TRANSAKSI
+        function renderTx(){
+            const q=(document.getElementById('searchTx').value||'').toLowerCase();
+            const status=document.getElementById('filterStatus').value;
+            let f=[...transaksi].reverse();
+            if(q)f=f.filter(t=>t.product.toLowerCase().includes(q)||t.target.includes(q));
+            if(status)f=f.filter(t=>t.status===status);
+
+            const tbl=document.getElementById('txTbl');
+            const empty=document.getElementById('txEmpty');
+            if(!f.length){tbl.innerHTML='';empty.style.display='block';return}
+            empty.style.display='none';
+            tbl.innerHTML=f.map(t=>'<tr><td>'+t.date+'<br><span style="font-size:0.7rem;color:var(--text3)">'+(t.time||'')+'</span></td><td>'+t.product+'</td><td>'+t.target+'</td><td>Rp '+fmt(t.price)+'</td><td style="color:var(--green)">Rp '+fmt(t.profit||0)+'</td><td><span class="tag '+(t.status==='success'?'tag-green':t.status==='pending'?'tag-orange':'tag-red')+'">'+t.status+'</span></td><td style="font-size:0.75rem;color:var(--text3)">'+t.id+'</td></tr>').join('');
+        }
+
+        function exportTx(){
+            if(!transaksi.length)return alert('Tidak ada data!');
+            let csv='Tanggal,Waktu,Produk,No Tujuan,Harga,Modal,Profit,Status,Ref ID\n';
+            transaksi.forEach(t=>{csv+=t.date+','+(t.time||'')+',"'+t.product+'",'+t.target+','+t.price+','+(t.modal||'')+','+(t.profit||0)+','+t.status+','+t.id+'\n'});
+            const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='transaksi-modalreceh.csv';a.click();
+        }
+
+        // UTIL
+        function fmt(n){return Math.round(Math.abs(n||0)).toLocaleString('id-ID')}
+
+        // INIT
+        renderDashboard();
+        if(config.saldo)document.getElementById('saldoValue').textContent='Rp '+fmt(config.saldo);
+    </script>
+</body>
+</html>
