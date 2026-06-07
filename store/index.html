@@ -2,433 +2,400 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ModalReceh — Top Up Game & PPOB</title>
-    <meta name="description" content="Top up game favoritmu, isi pulsa, paket data, PLN, dan PPOB lainnya. Proses instan, harga termurah.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ModalReceh — Super App</title>
+    <meta name="description" content="Super app untuk semua kebutuhan: pulsa, data, PLN, game, dan PPOB lainnya.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         :root{
-            --bg:#06060b;--bg2:#0d0d14;--bg3:#13131d;--bg4:#1a1a28;--bg5:#222233;
-            --text:#eeeef5;--text2:#9898b0;--text3:#5c5c78;
-            --primary:#7c3aed;--primary2:#a855f7;--primary3:#c084fc;
-            --accent:#06d6a0;--accent2:#34eab7;--accent3:#6ffcd5;
-            --hot:#ff4d6d;--hot2:#ff758f;
-            --gold:#fbbf24;--gold2:#fcd34d;
-            --blue:#3b82f6;--cyan:#22d3ee;
-            --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
-            --glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.05);
-            --radius:20px;--radius-sm:12px;--radius-xs:8px;
+            --bg:#f5f6fa;--bg2:#ffffff;--bg3:#eef0f6;--bg4:#e2e5f0;
+            --text:#1a1a2e;--text2:#6b7280;--text3:#9ca3af;--text4:#d1d5db;
+            --primary:#1064e8;--primary2:#3b82f6;--primary3:#60a5fa;--primary-bg:rgba(16,100,232,0.08);
+            --accent:#10b981;--accent2:#34d399;--accent-bg:rgba(16,185,129,0.08);
+            --orange:#f59e0b;--orange-bg:rgba(245,158,11,0.08);
+            --red:#ef4444;--red-bg:rgba(239,68,68,0.08);
+            --purple:#8b5cf6;--purple-bg:rgba(139,92,246,0.08);
+            --cyan:#06b6d4;--cyan-bg:rgba(6,182,212,0.08);
+            --pink:#ec4899;--pink-bg:rgba(236,72,153,0.08);
+            --border:rgba(0,0,0,0.06);--border2:rgba(0,0,0,0.1);
+            --shadow:0 2px 12px rgba(0,0,0,0.06);--shadow-lg:0 8px 30px rgba(0,0,0,0.1);
+            --radius:20px;--radius-sm:14px;--radius-xs:10px;
+            --safe-bottom:env(safe-area-inset-bottom,0px);
         }
-        body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
         ::selection{background:var(--primary);color:#fff}
-        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:10px}
         a{color:inherit;text-decoration:none}
 
-        /* NAV */
-        .nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:rgba(6,6,11,0.7);backdrop-filter:blur(30px) saturate(200%);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 32px;transition:0.3s}
-        .nav.scrolled{background:rgba(6,6,11,0.92);box-shadow:0 4px 30px rgba(0,0,0,0.3)}
-        .nav-brand{font-weight:900;font-size:1.15rem;background:linear-gradient(135deg,var(--primary),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
-        .nav-links{display:flex;gap:8px;margin-left:40px;list-style:none}
-        .nav-links a{padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:500;color:var(--text2);transition:0.2s}
-        .nav-links a:hover{color:var(--text);background:var(--glass2)}
-        .nav-links a.active{color:var(--text);background:var(--glass2)}
-        .nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-        .nav-saldo{display:flex;align-items:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,rgba(6,214,160,0.08),rgba(6,214,160,0.02));border:1px solid rgba(6,214,160,0.15);border-radius:10px;font-size:0.82rem;font-weight:600;color:var(--accent);cursor:pointer;transition:0.3s}
-        .nav-saldo:hover{background:rgba(6,214,160,0.12);transform:scale(1.02)}
-        .nav-saldo .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
-        @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-        .mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.3rem;cursor:pointer;padding:8px}
+        /* APP SHELL */
+        .app{max-width:480px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative;overflow:hidden}
+        @media(min-width:481px){body{background:#e2e5f0}.app{box-shadow:0 0 60px rgba(0,0,0,0.1);border-left:1px solid var(--border);border-right:1px solid var(--border)}}
 
-        /* HERO */
-        .hero{padding:100px 32px 60px;position:relative;overflow:hidden;min-height:480px;display:flex;align-items:center}
-        .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 20% 0%,rgba(124,58,237,0.12),transparent 50%),radial-gradient(ellipse 100% 60% at 80% 100%,rgba(6,214,160,0.06),transparent 50%),radial-gradient(ellipse 80% 40% at 50% 50%,rgba(34,211,238,0.04),transparent 60%)}
-        .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,black,transparent)}
-        .hero-float{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.5;pointer-events:none;animation:floatAnim 10s ease-in-out infinite alternate}
-        @keyframes floatAnim{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.1)}}
-        .hero-content{position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 400px;gap:60px;align-items:center}
-        .hero-text h1{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;line-height:1.08;letter-spacing:-2px;margin-bottom:16px}
-        .hero-text h1 .line1{display:block;color:var(--text)}
-        .hero-text h1 .line2{display:block;background:linear-gradient(135deg,var(--primary),var(--cyan),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .hero-text p{color:var(--text2);font-size:1rem;line-height:1.7;margin-bottom:28px;max-width:480px}
-        .hero-search{position:relative;max-width:480px}
-        .hero-search input{width:100%;padding:16px 20px 16px 48px;border-radius:14px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:0.95rem;outline:none;transition:0.3s;font-family:inherit}
-        .hero-search input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,0.1)}
-        .hero-search input::placeholder{color:var(--text3)}
-        .hero-search .icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:1rem}
-        .hero-stats{display:flex;gap:24px;margin-top:28px}
-        .hero-stat{display:flex;flex-direction:column}
-        .hero-stat .num{font-size:1.3rem;font-weight:800;color:var(--text)}
-        .hero-stat .label{font-size:0.75rem;color:var(--text3)}
-        .hero-visual{position:relative;display:flex;justify-content:center}
-        .hero-card-stack{position:relative;width:340px;height:380px}
-        .hero-card{position:absolute;width:280px;border-radius:20px;padding:24px;border:1px solid var(--border2);backdrop-filter:blur(20px);transition:0.5s}
-        .hero-card:nth-child(1){top:0;left:0;background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));z-index:3;transform:rotate(-3deg)}
-        .hero-card:nth-child(2){top:40px;left:40px;background:linear-gradient(135deg,rgba(6,214,160,0.12),rgba(6,214,160,0.04));z-index:2;transform:rotate(2deg)}
-        .hero-card:nth-child(3){top:80px;left:20px;background:linear-gradient(135deg,rgba(34,211,238,0.1),rgba(34,211,238,0.03));z-index:1;transform:rotate(-1deg)}
-        .hero-card .emoji{font-size:2.5rem;margin-bottom:12px}
-        .hero-card .title{font-weight:700;font-size:1rem;margin-bottom:4px}
-        .hero-card .sub{font-size:0.8rem;color:var(--text2)}
-        .hero-card .price-tag{margin-top:12px;padding:6px 14px;border-radius:8px;background:rgba(6,214,160,0.12);border:1px solid rgba(6,214,160,0.2);display:inline-block;font-weight:700;font-size:0.85rem;color:var(--accent)}
+        /* HEADER */
+        .header{position:sticky;top:0;z-index:50;padding:16px 20px 12px;background:var(--primary);color:#fff}
+        .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+        .header-greeting{font-size:0.82rem;opacity:0.8}.header-greeting b{display:block;font-size:1.05rem;opacity:1;font-weight:700}
+        .header-actions{display:flex;gap:8px}
+        .header-btn{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.2s}
+        .header-btn:hover{background:rgba(255,255,255,0.25)}
 
-        /* MARQUEE */
-        .marquee-bar{padding:12px 0;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;margin-bottom:0}
-        .marquee-track{display:flex;gap:40px;animation:marqueeScroll 30s linear infinite;width:max-content}
-        @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-        .marquee-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text3);white-space:nowrap}
-        .marquee-item .dot{width:4px;height:4px;border-radius:50%;background:var(--primary)}
+        /* BALANCE CARD */
+        .balance-card{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius-sm);padding:16px 20px;backdrop-filter:blur(20px)}
+        .balance-label{font-size:0.72rem;opacity:0.7;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+        .balance-label .eye{cursor:pointer;opacity:0.8;font-size:0.9rem}
+        .balance-amount{font-size:1.6rem;font-weight:900;letter-spacing:-1px}
+        .balance-amount.hidden{filter:blur(8px);user-select:none}
+        .balance-actions{display:flex;gap:8px;margin-top:12px}
+        .balance-btn{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;font-size:0.78rem;font-weight:600;cursor:pointer;transition:0.2s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+        .balance-btn:hover{background:rgba(255,255,255,0.2)}
 
-        /* SECTIONS */
-        .container{max-width:1200px;margin:0 auto;padding:0 32px}
-        .section{padding:48px 0}
-        .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-        .section-title{font-size:1.3rem;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:10px}
-        .section-title .icon{font-size:1.2rem}
-        .section-link{font-size:0.82rem;color:var(--primary3);font-weight:500;transition:0.2s;cursor:pointer}.section-link:hover{color:var(--primary2)}
+        /* PAGES */
+        .page{display:none;min-height:calc(100vh - 140px)}.page.active{display:block}
 
-        /* CATEGORY PILLS */
-        .cat-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none}
-        .cat-pills::-webkit-scrollbar{display:none}
-        .cat-pill{flex-shrink:0;display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;background:var(--bg3);border:1px solid var(--border);font-size:0.82rem;font-weight:500;color:var(--text2);cursor:pointer;transition:0.3s;white-space:nowrap}
-        .cat-pill:hover{border-color:var(--border2);color:var(--text);background:var(--bg4)}
-        .cat-pill.active{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05));border-color:rgba(124,58,237,0.3);color:var(--primary3)}
-        .cat-pill .emoji{font-size:1rem}
+        /* SERVICE GRID */
+        .service-section{padding:20px}
+        .service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+        .service-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;cursor:pointer;transition:0.2s;border-radius:var(--radius-sm)}
+        .service-item:active{transform:scale(0.95);background:var(--bg3)}
+        .service-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:0.2s}
+        .service-item .name{font-size:0.72rem;font-weight:600;color:var(--text);text-align:center;line-height:1.3}
 
-        /* GAME CARDS */
-        .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-        .game-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);position:relative;group:true}
-        .game-card:hover{border-color:rgba(124,58,237,0.3);transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 40px rgba(124,58,237,0.08)}
-        .game-card .thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;overflow:hidden}
-        .game-card .thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--bg2))}
-        .game-card .thumb.t1{background:linear-gradient(135deg,#1a0a2e,#2d1b69)}
-        .game-card .thumb.t2{background:linear-gradient(135deg,#0a1628,#1b3a5c)}
-        .game-card .thumb.t3{background:linear-gradient(135deg,#1a0a0a,#5c1b1b)}
-        .game-card .thumb.t4{background:linear-gradient(135deg,#0a1a0a,#1b5c2d)}
-        .game-card .thumb.t5{background:linear-gradient(135deg,#1a1a0a,#5c5c1b)}
-        .game-card .thumb.t6{background:linear-gradient(135deg,#0a0a1a,#1b1b5c)}
-        .game-card .thumb.t7{background:linear-gradient(135deg,#1a0a1a,#5c1b5c)}
-        .game-card .thumb.t8{background:linear-gradient(135deg,#0a1a1a,#1b5c5c)}
-        .game-card .badge{position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:6px;font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;z-index:2}
-        .badge-hot{background:var(--hot);color:#fff}
-        .badge-new{background:var(--accent);color:#000}
-        .badge-promo{background:var(--gold);color:#000}
-        .game-card .info{padding:16px}
-        .game-card .name{font-weight:700;font-size:0.9rem;margin-bottom:4px}
-        .game-card .desc{font-size:0.72rem;color:var(--text3);margin-bottom:10px}
-        .game-card .price-row{display:flex;align-items:center;justify-content:space-between}
-        .game-card .price{font-weight:800;font-size:0.95rem;color:var(--accent)}
-        .game-card .original{text-decoration:line-through;color:var(--text3);font-size:0.72rem}
+        .si-blue{background:var(--primary-bg)}.si-green{background:var(--accent-bg)}.si-orange{background:var(--orange-bg)}
+        .si-purple{background:var(--purple-bg)}.si-cyan{background:var(--cyan-bg)}.si-pink{background:var(--pink-bg)}
+        .si-red{background:var(--red-bg)}.si-gray{background:var(--bg3)}
+
+        /* BANNER */
+        .banner-section{padding:0 20px 20px}
+        .banner-scroll{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px}
+        .banner-scroll::-webkit-scrollbar{display:none}
+        .banner{flex-shrink:0;width:85%;scroll-snap-align:start;border-radius:var(--radius-sm);padding:20px;position:relative;overflow:hidden;min-height:120px;display:flex;flex-direction:column;justify-content:center}
+        .banner-1{background:linear-gradient(135deg,#1064e8,#6d28d9);color:#fff}
+        .banner-2{background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff}
+        .banner-3{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff}
+        .banner .tag{display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.2);font-size:0.65rem;font-weight:700;margin-bottom:8px;width:fit-content}
+        .banner h3{font-size:1rem;font-weight:800;margin-bottom:4px}
+        .banner p{font-size:0.78rem;opacity:0.8}
+        .banner .decor{position:absolute;right:-20px;bottom:-20px;font-size:5rem;opacity:0.15}
+
+        /* QUICK ACTIONS */
+        .quick-section{padding:0 20px 20px}
+        .quick-title{font-size:0.82rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+        .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+        .quick-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:0.3s}
+        .quick-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+        .quick-card:active{transform:scale(0.98)}
+        .quick-card .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+        .quick-card .info{flex:1;min-width:0}
+        .quick-card .title{font-weight:700;font-size:0.82rem}
+        .quick-card .desc{font-size:0.68rem;color:var(--text3);margin-top:2px}
 
         /* PRODUCT LIST */
-        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-        .product-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:0.3s}
-        .product-item:hover{border-color:rgba(124,58,237,0.3);background:var(--bg3);transform:translateX(4px)}
-        .product-item .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-        .product-item .icon.pulsa{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(124,58,237,0.05))}
-        .product-item .icon.data{background:linear-gradient(135deg,rgba(34,211,238,0.15),rgba(34,211,238,0.05))}
-        .product-item .icon.pln{background:linear-gradient(135deg,rgba(251,191,36,0.15),rgba(251,191,36,0.05))}
-        .product-item .icon.game{background:linear-gradient(135deg,rgba(6,214,160,0.15),rgba(6,214,160,0.05))}
-        .product-item .icon.other{background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))}
-        .product-item .detail{flex:1;min-width:0}
-        .product-item .pname{font-weight:600;font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .product-item .pdesc{font-size:0.7rem;color:var(--text3)}
-        .product-item .pprice{font-weight:800;font-size:0.85rem;color:var(--accent);flex-shrink:0}
+        .product-section{padding:0 20px 20px}
+        .product-title{font-size:0.82rem;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+        .product-title .see-all{font-size:0.75rem;color:var(--primary);font-weight:600;cursor:pointer}
+        .product-scroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px}
+        .product-scroll::-webkit-scrollbar{display:none}
+        .product-card{flex-shrink:0;width:160px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;transition:0.3s}
+        .product-card:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+        .product-card:active{transform:scale(0.97)}
+        .product-card .thumb{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative}
+        .product-card .thumb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(transparent,var(--bg2))}
+        .product-card .thumb.bg1{background:linear-gradient(135deg,#e0e7ff,#c7d2fe)}
+        .product-card .thumb.bg2{background:linear-gradient(135deg,#d1fae5,#a7f3d0)}
+        .product-card .thumb.bg3{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+        .product-card .thumb.bg4{background:linear-gradient(135deg,#ede9fe,#ddd6fe)}
+        .product-card .thumb.bg5{background:linear-gradient(135deg,#cffafe,#a5f3fc)}
+        .product-card .thumb.bg6{background:linear-gradient(135deg,#fce7f3,#fbcfe8)}
+        .product-card .info{padding:10px 12px}
+        .product-card .name{font-weight:700;font-size:0.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .product-card .price{font-weight:800;font-size:0.82rem;color:var(--primary);margin-top:4px}
 
-        /* MODAL */
-        .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);z-index:200;align-items:center;justify-content:center;padding:24px}
-        .modal-bg.show{display:flex}
-        .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:32px;max-width:460px;width:100%;position:relative;animation:slideUp 0.3s ease}
-        @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-        .modal-x{position:absolute;top:16px;right:16px;background:var(--bg4);border:1px solid var(--border);color:var(--text3);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:0.2s}
-        .modal-x:hover{background:var(--bg5);color:var(--text)}
-        .modal h3{font-size:1.15rem;font-weight:800;margin-bottom:20px}
+        /* ALL PRODUCTS */
+        .all-products{padding:0 20px 20px}
+        .search-bar{position:relative;margin-bottom:16px}
+        .search-bar input{width:100%;padding:12px 16px 12px 42px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg2);font-size:0.88rem;outline:none;transition:0.2s;font-family:inherit}
+        .search-bar input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(16,100,232,0.08)}
+        .search-bar .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:0.95rem}
+        .product-list{display:flex;flex-direction:column;gap:8px}
+        .product-row{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:0.2s}
+        .product-row:active{transform:scale(0.98);background:var(--bg3)}
+        .product-row .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+        .product-row .detail{flex:1;min-width:0}
+        .product-row .name{font-weight:600;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .product-row .cat{font-size:0.7rem;color:var(--text3)}
+        .product-row .price{font-weight:800;font-size:0.88rem;color:var(--primary);flex-shrink:0}
+
+        /* MODAL (BOTTOM SHEET) */
+        .sheet-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
+        .sheet-bg.show{display:flex}
+        .sheet{background:var(--bg2);border-radius:var(--radius) var(--radius) 0 0;padding:20px 20px calc(20px + var(--safe-bottom));max-width:480px;width:100%;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s ease}
+        @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+        .sheet-handle{width:36px;height:4px;background:var(--bg4);border-radius:2px;margin:0 auto 16px}
+        .sheet h3{font-size:1.05rem;font-weight:800;margin-bottom:16px}
 
         /* FORM */
-        .form-group{margin-bottom:16px}
+        .form-group{margin-bottom:14px}
         .form-group label{display:block;font-size:0.72rem;color:var(--text3);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
-        .input{width:100%;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--bg);color:var(--text);font-size:0.92rem;outline:none;transition:0.2s;font-family:inherit}
-        .input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,58,237,0.08)}
+        .input{width:100%;padding:14px 16px;border-radius:var(--radius-xs);border:1px solid var(--border2);background:var(--bg);font-size:0.92rem;outline:none;transition:0.2s;font-family:inherit}
+        .input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(16,100,232,0.08)}
 
         /* BUTTONS */
-        .btn{padding:14px 24px;border-radius:var(--radius-sm);border:none;font-weight:700;cursor:pointer;font-size:0.92rem;transition:0.3s;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-        .btn-primary{background:linear-gradient(135deg,var(--primary),#6d28d9);color:#fff;box-shadow:0 4px 20px rgba(124,58,237,0.3)}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,0.4)}
-        .btn-green{background:linear-gradient(135deg,var(--accent),#059669);color:#000;box-shadow:0 4px 20px rgba(6,214,160,0.3)}
-        .btn-green:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(6,214,160,0.4)}
+        .btn{padding:14px 24px;border-radius:var(--radius-xs);border:none;font-weight:700;cursor:pointer;font-size:0.92rem;transition:0.2s;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%}
+        .btn-primary{background:var(--primary);color:#fff}
+        .btn-primary:hover{background:#0d5cd6}
+        .btn-primary:active{transform:scale(0.98)}
         .btn-outline{background:transparent;border:1px solid var(--border2);color:var(--text2)}
-        .btn-outline:hover{border-color:var(--primary);color:var(--primary3)}
-        .btn-block{width:100%}
+        .btn-sm{padding:10px 16px;font-size:0.82rem;width:auto}
 
-        /* DETAIL IN MODAL */
-        .detail-row{display:flex;gap:14px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:20px}
-        .detail-row .icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;background:var(--bg3)}
-        .detail-row .info{flex:1}
-        .detail-row .name{font-weight:700;font-size:0.95rem}
-        .detail-row .cat{font-size:0.75rem;color:var(--text3)}
-        .detail-row .price{font-weight:800;font-size:1.15rem;color:var(--accent);margin-top:2px}
+        /* DETAIL */
+        .detail-box{display:flex;gap:12px;padding:14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xs);margin-bottom:16px}
+        .detail-box .icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;background:var(--bg2)}
+        .detail-box .info .name{font-weight:700;font-size:0.9rem}
+        .detail-box .info .cat{font-size:0.72rem;color:var(--text3)}
+        .detail-box .info .price{font-weight:800;font-size:1.1rem;color:var(--primary);margin-top:2px}
 
         /* RESULT */
         .result{text-align:center;padding:20px 0}
-        .result .big-icon{font-size:3.5rem;margin-bottom:16px}
-        .result .title{font-weight:800;font-size:1.2rem;margin-bottom:6px}
-        .result .sub{font-size:0.85rem;color:var(--text3)}
-        .result .sn-box{margin:16px 0;padding:14px;background:var(--bg);border:1px solid rgba(6,214,160,0.2);border-radius:var(--radius-sm);font-family:monospace;font-size:1.05rem;font-weight:700;color:var(--accent);letter-spacing:1px}
+        .result .big{font-size:3rem;margin-bottom:12px}
+        .result .title{font-weight:800;font-size:1.1rem;margin-bottom:4px}
+        .result .sub{font-size:0.82rem;color:var(--text3)}
+        .result .sn-box{margin:12px 0;padding:12px;background:var(--accent-bg);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius-xs);font-family:monospace;font-size:1rem;font-weight:700;color:var(--accent)}
 
-        /* TX TABLE */
-        .tx-table{width:100%;border-collapse:separate;border-spacing:0}
-        .tx-table th{padding:12px 14px;text-align:left;font-size:0.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:600;border-bottom:1px solid var(--border)}
-        .tx-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:0.82rem}
-        .tx-table tr:hover td{background:var(--glass)}
-
-        .tag{display:inline-block;padding:4px 12px;border-radius:100px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-        .tag-success{background:rgba(6,214,160,0.1);color:var(--accent);border:1px solid rgba(6,214,160,0.2)}
-        .tag-pending{background:rgba(251,191,36,0.1);color:var(--gold);border:1px solid rgba(251,191,36,0.2)}
-        .tag-failed{background:rgba(255,77,109,0.1);color:var(--hot);border:1px solid rgba(255,77,109,0.2)}
+        /* TX */
+        .tx-section{padding:20px}
+        .tx-list{display:flex;flex-direction:column;gap:8px}
+        .tx-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm)}
+        .tx-item .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+        .tx-item .icon.success{background:var(--accent-bg)}.tx-item .icon.pending{background:var(--orange-bg)}.tx-item .icon.failed{background:var(--red-bg)}
+        .tx-item .detail{flex:1;min-width:0}
+        .tx-item .name{font-weight:600;font-size:0.85rem}
+        .tx-item .meta{font-size:0.7rem;color:var(--text3)}
+        .tx-item .amount{font-weight:800;font-size:0.88rem;flex-shrink:0;text-align:right}
+        .tx-item .amount.out{color:var(--red)}.tx-item .amount.in{color:var(--accent)}
+        .tx-item .status{font-size:0.65rem;margin-top:2px;text-align:right}
 
         /* SETTINGS */
-        .settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
-        .setting-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
-        .setting-card h4{font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+        .settings-section{padding:20px}
+        .setting-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;margin-bottom:12px}
+        .setting-card h4{font-size:0.92rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 
-        /* FOOTER */
-        footer{padding:40px 32px;border-top:1px solid var(--border);text-align:center;color:var(--text3);font-size:0.78rem;margin-top:40px}
-
-        /* PAGES */
-        .page{display:none}.page.active{display:block}
-
-        /* SPINNER */
-        .spinner{display:inline-block;width:20px;height:20px;border:2.5px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.7s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        /* BOTTOM NAV */
+        .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;background:var(--bg2);border-top:1px solid var(--border);display:flex;padding:8px 0 calc(8px + var(--safe-bottom));z-index:50}
+        .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;cursor:pointer;transition:0.2s;position:relative}
+        .nav-item .icon{font-size:1.2rem;transition:0.2s}
+        .nav-item .label{font-size:0.65rem;font-weight:600;color:var(--text3);transition:0.2s}
+        .nav-item.active .icon{transform:scale(1.1)}
+        .nav-item.active .label{color:var(--primary);font-weight:700}
+        .nav-item.active::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:3px;background:var(--primary);border-radius:0 0 3px 3px}
+        .nav-badge{position:absolute;top:2px;right:calc(50% - 18px);width:16px;height:16px;border-radius:50%;background:var(--red);font-size:0.55rem;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
 
         /* EMPTY */
-        .empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
-        .empty-state .icon{font-size:2.5rem;margin-bottom:12px}
+        .empty{text-align:center;padding:40px 20px;color:var(--text3)}
+        .empty .icon{font-size:2rem;margin-bottom:8px}
 
-        @media(max-width:900px){
-            .hero-content{grid-template-columns:1fr;gap:32px}
-            .hero-visual{display:none}
-            .nav-links{display:none}
-            .mobile-toggle{display:block}
-            .nav{padding:0 20px}
-            .container{padding:0 20px}
-            .hero{padding:90px 20px 40px;min-height:auto}
-        }
-        @media(max-width:640px){
-            .game-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-            .game-card .thumb{height:100px;font-size:2.5rem}
-            .product-grid{grid-template-columns:1fr}
-            .settings-grid{grid-template-columns:1fr}
-            .modal{padding:24px;margin:12px}
-            .hero-stats{gap:16px}
+        /* SPINNER */
+        .spinner{display:inline-block;width:20px;height:20px;border:2.5px solid var(--bg4);border-top-color:var(--primary);border-radius:50%;animation:spin 0.7s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* TABS */
+        .tabs{display:flex;gap:4px;background:var(--bg3);border-radius:10px;padding:4px;margin-bottom:16px}
+        .tab{flex:1;padding:8px;border-radius:8px;text-align:center;font-size:0.78rem;font-weight:600;color:var(--text3);cursor:pointer;transition:0.2s}
+        .tab.active{background:var(--bg2);color:var(--text);box-shadow:var(--shadow)}
+
+        @media(min-width:481px){
+            .bottom-nav{left:50%;transform:translateX(-50%)}
         }
     </style>
 </head>
 <body>
-    <!-- NAV -->
-    <nav class="nav" id="nav">
-        <div class="nav-brand">🎮 ModalReceh</div>
-        <ul class="nav-links">
-            <li><a href="#" class="active" onclick="go('home',this)">Home</a></li>
-            <li><a href="#" onclick="go('produk',this)">Produk</a></li>
-            <li><a href="#" onclick="go('transaksi',this)">Transaksi</a></li>
-            <li><a href="#" onclick="go('settings',this)">Settings</a></li>
-        </ul>
-        <div class="nav-right">
-            <div class="nav-saldo" onclick="cekSaldo()"><span class="dot"></span><span id="navSaldo">Rp 0</span></div>
-            <button class="mobile-toggle" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">☰</button>
-        </div>
-    </nav>
-
-    <!-- PAGE: HOME -->
-    <div class="page active" id="page-home">
-        <section class="hero">
-            <div class="hero-bg"></div>
-            <div class="hero-grid"></div>
-            <div class="hero-float" style="width:400px;height:400px;background:var(--primary);top:-100px;right:10%;opacity:0.15"></div>
-            <div class="hero-float" style="width:300px;height:300px;background:var(--accent);bottom:-80px;left:5%;opacity:0.1;animation-delay:5s"></div>
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1><span class="line1">Top Up Game</span><span class="line2">& PPOB Instant</span></h1>
-                    <p>Diamond Mobile Legends, UC PUBG, Genesis Crystals Genshin, pulsa, paket data, token PLN — semua ada di sini. Proses otomatis, harga bersahabat.</p>
-                    <div class="hero-search">
-                        <span class="icon">🔍</span>
-                        <input type="text" id="heroSearch" placeholder="Cari game, pulsa, atau produk..." oninput="searchHero()">
-                    </div>
-                    <div class="hero-stats">
-                        <div class="hero-stat"><span class="num">500+</span><span class="label">Produk</span></div>
-                        <div class="hero-stat"><span class="num">24/7</span><span class="label">Online</span></div>
-                        <div class="hero-stat"><span class="num">&lt;1 menit</span><span class="label">Proses</span></div>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="hero-card-stack">
-                        <div class="hero-card"><div class="emoji">⚔️</div><div class="title">Mobile Legends</div><div class="sub">Diamond</div><div class="price-tag">Mulai Rp 1.500</div></div>
-                        <div class="hero-card"><div class="emoji">🎯</div><div class="title">PUBG Mobile</div><div class="sub">UC</div><div class="price-tag">Mulai Rp 5.000</div></div>
-                        <div class="hero-card"><div class="emoji">⭐</div><div class="title">Genshin Impact</div><div class="sub">Genesis Crystals</div><div class="price-tag">Mulai Rp 15.000</div></div>
-                    </div>
+    <div class="app">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-top">
+                <div class="header-greeting">Selamat datang 👋<b id="greetName">ModalReceh Store</b></div>
+                <div class="header-actions">
+                    <button class="header-btn" onclick="showPage('settings')">⚙️</button>
+                    <button class="header-btn" onclick="showPage('notifikasi')">🔔</button>
                 </div>
             </div>
-        </section>
-
-        <!-- MARQUEE -->
-        <div class="marquee-bar">
-            <div class="marquee-track">
-                <div class="marquee-item"><span class="dot"></span> Transaksi terakhir: User membeli Diamond ML 565 — 2 menit lalu</div>
-                <div class="marquee-item"><span class="dot"></span> Promo: Cashback 5% untuk pembelian pertama!</div>
-                <div class="marquee-item"><span class="dot"></span> Proses otomatis 24 jam nonstop</div>
-                <div class="marquee-item"><span class="dot"></span> Support semua operator & e-wallet</div>
-                <div class="marquee-item"><span class="dot"></span> Transaksi terakhir: Token PLN 50rb — 5 menit lalu</div>
-                <div class="marquee-item"><span class="dot"></span> Transaksi terakhir: User membeli Diamond ML 565 — 2 menit lalu</div>
-                <div class="marquee-item"><span class="dot"></span> Promo: Cashback 5% untuk pembelian pertama!</div>
-                <div class="marquee-item"><span class="dot"></span> Proses otomatis 24 jam nonstop</div>
-                <div class="marquee-item"><span class="dot"></span> Support semua operator & e-wallet</div>
-                <div class="marquee-item"><span class="dot"></span> Transaksi terakhir: Token PLN 50rb — 5 menit lalu</div>
+            <div class="balance-card">
+                <div class="balance-label">Saldo <span class="eye" onclick="toggleSaldo()">👁️</span></div>
+                <div class="balance-amount" id="saldoDisplay">Rp 0</div>
+                <div class="balance-actions">
+                    <button class="balance-btn" onclick="cekSaldo()">🔄 Refresh</button>
+                    <button class="balance-btn" onclick="showPage('produk')">🛒 Beli</button>
+                    <button class="balance-btn" onclick="showPage('transaksi')">📋 Riwayat</button>
+                </div>
             </div>
         </div>
 
-        <!-- KATEGORI -->
-        <section class="section">
-            <div class="container">
-                <div class="section-head"><div class="section-title"><span class="icon">🏷️</span> Kategori</div></div>
-                <div class="cat-pills" id="catPills">
-                    <div class="cat-pill active" onclick="pickCat('pulsa',this)"><span class="emoji">📱</span> Pulsa</div>
-                    <div class="cat-pill" onclick="pickCat('data',this)"><span class="emoji">📡</span> Paket Data</div>
-                    <div class="cat-pill" onclick="pickCat('pln',this)"><span class="emoji">⚡</span> PLN</div>
-                    <div class="cat-pill" onclick="pickCat('game',this)"><span class="emoji">🎮</span> Game</div>
-                    <div class="cat-pill" onclick="pickCat('pdam',this)"><span class="emoji">💧</span> PDAM</div>
-                    <div class="cat-pill" onclick="pickCat('bpjs',this)"><span class="emoji">🏥</span> BPJS</div>
-                    <div class="cat-pill" onclick="pickCat('ewallet',this)"><span class="emoji">💳</span> E-Wallet</div>
-                    <div class="cat-pill" onclick="pickCat('all',this)"><span class="emoji">📦</span> Semua</div>
+        <!-- PAGE: HOME -->
+        <div class="page active" id="page-home">
+            <!-- BANNER -->
+            <div class="banner-section">
+                <div class="banner-scroll">
+                    <div class="banner banner-1"><div class="tag">PROMO</div><h3>Cashback 5% 🎉</h3><p>Berlaku untuk semua transaksi pertama</p><div class="decor">🎁</div></div>
+                    <div class="banner banner-2"><div class="tag">BARU</div><h3>Top Up Game Instant ⚡</h3><p>Diamond ML, UC PUBG, dan banyak lagi</p><div class="decor">🎮</div></div>
+                    <div class="banner banner-3"><div class="tag">HEMAT</div><h3>PLN Token Mulai 5rb 💡</h3><p>Token listrik prabayar harga bersahabat</p><div class="decor">⚡</div></div>
                 </div>
             </div>
-        </section>
 
-        <!-- PRODUK POPULER -->
-        <section class="section" style="padding-top:0">
-            <div class="container">
-                <div class="section-head"><div class="section-title"><span class="icon">🔥</span> <span id="homeTitle">Produk Populer</span></div><span class="section-link" onclick="go('produk')">Lihat Semua →</span></div>
-                <div class="game-grid" id="homeGrid"></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- PAGE: PRODUK -->
-    <div class="page" id="page-produk">
-        <div style="height:80px"></div>
-        <section class="section">
-            <div class="container">
-                <div class="section-head"><div class="section-title"><span class="icon">🛒</span> Semua Produk</div></div>
-                <div class="cat-pills" style="margin-bottom:20px">
-                    <div class="cat-pill active" onclick="pickCat('pulsa',this)"><span class="emoji">📱</span> Pulsa</div>
-                    <div class="cat-pill" onclick="pickCat('data',this)"><span class="emoji">📡</span> Data</div>
-                    <div class="cat-pill" onclick="pickCat('pln',this)"><span class="emoji">⚡</span> PLN</div>
-                    <div class="cat-pill" onclick="pickCat('game',this)"><span class="emoji">🎮</span> Game</div>
-                    <div class="cat-pill" onclick="pickCat('pdam',this)"><span class="emoji">💧</span> PDAM</div>
-                    <div class="cat-pill" onclick="pickCat('bpjs',this)"><span class="emoji">🏥</span> BPJS</div>
-                    <div class="cat-pill" onclick="pickCat('ewallet',this)"><span class="emoji">💳</span> E-Wallet</div>
-                    <div class="cat-pill" onclick="pickCat('all',this)"><span class="emoji">📦</span> Semua</div>
-                </div>
-                <div class="hero-search" style="margin-bottom:24px"><span class="icon">🔍</span><input class="input" type="text" id="prodSearch" placeholder="Cari produk..." oninput="filterProds()"></div>
-                <div class="game-grid" id="allGrid"></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- PAGE: TRANSAKSI -->
-    <div class="page" id="page-transaksi">
-        <div style="height:80px"></div>
-        <section class="section">
-            <div class="container">
-                <div class="section-head"><div class="section-title"><span class="icon">📋</span> Riwayat Transaksi</div><button class="btn btn-outline" style="padding:8px 16px;font-size:0.78rem" onclick="exportCSV()">📥 Export CSV</button></div>
-                <div style="overflow-x:auto"><table class="tx-table"><thead><tr><th>Tanggal</th><th>Produk</th><th>No. Tujuan</th><th>Harga</th><th>Profit</th><th>Status</th></tr></thead><tbody id="txBody"></tbody></table></div>
-                <div id="txEmpty" class="empty-state"><div class="icon">📋</div><p>Belum ada transaksi</p></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- PAGE: SETTINGS -->
-    <div class="page" id="page-settings">
-        <div style="height:80px"></div>
-        <section class="section">
-            <div class="container">
-                <div class="section-head"><div class="section-title"><span class="icon">⚙️</span> Settings</div></div>
-                <div class="settings-grid">
-                    <div class="setting-card"><h4>🔑 API Digiflazz</h4><div class="form-group"><label>Username</label><input class="input" id="sUser"></div><div class="form-group"><label>API Key</label><input class="input" id="sKey" type="password"></div><button class="btn btn-primary btn-block" onclick="saveAPI()">💾 Simpan & Test</button><div id="apiMsg" style="margin-top:12px;font-size:0.82rem"></div></div>
-                    <div class="setting-card"><h4>💰 Markup Harga</h4><p style="color:var(--text3);font-size:0.82rem;margin-bottom:16px">Profit yang ditambahkan ke harga modal. Contoh: 10% = modal + 10%.</p><div class="form-group"><label>Markup (%)</label><input class="input" id="sMarkup" type="number" value="10"></div><button class="btn btn-primary btn-block" onclick="saveMarkup()">💾 Simpan</button></div>
-                    <div class="setting-card"><h4>🏪 Info Toko</h4><div class="form-group"><label>Nama Toko</label><input class="input" id="sName" value="ModalReceh Store"></div><div class="form-group"><label>WhatsApp</label><input class="input" id="sWA" placeholder="0812xxxx"></div><button class="btn btn-primary btn-block" onclick="saveStore()">💾 Simpan</button></div>
+            <!-- SERVICES -->
+            <div class="service-section">
+                <div class="service-grid">
+                    <div class="service-item" onclick="openCat('pulsa')"><div class="service-icon si-blue">📱</div><div class="name">Pulsa</div></div>
+                    <div class="service-item" onclick="openCat('data')"><div class="service-icon si-cyan">📡</div><div class="name">Paket Data</div></div>
+                    <div class="service-item" onclick="openCat('pln')"><div class="service-icon si-orange">⚡</div><div class="name">PLN</div></div>
+                    <div class="service-item" onclick="openCat('game')"><div class="service-icon si-purple">🎮</div><div class="name">Game</div></div>
+                    <div class="service-item" onclick="openCat('pdam')"><div class="service-icon si-blue">💧</div><div class="name">PDAM</div></div>
+                    <div class="service-item" onclick="openCat('bpjs')"><div class="service-icon si-green">🏥</div><div class="name">BPJS</div></div>
+                    <div class="service-item" onclick="openCat('ewallet')"><div class="service-icon si-pink">💳</div><div class="name">E-Wallet</div></div>
+                    <div class="service-item" onclick="showPage('produk')"><div class="service-icon si-gray">📦</div><div class="name">Lainnya</div></div>
                 </div>
             </div>
-        </section>
+
+            <!-- POPULER -->
+            <div class="product-section">
+                <div class="product-title">🔥 Populer <span class="see-all" onclick="showPage('produk')">Lihat Semua</span></div>
+                <div class="product-scroll" id="populerScroll"></div>
+            </div>
+
+            <!-- QUICK -->
+            <div class="quick-section">
+                <div class="quick-title">⚡ Aksi Cepat</div>
+                <div class="quick-grid">
+                    <div class="quick-card" onclick="openCat('pulsa')"><div class="icon si-blue">📱</div><div class="info"><div class="title">Isi Pulsa</div><div class="desc">Semua operator</div></div></div>
+                    <div class="quick-card" onclick="openCat('data')"><div class="icon si-cyan">📡</div><div class="info"><div class="title">Paket Data</div><div class="desc">Internet murah</div></div></div>
+                    <div class="quick-card" onclick="openCat('pln')"><div class="icon si-orange">⚡</div><div class="info"><div class="title">Token PLN</div><div class="desc">Listrik prabayar</div></div></div>
+                    <div class="quick-card" onclick="openCat('game')"><div class="icon si-purple">🎮</div><div class="info"><div class="title">Top Up Game</div><div class="desc">ML, PUBG, Genshin</div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: PRODUK -->
+        <div class="page" id="page-produk">
+            <div class="all-products">
+                <div class="tabs" id="catTabs">
+                    <div class="tab active" onclick="pickTab('pulsa',this)">Pulsa</div>
+                    <div class="tab" onclick="pickTab('data',this)">Data</div>
+                    <div class="tab" onclick="pickTab('pln',this)">PLN</div>
+                    <div class="tab" onclick="pickTab('game',this)">Game</div>
+                    <div class="tab" onclick="pickTab('all',this)">Semua</div>
+                </div>
+                <div class="search-bar"><span class="icon">🔍</span><input type="text" id="searchInput" placeholder="Cari produk..." oninput="filterList()"></div>
+                <div class="product-list" id="productList"></div>
+            </div>
+        </div>
+
+        <!-- PAGE: TRANSAKSI -->
+        <div class="page" id="page-transaksi">
+            <div class="tx-section">
+                <div class="product-title" style="margin-bottom:16px">📋 Riwayat Transaksi</div>
+                <div class="tx-list" id="txList"></div>
+                <div id="txEmpty" class="empty"><div class="icon">📋</div><p>Belum ada transaksi</p></div>
+            </div>
+        </div>
+
+        <!-- PAGE: SETTINGS -->
+        <div class="page" id="page-settings">
+            <div class="settings-section">
+                <div class="setting-card"><h4>🔑 API Digiflazz</h4><div class="form-group"><label>Username</label><input class="input" id="sUser"></div><div class="form-group"><label>API Key</label><input class="input" id="sKey" type="password"></div><button class="btn btn-primary" onclick="saveAPI()">Simpan & Test</button><div id="apiMsg" style="margin-top:10px;font-size:0.82rem"></div></div>
+                <div class="setting-card"><h4>💰 Markup</h4><p style="color:var(--text3);font-size:0.82rem;margin-bottom:12px">Profit ditambahkan ke harga modal.</p><div class="form-group"><label>Markup (%)</label><input class="input" id="sMarkup" type="number" value="10"></div><button class="btn btn-primary" onclick="saveMarkup()">Simpan</button></div>
+                <div class="setting-card"><h4>🏪 Info Toko</h4><div class="form-group"><label>Nama</label><input class="input" id="sName"></div><div class="form-group"><label>WhatsApp</label><input class="input" id="sWA" placeholder="0812xxxx"></div><button class="btn btn-primary" onclick="saveStore()">Simpan</button></div>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="showPage('home',this)"><span class="icon">🏠</span><span class="label">Home</span></div>
+            <div class="nav-item" onclick="showPage('produk',this)"><span class="icon">🛒</span><span class="label">Produk</span></div>
+            <div class="nav-item" onclick="showPage('transaksi',this)"><span class="icon">📋</span><span class="label">Transaksi</span><span class="nav-badge" id="txBadge" style="display:none">0</span></div>
+            <div class="nav-item" onclick="showPage('settings',this)"><span class="icon">👤</span><span class="label">Akun</span></div>
+        </div>
     </div>
 
-    <!-- MODAL -->
-    <div class="modal-bg" id="modal">
-        <div class="modal"><button class="modal-x" onclick="closeModal()">✕</button><div id="modalBody"></div></div>
+    <!-- BOTTOM SHEET -->
+    <div class="sheet-bg" id="sheet">
+        <div class="sheet">
+            <div class="sheet-handle"></div>
+            <div id="sheetBody"></div>
+        </div>
     </div>
-
-    <footer>&copy; 2026 <a href="#">ModalReceh</a>. All rights reserved.</footer>
 
     <script>
-        const CK='mr_v3',TK='mr_tx_v3';
+        const CK='mr_v4',TK='mr_tx_v4';
         let cfg=JSON.parse(localStorage.getItem(CK)||'{}'),txs=JSON.parse(localStorage.getItem(TK)||'[]');
-        let allP=[],curCat='pulsa',selP=null;
+        let allP=[],curCat='pulsa',selP=null,saldoHidden=false;
         if(!cfg.markup)cfg.markup=10;
+        if(!cfg.storeName)cfg.storeName='ModalReceh Store';
 
-        const thumbColors=['t1','t2','t3','t4','t5','t6','t7','t8'];
-        const catIcons={pulsa:'📱',data:'📡',pln:'⚡',game:'🎮',pdam:'💧',bpjs:'🏥',ewallet:'💳',all:'📦'};
+        const bgColors=['bg1','bg2','bg3','bg4','bg5','bg6'];
 
-        function go(id,el){
+        function showPage(id,el){
             document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
             document.getElementById('page-'+id).classList.add('active');
-            document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
             if(el)el.classList.add('active');
-            window.scrollTo({top:0,behavior:'smooth'});
             if(id==='transaksi')renderTx();
             if(id==='settings')loadSettings();
+            if(id==='produk')loadList(curCat);
         }
 
-        window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40));
-
-        function pickCat(cat,el){
-            curCat=cat;
-            document.querySelectorAll('.cat-pill').forEach(c=>c.classList.remove('active'));
-            document.querySelectorAll('.cat-pill').forEach(c=>{if(c.textContent.trim().includes(catIcons[cat]))c.classList.add('active')});
-            loadProds(cat);
+        function toggleSaldo(){
+            saldoHidden=!saldoHidden;
+            document.getElementById('saldoDisplay').classList.toggle('hidden',saldoHidden);
         }
 
-        async function loadProds(cat){
-            ['homeGrid','allGrid'].forEach(g=>{
-                const el=document.getElementById(g);
-                if(el)el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px"><div class="spinner"></div><p style="margin-top:16px;color:var(--text3)">Loading produk...</p></div>';
-            });
+        function openCat(cat){curCat=cat;showPage('produk');document.querySelectorAll('#catTabs .tab').forEach(t=>t.classList.toggle('active',t.textContent.toLowerCase().includes(cat)||cat==='all'&&t.textContent==='Semua'));loadList(cat)}
+
+        function pickTab(cat,el){curCat=cat;document.querySelectorAll('#catTabs .tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');loadList(cat)}
+
+        // LOAD PRODUCTS
+        async function loadAll(){
             if(!cfg.apiKey||!cfg.apiUsername){
-                const msg='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:12px">🔑</div><p style="margin-bottom:16px">Setting API Digiflazz dulu</p><button class="btn btn-primary" onclick="go(\'settings\')">Buka Settings</button></div>';
-                ['homeGrid','allGrid'].forEach(g=>{const el=document.getElementById(g);if(el)el.innerHTML=msg});
+                ['populerScroll','productList'].forEach(g=>{const el=document.getElementById(g);if(el)el.innerHTML='<div class="empty"><div class="icon">🔑</div><p>Setting API dulu</p></div>'});
                 return;
             }
             try{
-                const prods=await fetchProds();
-                allP=prods;
-                const f=cat==='all'?prods:prods.filter(p=>matchC(p,cat));
-                renderGrid(f,'homeGrid',8);
-                renderGrid(f,'allGrid',100);
+                const sign=await sha(cfg.apiUsername+cfg.apiKey+'pricelist');
+                const res=await fetch('https://api.digiflazz.com/v1/price-list',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cmd:'prepaid',username:cfg.apiUsername,sign:sign,status:'all'})});
+                const data=await res.json();
+                if(!data.data)throw new Error(data.message||'Gagal load');
+                allP=data.data.filter(p=>p.status==='active').map(p=>({sku:p.buyer_sku_code,name:p.product_name,cat:p.category||'',brand:p.brand||'',price:p.price}));
+                renderPopuler();
+                loadList(curCat);
             }catch(e){
-                const msg='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:12px">❌</div><p>'+e.message+'</p></div>';
-                ['homeGrid','allGrid'].forEach(g=>{const el=document.getElementById(g);if(el)el.innerHTML=msg});
+                ['populerScroll','productList'].forEach(g=>{const el=document.getElementById(g);if(el)el.innerHTML='<div class="empty"><div class="icon">❌</div><p>'+e.message+'</p></div>'});
             }
         }
 
-        async function fetchProds(){
-            const sign=await sha(cfg.apiUsername+cfg.apiKey+'pricelist');
-            const res=await fetch('https://api.digiflazz.com/v1/price-list',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cmd:'prepaid',username:cfg.apiUsername,sign:sign,status:'all'})});
-            const data=await res.json();
-            if(!data.data)throw new Error(data.message||'Gagal load produk');
-            return data.data.filter(p=>p.status==='active').map(p=>({sku:p.buyer_sku_code,name:p.product_name,cat:p.category||'',brand:p.brand||'',price:p.price,type:p.type||''}));
+        function renderPopuler(){
+            const el=document.getElementById('populerScroll');
+            if(!allP.length){el.innerHTML='<div class="empty">Tidak ada produk</div>';return}
+            const populer=allP.slice(0,10);
+            el.innerHTML=populer.map((p,i)=>{
+                const mp=Math.round(p.price*(1+cfg.markup/100));
+                return '<div class="product-card" onclick="openProduct(\''+enc(p)+'\')"><div class="thumb '+bgColors[i%bgColors.length]+'">'+getEmoji(p)+'</div><div class="info"><div class="name">'+p.name+'</div><div class="price">Rp '+fmt(mp)+'</div></div></div>';
+            }).join('');
         }
 
-        function matchC(p,cat){
+        function loadList(cat){
+            const el=document.getElementById('productList');
+            const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+            let filtered=cat==='all'?allP:allP.filter(p=>matchCat(p,cat));
+            if(q)filtered=filtered.filter(p=>(p.name+' '+p.brand+' '+p.cat).toLowerCase().includes(q));
+            if(!filtered.length){el.innerHTML='<div class="empty"><div class="icon">📦</div><p>Tidak ada produk</p></div>';return}
+            el.innerHTML=filtered.slice(0,50).map((p,i)=>{
+                const mp=Math.round(p.price*(1+cfg.markup/100));
+                return '<div class="product-row" onclick="openProduct(\''+enc(p)+'\')"><div class="icon '+bgColors[i%bgColors.length]+'">'+getEmoji(p)+'</div><div class="detail"><div class="name">'+p.name+'</div><div class="cat">'+p.cat+' • '+p.brand+'</div></div><div class="price">Rp '+fmt(mp)+'</div></div>';
+            }).join('');
+        }
+
+        function filterList(){loadList(curCat)}
+
+        function matchCat(p,cat){
             const c=(p.cat+' '+p.brand+' '+p.name).toLowerCase();
             if(cat==='pulsa')return c.includes('pulsa')||c.includes('credit');
             if(cat==='data')return c.includes('data')||c.includes('internet');
@@ -440,79 +407,45 @@
             return true;
         }
 
-        function renderProds(prods,gridId,limit){
-            const grid=document.getElementById(gridId);
-            if(!grid)return;
-            if(!prods.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)">Tidak ada produk</div>';return}
-            grid.innerHTML=prods.slice(0,limit).map((p,i)=>{
-                const mp=Math.round(p.price*(1+cfg.markup/100));
-                const tc=thumbColors[i%thumbColors.length];
-                const emoji=getE(p);
-                return '<div class="game-card" onclick="openP(\''+enc(p)+'\')"><div class="thumb '+tc+'">'+emoji+'</div><div class="info"><div class="name">'+p.name+'</div><div class="desc">'+p.cat+' • '+p.brand+'</div><div class="price-row"><div class="price">Rp '+fmt(mp)+'</div></div></div></div>';
-            }).join('');
-        }
-
-        function renderGrid(prods,gridId,limit){
-            const grid=document.getElementById(gridId);
-            if(!grid)return;
-            if(!prods.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)">Tidak ada produk</div>';return}
-            grid.innerHTML=prods.slice(0,limit).map((p,i)=>{
-                const mp=Math.round(p.price*(1+cfg.markup/100));
-                const tc=thumbColors[i%thumbColors.length];
-                const emoji=getE(p);
-                return '<div class="game-card" onclick="openP(\''+enc(p)+'\')"><div class="thumb '+tc+'">'+emoji+'</div><div class="info"><div class="name">'+p.name+'</div><div class="desc">'+p.cat+' • '+p.brand+'</div><div class="price-row"><div class="price">Rp '+fmt(mp)+'</div></div></div></div>';
-            }).join('');
-        }
-
-        function getE(p){
+        function getEmoji(p){
             const n=(p.name+' '+p.brand+' '+p.cat).toLowerCase();
             if(n.includes('telkomsel'))return '🔴';if(n.includes('indosat'))return '🟡';if(n.includes('xl'))return '🔵';
             if(n.includes('tri'))return '⚫';if(n.includes('smartfren'))return '🟣';if(n.includes('pln'))return '⚡';
             if(n.includes('data'))return '📡';if(n.includes('game')||n.includes('diamond'))return '💎';
             if(n.includes('gopay'))return '💚';if(n.includes('ovo'))return '🟣';if(n.includes('dana'))return '🔵';
-            if(n.includes('pdam'))return '💧';if(n.includes('bpjs'))return '🏥';if(n.includes('steam'))return '🎮';
-            return '📦';
-        }
-
-        function filterProds(){
-            const q=(document.getElementById('prodSearch').value||'').toLowerCase();
-            const f=allP.filter(p=>matchC(p,curCat)).filter(p=>(p.name+' '+p.brand+' '+p.cat).toLowerCase().includes(q));
-            renderGrid(f,'allGrid',100);
-        }
-
-        function searchHero(){
-            const q=(document.getElementById('heroSearch').value||'').toLowerCase();
-            if(!q){loadProds(curCat);return}
-            const f=allP.filter(p=>(p.name+' '+p.brand+' '+p.cat).toLowerCase().includes(q));
-            renderGrid(f,'homeGrid',8);
+            if(n.includes('pdam'))return '💧';if(n.includes('bpjs'))return '🏥';return '📦';
         }
 
         function enc(p){return encodeURIComponent(JSON.stringify(p))}
 
-        function openP(encoded){
+        // PRODUCT DETAIL
+        function openProduct(encoded){
             selP=JSON.parse(decodeURIComponent(encoded));
             const mp=Math.round(selP.price*(1+cfg.markup/100));
-            const emoji=getE(selP);
+            const emoji=getEmoji(selP);
             const n=selP.cat.toLowerCase();
-            const label=n.includes('pln')?'No. Meter / ID Pelanggan':n.includes('pdam')?'No. Pelanggan PDAM':n.includes('bpjs')?'No. BPJS':'No. Tujuan';
+            const label=n.includes('pln')?'No. Meter / ID Pelanggan':n.includes('pdam')?'No. Pelanggan':n.includes('bpjs')?'No. BPJS':'No. Tujuan';
 
-            let h='<h3>🛒 Beli '+selP.name+'</h3>';
-            h+='<div class="detail-row"><div class="icon">'+emoji+'</div><div class="info"><div class="name">'+selP.name+'</div><div class="cat">'+selP.cat+' • '+selP.brand+'</div><div class="price">Rp '+fmt(mp)+'</div></div></div>';
-            h+='<div class="form-group"><label>'+label+'</label><input class="input" id="txTarget" placeholder="Masukkan nomor" autofocus></div>';
-            h+='<button class="btn btn-green btn-block" onclick="doTx()">💸 Bayar Rp '+fmt(mp)+'</button>';
-            h+='<p style="text-align:center;font-size:0.72rem;color:var(--text3);margin-top:12px">Diproses otomatis via Digiflazz</p>';
-            document.getElementById('modalBody').innerHTML=h;
-            document.getElementById('modal').classList.add('show');
-            setTimeout(()=>document.getElementById('txTarget')?.focus(),100);
+            let h='<h3>Beli '+selP.name+'</h3>';
+            h+='<div class="detail-box"><div class="icon">'+emoji+'</div><div class="info"><div class="name">'+selP.name+'</div><div class="cat">'+selP.cat+' • '+selP.brand+'</div><div class="price">Rp '+fmt(mp)+'</div></div></div>';
+            h+='<div class="form-group"><label>'+label+'</label><input class="input" id="txTarget" placeholder="Masukkan nomor" inputmode="numeric"></div>';
+                        h+='<button class="btn btn-primary" onclick="doTx()">Bayar Rp '+fmt(mp)+'</button>';
+            h+='<p style="text-align:center;font-size:0.72rem;color:var(--text3);margin-top:10px">Diproses otomatis via Digiflazz</p>';
+            document.getElementById('sheetBody').innerHTML=h;
+            document.getElementById('sheet').classList.add('show');
+            setTimeout(()=>document.getElementById('txTarget')?.focus(),200);
         }
 
-        function closeModal(){document.getElementById('modal').classList.remove('show')}
+        function closeSheet(){document.getElementById('sheet').classList.remove('show')}
 
+        document.getElementById('sheet').addEventListener('click',e=>{if(e.target===document.getElementById('sheet'))closeSheet()});
+
+        // TRANSACTION
         async function doTx(){
             const target=document.getElementById('txTarget').value;
-            if(!target)return alert('Masukkan nomor tujuan!');
+            if(!target)return alert('Masukkan nomor!');
             const mp=Math.round(selP.price*(1+cfg.markup/100));
-            document.getElementById('modalBody').innerHTML='<div style="text-align:center;padding:40px"><div class="spinner"></div><p style="margin-top:16px;color:var(--text3)">Memproses...</p></div>';
+            document.getElementById('sheetBody').innerHTML='<div style="text-align:center;padding:30px"><div class="spinner"></div><p style="margin-top:12px;color:var(--text3)">Memproses...</p></div>';
 
             try{
                 const ref='MR'+Date.now();
@@ -522,51 +455,61 @@
                 const d=data.data||{};
                 const st=d.status==='Sukses'?'success':d.status==='Pending'?'pending':'failed';
                 const tx={id:ref,date:new Date().toISOString().split('T')[0],time:new Date().toLocaleTimeString('id-ID'),product:selP.name,sku:selP.sku,target,price:mp,modal:selP.price,profit:st==='success'?mp-selP.price:0,status:st,msg:d.message||'',sn:d.sn||''};
-                txs.push(tx);localStorage.setItem(TK,JSON.stringify(txs));
+                txs.push(tx);localStorage.setItem(TK,JSON.stringify(txs));updateBadge();
 
-                let h='<div class="result"><div class="big-icon">'+(st==='success'?'✅':st==='pending'?'⏳':'❌')+'</div>';
-                h+='<div class="title">'+selP.name+'</div><div class="sub">No: '+target+'</div>';
-                h+='<div style="font-weight:800;font-size:1.3rem;color:var(--accent);margin:12px 0">Rp '+fmt(mp)+'</div>';
+                let h='<div class="result"><div class="big">'+(st==='success'?'✅':st==='pending'?'⏳':'❌')+'</div>';
+                h+='<div class="title">'+selP.name+'</div><div class="sub">'+target+'</div>';
+                h+='<div style="font-weight:800;font-size:1.2rem;color:var(--primary);margin:8px 0">Rp '+fmt(mp)+'</div>';
                 if(tx.sn)h+='<div class="sn-box">SN: '+tx.sn+'</div>';
                 h+='<div class="sub" style="margin-bottom:16px">'+tx.msg+'</div>';
-                h+='<button class="btn btn-primary btn-block" onclick="closeModal()">Tutup</button></div>';
-                document.getElementById('modalBody').innerHTML=h;
+                h+='<button class="btn btn-primary" onclick="closeSheet()">Tutup</button></div>';
+                document.getElementById('sheetBody').innerHTML=h;
             }catch(e){
-                document.getElementById('modalBody').innerHTML='<div class="result"><div class="big-icon">❌</div><div class="title">Error</div><div class="sub">'+e.message+'</div><button class="btn btn-outline btn-block" style="margin-top:16px" onclick="closeModal()">Tutup</button></div>';
+                document.getElementById('sheetBody').innerHTML='<div class="result"><div class="big">❌</div><div class="title">Error</div><div class="sub">'+e.message+'</div><button class="btn btn-outline" style="margin-top:16px" onclick="closeSheet()">Tutup</button></div>';
             }
         }
 
+        // SALDO
         async function cekSaldo(){
-            if(!cfg.apiKey||!cfg.apiUsername){alert('Setting API dulu!');go('settings');return}
+            if(!cfg.apiKey||!cfg.apiUsername){alert('Setting API dulu!');showPage('settings');return}
             try{
                 const sign=await sha(cfg.apiUsername+cfg.apiKey+'deposite');
                 const res=await fetch('https://api.digiflazz.com/v1/cek-saldo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cmd:'deposit',username:cfg.apiUsername,sign:sign})});
                 const data=await res.json();
-                if(data.data){cfg.saldo=data.data.deposit;localStorage.setItem(CK,JSON.stringify(cfg));document.getElementById('navSaldo').textContent='Rp '+fmt(cfg.saldo)}
+                if(data.data){cfg.saldo=data.data.deposit;localStorage.setItem(CK,JSON.stringify(cfg));document.getElementById('saldoDisplay').textContent='Rp '+fmt(cfg.saldo)}
             }catch(e){alert('Gagal cek saldo')}
         }
 
-        function loadSettings(){document.getElementById('sUser').value=cfg.apiUsername||'';document.getElementById('sKey').value=cfg.apiKey||'';document.getElementById('sMarkup').value=cfg.markup||10;document.getElementById('sName').value=cfg.storeName||'ModalReceh Store';document.getElementById('sWA').value=cfg.storeWA||''}
-        function saveAPI(){cfg.apiUsername=document.getElementById('sUser').value;cfg.apiKey=document.getElementById('sKey').value;localStorage.setItem(CK,JSON.stringify(cfg));document.getElementById('apiMsg').innerHTML='<span style="color:var(--accent)">✅ Testing...</span>';cekSaldo().then(()=>{document.getElementById('apiMsg').innerHTML='<span style="color:var(--accent)">✅ Terhubung! Saldo: Rp '+fmt(cfg.saldo)+'</span>';loadProds(curCat)}).catch(()=>{document.getElementById('apiMsg').innerHTML='<span style="color:var(--hot)">❌ Gagal koneksi</span>'})}
+        // SETTINGS
+        function loadSettings(){document.getElementById('sUser').value=cfg.apiUsername||'';document.getElementById('sKey').value=cfg.apiKey||'';document.getElementById('sMarkup').value=cfg.markup||10;document.getElementById('sName').value=cfg.storeName||'ModalReceh Store';document.getElementById('sWA').value=cfg.storeWA||'';document.getElementById('greetName').textContent=cfg.storeName||'ModalReceh Store'}
+        function saveAPI(){cfg.apiUsername=document.getElementById('sUser').value;cfg.apiKey=document.getElementById('sKey').value;localStorage.setItem(CK,JSON.stringify(cfg));document.getElementById('apiMsg').innerHTML='<span style="color:var(--accent)">Testing...</span>';cekSaldo().then(()=>{document.getElementById('apiMsg').innerHTML='<span style="color:var(--accent)">✅ Terhubung! Saldo: Rp '+fmt(cfg.saldo)+'</span>';loadAll()}).catch(()=>{document.getElementById('apiMsg').innerHTML='<span style="color:var(--red)">❌ Gagal koneksi</span>'})}
         function saveMarkup(){cfg.markup=parseFloat(document.getElementById('sMarkup').value)||10;localStorage.setItem(CK,JSON.stringify(cfg));alert('Markup '+cfg.markup+'% tersimpan!')}
-        function saveStore(){cfg.storeName=document.getElementById('sName').value;cfg.storeWA=document.getElementById('sWA').value;localStorage.setItem(CK,JSON.stringify(cfg));alert('Tersimpan!')}
+        function saveStore(){cfg.storeName=document.getElementById('sName').value;cfg.storeWA=document.getElementById('sWA').value;localStorage.setItem(CK,JSON.stringify(cfg));document.getElementById('greetName').textContent=cfg.storeName;alert('Tersimpan!')}
 
+        // TX
         function renderTx(){
             const f=[...txs].reverse();
-            const body=document.getElementById('txBody'),empty=document.getElementById('txEmpty');
-            if(!f.length){body.innerHTML='';empty.style.display='block';return}
+            const list=document.getElementById('txList'),empty=document.getElementById('txEmpty');
+            if(!f.length){list.innerHTML='';empty.style.display='block';return}
             empty.style.display='none';
-            body.innerHTML=f.map(t=>'<tr><td>'+t.date+'<br><span style="font-size:0.7rem;color:var(--text3)">'+(t.time||'')+'</span></td><td>'+t.product+'</td><td>'+t.target+'</td><td style="font-weight:700">Rp '+fmt(t.price)+'</td><td style="color:var(--accent)">Rp '+fmt(t.profit||0)+'</td><td><span class="tag tag-'+t.status+'">'+t.status+'</span></td></tr>').join('');
+            list.innerHTML=f.map(t=>{
+                const icon=t.status==='success'?'✅':t.status==='pending'?'⏳':'❌';
+                const iconClass=t.status;
+                return '<div class="tx-item"><div class="icon '+iconClass+'">'+icon+'</div><div class="detail"><div class="name">'+t.product+'</div><div class="meta">'+t.target+' • '+t.date+' '+t.time+'</div></div><div><div class="amount out">Rp '+fmt(t.price)+'</div><div class="status" style="color:'+(t.status==='success'?'var(--accent)':t.status==='pending'?'var(--orange)':'var(--red)')+'">'+t.status+'</div></div></div>';
+            }).join('');
         }
 
-        function exportCSV(){if(!txs.length)return alert('Tidak ada data!');let c='Tanggal,Waktu,Produk,No,Harga,Profit,Status\n';txs.forEach(t=>{c+=t.date+','+(t.time||'')+',"'+t.product+'",'+t.target+','+t.price+','+(t.profit||0)+','+t.status+'\n'});const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='transaksi.csv';a.click()}
+        function updateBadge(){const b=document.getElementById('txBadge');if(txs.length>0){b.style.display='flex';b.textContent=txs.length>9?'9+':txs.length}else b.style.display='none'}
 
+        // CRYPTO
         async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}
         function fmt(n){return Math.round(Math.abs(n||0)).toLocaleString('id-ID')}
 
         // INIT
-        if(cfg.saldo)document.getElementById('navSaldo').textContent='Rp '+fmt(cfg.saldo);
-        loadProds('pulsa');
+        if(cfg.saldo)document.getElementById('saldoDisplay').textContent='Rp '+fmt(cfg.saldo);
+        if(cfg.storeName)document.getElementById('greetName').textContent=cfg.storeName;
+        updateBadge();
+        loadAll();
     </script>
 </body>
 </html>
